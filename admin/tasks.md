@@ -3,23 +3,21 @@
 For each task or sub-task, record who is responsible, the deadline, and any dependencies.
 Use the entries below as an example.
 
-Meeting time: Fri 3:00PM
+Meeting time: 3:00PM Fri each week
 
 ## Week 4
 
-Everyone: create application skeleton - meeting 14:00 19 Mar
+Everyone: create application skeleton and class diagram - meeting 3:00PM Fri 18 Aug lasting for 150min
+
+Xinyang Li: complete the documentation of Marrakech
+
+Tashia Tamara: complete the documentation of Assam, IntPair
+
+Jiangbei Zhang: complete the documentation of Player, Rug, Tile
 
 ## Week 5
 
-Zhang San: Task 3 isPlayerStateWellFormed - 23 Mar
-
-Jane Bloggs: Task 5 drawTileFromBag - 23 Mar
-
-Erika Mustermann: Task 6 refillFactories - 25 Mar (depends on Task 5)
-
 ## Week 6
-
-...
 
 ## Mid-Semester Break
 
