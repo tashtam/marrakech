@@ -5,5 +5,5 @@ public class Tile {
     IntPair position;
     Rug rug = null;
 
-    boolean isNeedToPay(Player player) {};
+    boolean isNeedToPay(Player player) {return true;};
 }

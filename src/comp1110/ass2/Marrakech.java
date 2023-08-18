@@ -8,16 +8,16 @@ public class Marrakech {
     int currentPlayerIndex;
     Assam assam;
 
-    boolean isRugValid(Rug rug){};
-    boolean isGameOver(){};
-    boolean isPlacementValid(Rug rug){};
+    boolean isRugValid(Rug rug){ return true; };
+    boolean isGameOver(){ return true;};
+    boolean isPlacementValid(Rug rug){return true;};
     void makePlacement(Rug rug){};
 
-    boolean isCurrentPlayerNeedToPay(){};
-    int getPaymentAmount(){};
-    Player getWinner(){};
+    boolean isCurrentPlayerNeedToPay(){return true;};
+    int getPaymentAmount(){return 0;};
+    Player getWinner(){return null;};
 
-    Tile getTile(IntPair position) {};
+    Tile getTile(IntPair position) {return null;};
 
     /**
      * Determine whether a rug String is valid.
