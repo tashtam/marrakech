@@ -1,0 +1,161 @@
+7x7
+
+1. Game Flow
+
+game start
+set the number of players
+while True:
+    if game end:
+        break
+
+    // phase 1
+    current player input operation
+    change or unchange the direction of Assam
+
+    // phase 2
+    player roll the dice
+    assam move
+    if need to pay:
+        calculate the price
+        pay
+        // coin can be negative
+    
+    // phase 3
+    while True:
+        current player input operation
+        only if the operation is valid:
+            break
+
+    place the rug
+    
+    // turn the player 
+    current player index point to next player 
+
+get winner 
+
+2. Test
+
+Test
+    raw string
+    call method we have designed 
+
+method string 
+object 
+
+3. Class Design
+
+class Marrakech
+    fields
+        Tile[][] tiles
+        Player[] players
+        int currentPlayerIndex
+    methods
+        Tile getTile(IntPair position)
+        int GetConnectedRegionSize(IntPair position)
+        void pay(Player payer, Player payee)
+        // boolean isRugValid(String gameString, String rug) 
+
+class Player
+    fields
+        char color 
+        // String color // example value = "#ff0022"
+        IntPair position
+        int coins
+        int rugNumber
+        Marrakech game
+    methods
+        // int dice()
+        // void placeRug(IntPair[2] positions)
+
+class Assam
+    fields
+        int rotation
+        IntPair position
+    methods
+        // void move(int diceValue)
+        // void turnLeft()
+        // void turnRight()
+
+class Tile
+    fields
+        IntPair position
+        Rug rug
+    methods
+        // int needToPay(Player player)
+
+class Rug
+    fields
+        int id 
+        Player owner
+        IntPair[2] positions
+    methods
+        ...
+
+4. PlaintUML
+
+@startuml
+class Player {
+    char color;
+    int coins;
+    int rug_number;
+    boolean out;
+
+    void pay_to(Player other, int coins){};
+}
+
+class IntPair {
+    int x;
+    int y;
+}
+
+class Marrakech {
+    Tile[][] tiles;
+    Player[] players;
+    int currentPlayerIndex;
+    Assam assam;
+
+    boolean isRugValid(Rug rug){};
+    boolean isGameOver(){};
+    boolean isPlacementValid(Rug rug){};
+    void makePlacement(Rug rug){};
+
+    boolean isCurrentPlayerNeedToPay(){};
+    int getPaymentAmount(){};
+    Player getWinner(){};
+
+    Tile getTile(IntPair position) {};
+
+
+}
+
+class Assam {
+    char direction;
+    IntPair position;
+
+    void rotate(int rotate){}
+    void move(int dieResult) {};
+}
+
+class Rug {
+    char color;
+    int id;
+    IntPair[] positions = new IntPair[2];
+}
+
+class Tile {
+    IntPair position;
+    Rug rug = null;
+
+    boolean isNeedToPay(Player player){};
+}
+
+Marrakech *-- Tile : > has
+Marrakech *-- Player: > has
+Marrakech *-- Assam :> has
+Marrakech --* Rug: use
+Marrakech --* IntPair: use
+Player *-- Player: use
+Player --* IntPair: > has
+Tile --* IntPair: > has
+Rug --* IntPair: > has
+@enduml

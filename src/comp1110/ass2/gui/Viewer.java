@@ -45,8 +45,7 @@ public class Viewer extends Application {
             }
         });
         HBox hb = new HBox();
-        hb.getChildren().addAll(boardLabel,
-                boardTextField, button);
+        hb.getChildren().addAll(boardLabel, boardTextField, button);
         hb.setSpacing(10);
         hb.setLayoutX(50);
         hb.setLayoutY(VIEWER_HEIGHT - 50);

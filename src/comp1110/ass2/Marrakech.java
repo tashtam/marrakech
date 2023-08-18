@@ -1,6 +1,23 @@
 package comp1110.ass2;
 
+// xinyang
 public class Marrakech {
+    // group design
+    Tile[][] tiles;
+    Player[] players;
+    int currentPlayerIndex;
+    Assam assam;
+
+    boolean isRugValid(Rug rug){};
+    boolean isGameOver(){};
+    boolean isPlacementValid(Rug rug){};
+    void makePlacement(Rug rug){};
+
+    boolean isCurrentPlayerNeedToPay(){};
+    int getPaymentAmount(){};
+    Player getWinner(){};
+
+    Tile getTile(IntPair position) {};
 
     /**
      * Determine whether a rug String is valid.
