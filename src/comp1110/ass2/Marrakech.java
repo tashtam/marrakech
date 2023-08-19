@@ -1,22 +1,78 @@
 package comp1110.ass2;
 
-// xinyang
 public class Marrakech {
-    // group design
+    /**
+     * The matrix of tiles representing the board
+     * For tiles[x][y]:
+     * x corresponds to the tile row, working top to bottom, and
+     * y corresponds to the tile row, working left to right.
+     * */
     Tile[][] tiles;
+
+    /**
+     * All players are here. its length is between 2 and 4.
+     * */
     Player[] players;
+
+    /**
+     * the index indicating the current player
+     * */
     int currentPlayerIndex;
+
+    /**
+     * the assam character which every player control in turn
+     * */
     Assam assam;
 
+    /**
+     * @param rug the given rug
+     * @return if the rug is valid to put on the board
+     */
     boolean isRugValid(Rug rug){ return true; };
+
+    /**
+     * when every player finished their 3 phases and all rugs have been used
+     * @return if the game is over
+     */
     boolean isGameOver(){ return true;};
+
+    /**
+     * check if the given rug's placement is ok to replace
+     * - the two tiles aren't covered by the SAME rug
+     * @param rug the given rug
+     * @return if the placement is valid
+     */
     boolean isPlacementValid(Rug rug){return true;};
+
+    /**
+     * place a rug (before call this method please ensure that the placement is reasonable)
+     * @param rug the given rug
+     */
     void makePlacement(Rug rug){};
 
+    /**
+     * check if the tile where player stayed has other's rug
+     * @return if the current player need to pay
+     */
     boolean isCurrentPlayerNeedToPay(){return true;};
+
+    /**
+     * check the nearby tiles and count the number of the connected rugs with the same color.
+     * that is the coins that the current player need to pay
+     * @return the payment amount
+     */
     int getPaymentAmount(){return 0;};
+
+    /**
+     * (before call this method please ensure that the game has ended)
+     * @return winner of the game
+     */
     Player getWinner(){return null;};
 
+    /**
+     * @param position the give position
+     * @return the tile at this position
+     */
     Tile getTile(IntPair position) {return null;};
 
     /**
