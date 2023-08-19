@@ -11,9 +11,9 @@ Everyone: create application skeleton and class diagram - meeting 3:00PM Fri 18 
 
 Xinyang Li: complete the documentation of Marrakech
 
-Tashia Tamara: complete the documentation of Assam, IntPair
+Tashia Tamara: complete the documentation of Player, IntPair
 
-Jiangbei Zhang: complete the documentation of Player, Rug, Tile
+Jiangbei Zhang: complete the documentation of Assam, Rug, Tile
 
 ## Week 5
 
