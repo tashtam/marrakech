@@ -3,7 +3,7 @@ package comp1110.ass2;
 // Tashia
 /**
  * The class Player defines the players currently participating in the game.
- * Each player 4 fields: color, coins, remainingRugNumber, and out.
+ * Each player has 4 fields: color, coins, remainingRugNumber, and out.
  * Parameter color: each player's color.
  * Parameter coins: the number of coins each player has.
  * Parameter remainingRugNumber: the remaining number of rugs each player has.
