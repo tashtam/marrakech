@@ -2,6 +2,44 @@
 
 1. Game Flow
 
+@startuml
+start
+
+:game start;
+:set the number of players;
+
+while (game is not end?)
+    partition phase 1{
+        :read user input;
+        while (invalid rotation?)
+            :read user input;
+        endwhile
+        :change or unchange the direction of Assam; 
+    }
+
+    partition phase 2{
+        :current player roll the dice;
+        :move Assam;
+        if (Assam stay on other's rug?) then
+            :calculate the number of connected rugs;
+            :current player pay to its owner;
+        endif
+    }
+
+    partition phase 3{
+        :read user input;
+        while (invalid placement?)
+            :read user input;
+        endwhile
+        :place the rug;
+    }
+endwhile
+
+:get winner;
+
+stop
+@enduml
+
 game start
 set the number of players
 while True:
