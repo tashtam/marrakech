@@ -18,6 +18,22 @@ public class Player {
     boolean out;
 
 
+public  Player(String playerString){
+    this.color=playerString.charAt(1);
+    this.coins=Integer.parseInt(playerString,2,5,10);
+    this.remainingRugNumber=Integer.parseInt(playerString,5,7,10);
+    char inout=playerString.charAt(7);
+    if('i' == inout){
+        this.out=false;
+    } else if (inout=='o') {
+        this.out=true;
+    }else{
+        System.out.println("wrong type constructor");
+    }
+
+
+}
+
     /**
      * This method is for paying coins/dirhams to another player when the current player steps on another player's rug.
      * @param other the player receiving payment from the current player
