@@ -183,6 +183,8 @@ public class Marrakech {
      * @return the tile at this position
      */
     Tile getTile(IntPair position) {
+        if (position == null) return null;
+        if (position.x < 0 || position.x >= BOARD_WIDTH || position.y < 0 || position.y >= BOARD_HEIGHT) return null;
         return this.tiles[position.x][position.y];
     }
 
@@ -233,12 +235,11 @@ public class Marrakech {
      * @return The result of the roll of the die meeting the criteria above
      */
     public static int rollDie() {
-        int [] diceValue=new int[]{1,2,2,3,3,4};
-        Random ranDie=new Random();
+        int[] diceValue = new int[]{1, 2, 2, 3, 3, 4};
+        Random ranDie = new Random();
         // FIXME: Task 6
         return diceValue[ranDie.nextInt(6)];
     }
-
 
 
     /**
