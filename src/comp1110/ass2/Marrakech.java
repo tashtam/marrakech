@@ -2,6 +2,7 @@ package comp1110.ass2;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Marrakech {
     /**
@@ -211,9 +212,13 @@ public class Marrakech {
      * @return The result of the roll of the die meeting the criteria above
      */
     public static int rollDie() {
+        int [] diceValue=new int[]{1,2,2,3,3,4};
+        Random ranDie=new Random();
         // FIXME: Task 6
-        return -1;
+        return diceValue[ranDie.nextInt(6)];
     }
+
+
 
     /**
      * Determine whether a game of Marrakech is over
