@@ -10,6 +10,8 @@ public class Marrakech {
      * x corresponds to the tile row, working top to bottom, and
      * y corresponds to the tile row, working left to right.
      */
+    final int BOARD_WIDTH = 7;
+    final int BOARD_HEIGHT = 7;
     Tile[][] tiles;
 
     /**
@@ -28,54 +30,73 @@ public class Marrakech {
     Assam assam;
 
     public Marrakech(String gameString) {
-        // some function divide the gameString into these 3
+        // current player index
         this.currentPlayerIndex = 0;
 
+        // tiles
+        this.tiles = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
+        for (int p = 0; p < BOARD_WIDTH; p++)
+            for (int q = 0; q < BOARD_HEIGHT; q++)
+                this.tiles[p][q] = new Tile();
+
+        // split game string into 3 parts
         int i = gameString.indexOf('A');
         String playerStringPart = gameString.substring(0, i);
-
-        int n = playerStringPart.length() / 8;
-        this.players = new Player[n];
-
-        for (int k = 0; k < n; k++) {
-            this.players[k] = new Player(playerStringPart.substring(k * 8, (k + 1) * 8));
-        }
-
         String assamStringPart = gameString.substring(i, i + 4);
-        this.assam = new Assam(assamStringPart);
+        String boardStringPart = gameString.substring(i + 5);
 
-        this.tiles = new Tile[7][7];
-        for (int p = 0; p < 7; p++) {
-            for (int q = 0; q < 7; q++) {
-                this.tiles[p][q] = new Tile();
+        // player string
+        {
+            int n = playerStringPart.length() / 8;
+            this.players = new Player[n];
+            for (int k = 0; k < n; k++) {
+                String playerString = playerStringPart.substring(k * 8, (k + 1) * 8);
+                this.players[k] = new Player(playerString);
             }
         }
 
-        i = gameString.indexOf('B');
-        String boardStringPart = gameString.substring(i + 1);
-        n = boardStringPart.length() / 3;
+        // assam string
+        this.assam = new Assam(assamStringPart);
 
-        Map<String, String> map = new HashMap<>();
+        // board string
+        {
+            // key: color + id
+            // value: positions
+            Map<String, String> map = new HashMap<>();
 
-        for (int k = 0; k < n; k++) {
-            String rugAbbrString = boardStringPart.substring(k * 3, (k + 1) * 3);
-            char color = rugAbbrString.charAt(0);
-            if (color == 'n') continue;
-            int row = k / 7;
-            int col = k % 7;
-            map.putIfAbsent(rugAbbrString, "");
-            map.put(rugAbbrString, map.get(rugAbbrString) + row + col);
-        }
+            int n = boardStringPart.length() / 3;
+            for (int k = 0; k < n; k++) {
+                String rugAbbrString = boardStringPart.substring(k * 3, (k + 1) * 3);
+                char color = rugAbbrString.charAt(0);
 
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            String rugString = key + value;
-            Rug rug = new Rug(rugString);
-            for (IntPair position : rug.positions) {
-                if (position == null)
-                    continue;
-                this.tiles[position.x][position.y].rug = rug;
+                // skip n00
+                if (color == 'n') continue;
+
+                // get position
+                int row = k / BOARD_WIDTH;
+                int col = k % BOARD_WIDTH;
+
+                // set map default value
+                map.putIfAbsent(rugAbbrString, "");
+
+                // get and update positions string
+                String positionsString = map.get(rugAbbrString);
+                map.put(rugAbbrString, positionsString + row + col);
+            }
+
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                // get rug string
+                String rugString = key + value;
+                Rug rug = new Rug(rugString);
+
+                // place rug on tiles
+                for (IntPair position : rug.positions) {
+                    if (position == null) continue;
+                    this.tiles[position.x][position.y].rug = rug;
+                }
             }
         }
     }
@@ -85,18 +106,18 @@ public class Marrakech {
      * @return if the rug is valid to put on the board
      */
     boolean isRugValid(Rug rug) {
+        // rug color is invalid
         if ("cyrp".indexOf(rug.color) < 0) return false;
 
-        for (IntPair position : rug.positions) {
-            if (position.x < 0 || position.x >= 7 || position.y < 0 || position.y >= 7)
+        // rug position is invalid
+        for (IntPair position : rug.positions)
+            if (position.x < 0 || position.x >= BOARD_WIDTH || position.y < 0 || position.y >= BOARD_HEIGHT)
                 return false;
-        }
 
-        for (Tile[] ts : this.tiles) {
-            for (Tile t : ts) {
+        // rug color + id is duplicated
+        for (Tile[] ts : this.tiles)
+            for (Tile t : ts)
                 if (t.rug != null && t.rug.id == rug.id && t.rug.color == rug.color) return false;
-            }
-        }
         return true;
     }
 
@@ -161,7 +182,7 @@ public class Marrakech {
      * @return the tile at this position
      */
     Tile getTile(IntPair position) {
-        return null;
+        return this.tiles[position.x][position.y];
     }
 
     /**
@@ -186,13 +207,13 @@ public class Marrakech {
      * @return true if the rug is valid, and false otherwise.
      */
     public static boolean isRugValid(String gameString, String rug) {
-        // FIXME: Task 4
         // convert string to object
         Marrakech marrakech = new Marrakech(gameString);
         Rug rug1 = new Rug(rug);
 
         // check rug valid
         return marrakech.isRugValid(rug1);
+        // FIXME: Task 4
     }
 
     /**
