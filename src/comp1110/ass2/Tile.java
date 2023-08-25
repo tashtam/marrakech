@@ -18,3 +18,7 @@ public class Tile {
      */
     boolean isNeedToPay(Player player) {return true;};
 }
+
+
+
+
