@@ -11,5 +11,19 @@ package comp1110.ass2;
 public class Rug {
     char color;
     int id;
-    IntPair[] positions = new IntPair[2];
+    IntPair[] positions = new IntPair[2]; // 2 denotes the length of the array
+
+    public Rug (String RugString) { //RugString has 7 chars in total
+        this.color = RugString.charAt(0); // First char (index: 0)
+        this.id = Integer.parseInt(RugString.substring(1,3));
+        //The line above denotes the second (index: 1) and third (index: 2) chars
+
+        int x0 = Integer.parseInt(RugString.substring(3,4));
+        int y0 = Integer.parseInt(RugString.substring(4,5));
+        int x1 = Integer.parseInt(RugString.substring(5,6));
+        int y1 = Integer.parseInt(RugString.substring(6,7)); //Seventh char (index: 6), started from index: 0
+
+        this.positions[0] = new IntPair(x0, y0); //[0] denotes index 0 in array IntPair [2]
+        this.positions[1] = new IntPair (x1, y1); //[1] denotes index 1 in array IntPair [2]
+    }
 }
