@@ -14,9 +14,15 @@ public class Tile {
     /**
      * @param player the player who is playing now
      * @return ture if this player need to pay money;
-     false if this player doesn't need to pay
+     * false if this player doesn't need to pay
      */
-    boolean isNeedToPay(Player player) {return true;};
+    boolean isNeedToPay(Player player) {
+        return true;
+    }
+
+    public Rug getRug() {
+        return rug;
+    }
 }
 
 

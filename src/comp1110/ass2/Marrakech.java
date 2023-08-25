@@ -11,8 +11,12 @@ public class Marrakech {
      * x corresponds to the tile row, working top to bottom, and
      * y corresponds to the tile row, working left to right.
      */
-    final int BOARD_WIDTH = 7;
-    final int BOARD_HEIGHT = 7;
+    public final int OFFSET_X = 100;
+    public final int OFFSET_Y = 50;
+    public final int TILE_SIZE = 70;
+    public final int TILE_GAP = 10;
+    public final int BOARD_WIDTH = 7;
+    public final int BOARD_HEIGHT = 7;
     Tile[][] tiles;
 
     /**
@@ -182,9 +186,7 @@ public class Marrakech {
      * @param position the give position
      * @return the tile at this position
      */
-    Tile getTile(IntPair position) {
-        if (position == null) return null;
-        if (position.x < 0 || position.x >= BOARD_WIDTH || position.y < 0 || position.y >= BOARD_HEIGHT) return null;
+    public Tile getTile(IntPair position) {
         return this.tiles[position.x][position.y];
     }
 

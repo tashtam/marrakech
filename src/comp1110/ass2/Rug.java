@@ -14,6 +14,10 @@ public class Rug {
     int id;
     IntPair[] positions; // 2 denotes the length of the array
 
+    public char getColor() {
+        return color;
+    }
+
     public Rug(String rugString) { //RugString has 7 chars in total
         this.color = rugString.charAt(0); // First char (index: 0)
         this.id = Integer.parseInt(rugString.substring(1, 3));
@@ -29,5 +33,9 @@ public class Rug {
             int y1 = Integer.parseInt(rugString.substring(6, 7)); //Seventh char (index: 6), started from index: 0
             this.positions[1] = new IntPair(x1, y1); //[1] denotes index 1 in array IntPair [2]
         }
+    }
+
+    public int getId() {
+        return id;
     }
 }
