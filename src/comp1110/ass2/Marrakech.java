@@ -218,7 +218,7 @@ public class Marrakech {
 
         // check rug valid
         return marrakech.isRugValid(rug1);
-        // FIXME: Task 4
+        // FIXME: Task 4 [DONE]
     }
 
     /**
@@ -239,7 +239,7 @@ public class Marrakech {
     public static int rollDie() {
         int[] diceValue = new int[]{1, 2, 2, 3, 3, 4};
         Random ranDie = new Random();
-        // FIXME: Task 6
+        // FIXME: Task 6 [DONE]
         return diceValue[ranDie.nextInt(6)];
     }
 

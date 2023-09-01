@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import javafx.scene.paint.Color;
+
 /**
  * this class stands for tiles,each tile has two fields: position,rug
  * and a method isNeedToPay
@@ -22,6 +24,15 @@ public class Tile {
 
     public Rug getRug() {
         return rug;
+    }
+
+    public Color getJavaFxColor() {
+        if (rug == null) return Color.LIGHTGRAY;
+        char color = rug.getColor();
+        if (color == 'y') return Color.YELLOW;
+        if (color == 'c') return Color.CYAN;
+        if (color == 'r') return Color.RED;
+        return Color.MEDIUMPURPLE;
     }
 }
 
