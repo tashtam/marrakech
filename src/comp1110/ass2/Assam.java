@@ -12,6 +12,14 @@ public class Assam {
     char direction;
     IntPair position;
 
+    public Assam(String assamString){
+        this.direction = assamString.charAt(1);
+        this.position = new IntPair(
+                assamString.charAt(2) - '0',
+                assamString.charAt(3) - '0'
+        );
+    }
+
     /**rotate method will rotate Assam clockwise of 90 degree or anticlockwise of 90 degree
      * or not rotate
      * @param degree an int number that can be 90(rotate clockwise for 90 degree)
