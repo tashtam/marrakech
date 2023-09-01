@@ -13,7 +13,8 @@ public class Rug {
     int id;
     IntPair[] positions = new IntPair[2]; // 2 denotes the length of the array
 
-    public Rug (String RugString) { //RugString has 7 chars in total
+    public Rug (String RugString) { //This is a constructor method for the Rug class.
+        //RugString has 7 chars in total
         this.color = RugString.charAt(0); // First char (index: 0)
         this.id = Integer.parseInt(RugString.substring(1,3));
         //The line above denotes the second (index: 1) and third (index: 2) chars
