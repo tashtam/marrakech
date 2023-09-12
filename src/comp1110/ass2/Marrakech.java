@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import javafx.scene.paint.Color;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -33,6 +35,18 @@ public class Marrakech {
      * the assam character which every player control in turn
      */
     Assam assam;
+
+    public Assam getAssam() {
+        return assam;
+    }
+
+    public Color getJavaFxColor(char color) {
+        if (color == 'y') return Color.YELLOW;
+        if (color == 'c') return Color.CYAN;
+        if (color == 'r') return Color.RED;
+        if (color == 'p') return Color.MEDIUMPURPLE;
+        return Color.LIGHTGRAY;
+    }
 
     public Marrakech(String gameString) {
         // current player index
@@ -363,5 +377,4 @@ public class Marrakech {
         // FIXME: Task 14
         return "";
     }
-
 }
