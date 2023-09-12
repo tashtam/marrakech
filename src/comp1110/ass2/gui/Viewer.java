@@ -1,9 +1,6 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.IntPair;
-import comp1110.ass2.Marrakech;
-import comp1110.ass2.Rug;
-import comp1110.ass2.Tile;
+import comp1110.ass2.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +16,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class Viewer extends Application {
@@ -43,7 +39,10 @@ public class Viewer extends Application {
             for (int j = 0; j < marrakech.BOARD_HEIGHT; j++) {
                 Tile tile = marrakech.getTile(new IntPair(i, j));
                 Rectangle r1 = new Rectangle(marrakech.TILE_SIZE, marrakech.TILE_SIZE);
-                r1.setFill(tile.getJavaFxColor());
+                Rug rug = tile.getRug();
+                char color = ' ';
+                if (rug != null) color = rug.getColor();
+                r1.setFill(marrakech.getJavaFxColor(color));
                 r1.setStrokeWidth(2);
                 r1.setStroke(Color.BLACK);
                 r1.setArcWidth(10);
@@ -53,14 +52,35 @@ public class Viewer extends Application {
                 Font font = Font.font("Verdana", FontWeight.EXTRA_BOLD, 25);
                 text.setFont(font);
 
-                Rug rug = tile.getRug();
                 if (rug != null) text.setText(String.format("%02d", rug.getId()));
 
                 StackPane stack = new StackPane(r1, text);
-                stack.setLayoutX(marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * i);
-                stack.setLayoutY(marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * j);
+                stack.setLayoutX(marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * j);
+                stack.setLayoutY(marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * i);
                 this.root.getChildren().add(stack);
             }
+        }
+
+        {
+            Assam assam = marrakech.getAssam();
+            IntPair pos = assam.getPosition();
+
+            Rectangle r1 = new Rectangle(marrakech.TILE_SIZE, marrakech.TILE_SIZE);
+            r1.setFill(Color.GREEN);
+            r1.setStrokeWidth(2);
+            r1.setStroke(Color.BLACK);
+            r1.setArcWidth(10);
+            r1.setArcHeight(10);
+
+            Text text = new Text();
+            Font font = Font.font("Verdana", FontWeight.EXTRA_BOLD, 25);
+            text.setFont(font);
+            text.setText("" + assam.getDegree());
+
+            StackPane stack = new StackPane(r1, text);
+            stack.setLayoutX(marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * pos.getY());
+            stack.setLayoutY(marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * pos.getX());
+            this.root.getChildren().add(stack);
         }
         // FIXME Task 5: implement the simple state viewer [DONE]
     }
