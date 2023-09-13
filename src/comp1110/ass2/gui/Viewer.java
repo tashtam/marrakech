@@ -49,15 +49,20 @@ public class Viewer extends Application {
                 r1.setArcHeight(10);
 
                 Text text = new Text();
-                Font font = Font.font("Verdana", FontWeight.EXTRA_BOLD, 25);
+                Font font = Font.font("Verdana", FontWeight.EXTRA_BOLD, 16);
                 text.setFont(font);
 
                 if (rug != null) text.setText(String.format("%02d", rug.getId()));
 
-                StackPane stack = new StackPane(r1, text);
-                stack.setLayoutX(marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * j);
-                stack.setLayoutY(marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * i);
-                this.root.getChildren().add(stack);
+//                StackPane stack = new StackPane(r1, text);
+                int layoutX = marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * j;
+                r1.setLayoutX(layoutX);
+                int layoutY = marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * i;
+                r1.setLayoutY(layoutY);
+                text.setLayoutX(layoutX + marrakech.TILE_SIZE / 2 + 5);
+                text.setLayoutY(layoutY + marrakech.TILE_SIZE / 2 + 20);
+                this.root.getChildren().add(r1);
+                this.root.getChildren().add(text);
             }
         }
 
@@ -65,7 +70,7 @@ public class Viewer extends Application {
             Assam assam = marrakech.getAssam();
             IntPair pos = assam.getPosition();
 
-            Rectangle r1 = new Rectangle(marrakech.TILE_SIZE, marrakech.TILE_SIZE);
+            Rectangle r1 = new Rectangle(marrakech.TILE_SIZE / 2 + 5, marrakech.TILE_SIZE / 2 + 5);
             r1.setFill(Color.GREEN);
             r1.setStrokeWidth(2);
             r1.setStroke(Color.BLACK);
@@ -73,7 +78,7 @@ public class Viewer extends Application {
             r1.setArcHeight(10);
 
             Text text = new Text();
-            Font font = Font.font("Verdana", FontWeight.EXTRA_BOLD, 25);
+            Font font = Font.font("Verdana", FontWeight.EXTRA_BOLD, 16);
             text.setFont(font);
             text.setText("" + assam.getDegree());
 
