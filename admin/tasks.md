@@ -10,7 +10,7 @@ Meeting time:
 
 ## Week 4 (Stage B)
 
-- meeting 3:00PM Fri 18 Aug lasting for 150min
+- meeting 3:00PM Fri 18 Aug lasted for 150min
 
 Everyone: create application skeleton and class diagram 
 
@@ -22,7 +22,7 @@ Jiangbei Zhang: complete the documentation of Assam, Rug, Tile
 
 ## Week 5 (Stage C)
 
-- meeting 3:00PM Fri 25 Aug lasting for 180min
+- meeting 3:00PM Fri 25 Aug lasted for 180min
 
 Everyone: complete task 3 & 4; self-checks ones own code, tests others' code and gives suggestions for improvement.
 
@@ -32,9 +32,29 @@ Jiangbei Zhang: create the constructor of Player
 
 Tashia Tamara: create the constructor of Rug
 
-## Week 6
+## Week 6 (Stage C)
+
+- meeting 3:00PM Fri 1 Sep lasted for 150min
+
+Xinyang Li: complete task 5
+
+Jiangbei Zhang: complete task 6
+
+Tashia Tamara: communicate with tutor on Edstem to confirm the format of file to submit
+
+Everyone: learn more about each other
 
 ## Mid-Semester Break
+
+- meeting 10:00AM Wed 13 Sep lasted for 120min
+
+Xinyang Li: working on task 10
+
+Jiangbei Zhang: working on task 11
+
+Tashia Tamara: working on task 8, 9
+
+- meeting 3:00PM Fri 15 Sep lasted for 180min
 
 ## Week 7
 
