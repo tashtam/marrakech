@@ -55,11 +55,11 @@ public class Viewer extends Application {
                 if (rug != null) text.setText(String.format("%02d", rug.getId()));
 
 //                StackPane stack = new StackPane(r1, text);
-                int layoutX = marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * j;
+                int layoutX = marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * i;
                 r1.setLayoutX(layoutX);
-                int layoutY = marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * i;
+                int layoutY = marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * j;
                 r1.setLayoutY(layoutY);
-                text.setLayoutX(layoutX + marrakech.TILE_SIZE / 2 + 5);
+                text.setLayoutX(layoutX + marrakech.TILE_SIZE / 2);
                 text.setLayoutY(layoutY + marrakech.TILE_SIZE / 2 + 20);
                 this.root.getChildren().add(r1);
                 this.root.getChildren().add(text);
@@ -83,8 +83,8 @@ public class Viewer extends Application {
             text.setText("" + assam.getDegree());
 
             StackPane stack = new StackPane(r1, text);
-            stack.setLayoutX(marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * pos.getY());
-            stack.setLayoutY(marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * pos.getX());
+            stack.setLayoutX(marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * pos.getX());
+            stack.setLayoutY(marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * pos.getY());
             this.root.getChildren().add(stack);
         }
         // FIXME Task 5: implement the simple state viewer [DONE]
