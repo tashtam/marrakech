@@ -51,6 +51,14 @@ public class Marrakech {
         return assam;
     }
 
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
     /**
      * get correlated javafx color object via the color char
      *
@@ -58,8 +66,8 @@ public class Marrakech {
      * @return JavaFx.Color
      */
     public Color getJavaFxColor(char color) {
-        if (color == 'y') return Color.YELLOW;
-        if (color == 'c') return Color.CYAN;
+        if (color == 'y') return Color.web("#CCCC00");
+        if (color == 'c') return Color.web("#00CCCC");
         if (color == 'r') return Color.RED;
         if (color == 'p') return Color.MEDIUMPURPLE;
         return Color.LIGHTGRAY;

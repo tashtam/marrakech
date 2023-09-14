@@ -22,7 +22,6 @@ public class Viewer extends Application {
 
     private static final int VIEWER_WIDTH = 1200;
     private static final int VIEWER_HEIGHT = 700;
-
     private final Group root = new Group();
     private final Group controls = new Group();
     private TextField boardTextField;
@@ -34,15 +33,15 @@ public class Viewer extends Application {
      * @param state an array of two strings, representing the current game state
      */
     void displayState(String state) {
-        Marrakech marrakech = new Marrakech(state);
-        for (int i = 0; i < marrakech.BOARD_WIDTH; i++) {
-            for (int j = 0; j < marrakech.BOARD_HEIGHT; j++) {
-                Tile tile = marrakech.getTile(new IntPair(i, j));
-                Rectangle r1 = new Rectangle(marrakech.TILE_SIZE, marrakech.TILE_SIZE);
+        Marrakech game = new Marrakech(state);
+        for (int i = 0; i < game.BOARD_WIDTH; i++) {
+            for (int j = 0; j < game.BOARD_HEIGHT; j++) {
+                Tile tile = game.getTile(new IntPair(i, j));
+                Rectangle r1 = new Rectangle(game.TILE_SIZE, game.TILE_SIZE);
                 Rug rug = tile.getRug();
                 char color = ' ';
                 if (rug != null) color = rug.getColor();
-                r1.setFill(marrakech.getJavaFxColor(color));
+                r1.setFill(game.getJavaFxColor(color));
                 r1.setStrokeWidth(2);
                 r1.setStroke(Color.BLACK);
                 r1.setArcWidth(10);
@@ -55,22 +54,22 @@ public class Viewer extends Application {
                 if (rug != null) text.setText(String.format("%02d", rug.getId()));
 
 //                StackPane stack = new StackPane(r1, text);
-                int layoutX = marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * i;
+                int layoutX = game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * i;
                 r1.setLayoutX(layoutX);
-                int layoutY = marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * j;
+                int layoutY = game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * j;
                 r1.setLayoutY(layoutY);
-                text.setLayoutX(layoutX + marrakech.TILE_SIZE / 2);
-                text.setLayoutY(layoutY + marrakech.TILE_SIZE / 2 + 20);
+                text.setLayoutX(layoutX + game.TILE_SIZE / 2);
+                text.setLayoutY(layoutY + game.TILE_SIZE / 2 + 20);
                 this.root.getChildren().add(r1);
                 this.root.getChildren().add(text);
             }
         }
 
         {
-            Assam assam = marrakech.getAssam();
+            Assam assam = game.getAssam();
             IntPair pos = assam.getPosition();
 
-            Rectangle r1 = new Rectangle(marrakech.TILE_SIZE / 2 + 5, marrakech.TILE_SIZE / 2 + 5);
+            Rectangle r1 = new Rectangle(game.TILE_SIZE / 2 + 5, game.TILE_SIZE / 2 + 5);
             r1.setFill(Color.GREEN);
             r1.setStrokeWidth(2);
             r1.setStroke(Color.BLACK);
@@ -83,9 +82,35 @@ public class Viewer extends Application {
             text.setText("" + assam.getDegree());
 
             StackPane stack = new StackPane(r1, text);
-            stack.setLayoutX(marrakech.OFFSET_X + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * pos.getX());
-            stack.setLayoutY(marrakech.OFFSET_Y + (marrakech.TILE_SIZE + marrakech.TILE_GAP) * pos.getY());
+            stack.setLayoutX(game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * pos.getX());
+            stack.setLayoutY(game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * pos.getY());
             this.root.getChildren().add(stack);
+        }
+
+        {
+            var players = game.getPlayers();
+            var index = game.getCurrentPlayerIndex();
+            var player = players[index];
+            Text text = new Text();
+            Font font = Font.font("Consolas", FontWeight.EXTRA_BOLD, 16);
+            text.setFont(font);
+            text.setFill(game.getJavaFxColor(player.getColor()));
+            text.setText("current player: " + player.getColor());
+            int infoLayoutX = (game.TILE_SIZE + game.TILE_GAP) * game.BOARD_WIDTH;
+            text.setLayoutX(game.OFFSET_X + infoLayoutX + 100);
+            text.setLayoutY(game.OFFSET_Y + 20);
+            this.root.getChildren().add(text);
+
+            for (int i = 0; i < players.length; i++) {
+                player = players[i];
+                text = new Text();
+                text.setFont(font);
+                text.setText(String.format("player: %c|dirhams: %02d|rugs: %02d", player.getColor(), player.getCoins(), player.getRemainingRugNumber()));
+                text.setFill(game.getJavaFxColor(player.getColor()));
+                text.setLayoutX(game.OFFSET_X + infoLayoutX + 100);
+                text.setLayoutY(game.OFFSET_Y + i * 30 + 60);
+                this.root.getChildren().add(text);
+            }
         }
         // FIXME Task 5: implement the simple state viewer [DONE]
     }
