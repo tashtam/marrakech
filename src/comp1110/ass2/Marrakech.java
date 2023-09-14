@@ -420,6 +420,33 @@ public class Marrakech {
         return game.isPlacementValid(rug1);
     }
 
+
+
+    public static ArrayList<Tile> calculateColoredTiles(IntPair presentPosition, Tile[][] tiles, char tileColor, ArrayList<Tile> tilesMoneyed) {
+        // four directions (up, down, left, right)
+        ArrayList<Tile> modifiedTileList =tilesMoneyed;
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+        for (int direction = 0; direction < 4; direction++) {
+            int newX = presentPosition.x + dx[direction];
+            int newY = presentPosition.y + dy[direction];
+
+            // within board
+            if (newX >= 0 && newX < 6 && newY >= 0 && newY < 6) {
+                Tile adjacentTile = tiles[newX][newY];
+                Rug adjacentRug = adjacentTile.getRug();
+
+                if (adjacentRug != null && adjacentRug.color == tileColor && !modifiedTileList.contains(adjacentTile)) {
+                    // add new
+                    modifiedTileList.add(adjacentTile);
+                    modifiedTileList = calculateColoredTiles(new IntPair(newX, newY), tiles, tileColor, modifiedTileList);
+                }
+            }
+        }
+
+        return modifiedTileList;
+    }
+
     /**
      * Determine the amount of payment required should another player land on a square.
      * For this method, you may assume that Assam has just landed on the square he is currently placed on, and that
@@ -432,8 +459,21 @@ public class Marrakech {
      * @return The amount of payment due, as an integer.
      */
     public static int getPaymentAmount(String gameString) {
-        // FIXME: Task 11
-        return -1;
+        Marrakech marrakech = new Marrakech(gameString);
+        IntPair presentPosition = marrakech.assam.position;
+        Tile[][] tiles = marrakech.tiles;
+        char tileColor = marrakech.getTile(presentPosition).getRug().color;
+        char playerColor = marrakech.players[marrakech.currentPlayerIndex].color;
+        ArrayList<Tile> tilesMoneyed = new ArrayList<>();
+
+        if (playerColor == tileColor || tiles[presentPosition.x][presentPosition.y].getRug() == null) {
+            // On their own tile or blank tile
+            return 0;
+        } else {
+            tilesMoneyed.add(tiles[presentPosition.x][presentPosition.y]);
+            ArrayList<Tile> coloredTiles = calculateColoredTiles(presentPosition, tiles, tileColor, tilesMoneyed);
+            return coloredTiles.size();
+        }
     }
 
     /**
