@@ -2,9 +2,7 @@ package comp1110.ass2;
 
 import javafx.scene.paint.Color;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Marrakech {
     /**
@@ -36,10 +34,29 @@ public class Marrakech {
      */
     Assam assam;
 
+    /**
+     * get player by its color
+     *
+     * @param color
+     * @return player
+     */
+    Player getPlayer(char color) {
+        for (Player player : this.players) {
+            if (player.color == color) return player;
+        }
+        return null;
+    }
+
     public Assam getAssam() {
         return assam;
     }
 
+    /**
+     * get correlated javafx color object via the color char
+     *
+     * @param color
+     * @return JavaFx.Color
+     */
     public Color getJavaFxColor(char color) {
         if (color == 'y') return Color.YELLOW;
         if (color == 'c') return Color.CYAN;
@@ -172,16 +189,24 @@ public class Marrakech {
         int d2 = Math.abs(p2.x - p0.x) + Math.abs(p2.y - p0.y);
 
         // exclude assam position itself
-        // FIXME: Task 10 (because of the problem in test case, this code is temporarily banned)
-        // if (d1 == 0 || d2 == 0) return false;
+         if (d1 == 0 || d2 == 0) return false;
 
         // one of them must near assam position
         if (d1 != 1 && d2 != 1) return false;
 
-        // must not be the same rug
         Rug rug1 = this.getTile(p1).rug;
         Rug rug2 = this.getTile(p2).rug;
-        if (rug1 == rug2 && rug1 != null) return false;
+
+        // empty tile
+        if (rug1 == null || rug2 == null) return true;
+
+        // must not be the same rug
+        if (rug1 == rug2) {
+            // except: the owner is out
+            Player pl = this.getPlayer(rug1.color);
+            return pl.out;
+        }
+
         return true;
     }
 
@@ -212,13 +237,67 @@ public class Marrakech {
         return 0;
     }
 
+    int getPlayerRugTilesAmount(Player player) {
+        if (player.out) return 0;
+        int n = 0;
+        for (Tile[] ts : this.tiles)
+            for (Tile t : ts)
+                if (t.rug != null && t.rug.color == player.color)
+                    n += 1;
+        return n;
+    }
+
     /**
      * (before call this method please ensure that the game has ended)
      *
      * @return winner of the game
      */
-    Player getWinner() {
-        return null;
+    ArrayList<Player> getWinner() {
+        // max score
+        ArrayList<Player> players = new ArrayList<Player>();
+        int max_score = 0;
+
+        for (Player player : this.players) {
+            int score = player.coins + this.getPlayerRugTilesAmount(player);
+            if (score > max_score) max_score = score;
+        }
+
+        for (Player player : this.players) {
+            int score = player.coins + this.getPlayerRugTilesAmount(player);
+            if (score == max_score) players.add(player);
+        }
+
+        if (players.size() == 1) return players;
+
+        // max coin
+        ArrayList<Player> players1 = new ArrayList<Player>();
+        int max_coin = 0;
+
+        for (Player player : players) {
+            if (player.coins > max_coin) max_coin = player.coins;
+        }
+
+        for (Player player : players) {
+            if (player.coins == max_coin) players1.add(player);
+        }
+        return players1;
+    }
+
+
+    /**
+     * get current game state
+     * if game is not over, return 'n'
+     * if game is over
+     * if no winner (tie) return 't'
+     * else return winner's color
+     *
+     * @return game state
+     */
+    char getGameState() {
+        if (!this.isGameOver()) return 'n';
+        ArrayList<Player> winner = this.getWinner();
+        if (winner.size() > 1) return 't';
+        return winner.get(0).color;
     }
 
     /**
@@ -374,7 +453,8 @@ public class Marrakech {
      */
     public static char getWinner(String gameState) {
         // FIXME: Task 12
-        return '\0';
+        Marrakech game = new Marrakech(gameState);
+        return game.getGameState();
     }
 
     /**
