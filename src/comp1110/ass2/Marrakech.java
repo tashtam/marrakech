@@ -105,6 +105,7 @@ public class Marrakech {
 
         // assam string
         this.assam = new Assam(assamStringPart);
+        String s = assam.toString();
 
         // board string
         {
@@ -490,7 +491,9 @@ public class Marrakech {
      */
     public static String rotateAssam(String currentAssam, int rotation) {
         // FIXME: Task 9
-        return "";
+        Assam assam = new Assam(currentAssam);
+        assam.rotate(rotation);
+        return assam.toString();
     }
 
     /**

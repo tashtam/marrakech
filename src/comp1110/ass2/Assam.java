@@ -21,7 +21,7 @@ public class Assam {
         return position;
     }
 
-    public Assam(String assamString) {
+    public Assam(String assamString) { //Creating the Assam object using the assamString; constructor of a java class
         char d = assamString.charAt(3);
         if (d == 'N') this.degree = 0;
         else if (d == 'E') this.degree = 90;
@@ -33,15 +33,28 @@ public class Assam {
         );
     }
 
+    public String toString() { //Creating the assamString using the Assam Object
+        // [Instance method (Returning string using the information of this instance)
+        String assamString = "A" + this.position.x + this.position.y;
+        if (this.degree == 0) assamString += "N";
+        else if (this.degree == 90) assamString += "E";
+        else if (this.degree == 180) assamString += "S";
+        else assamString += "W";
+        return assamString;
+    }
+
     /**
      * rotate method will rotate Assam clockwise of 90 degree or anticlockwise of 90 degree
      * or not rotate
      *
      * @param degree an int number that can be 90(rotate clockwise for 90 degree)
-     *               -90(rotate anticlockwise for 90 degree)
+     *               270 (rotate anticlockwise for 90 degree)
      *               0 not rotate
      */
     void rotate(int degree) {
+        if (degree == 90 || degree == 270) {
+            this.degree = (this.degree + degree) % 360;
+        }
     }
 
     /**
