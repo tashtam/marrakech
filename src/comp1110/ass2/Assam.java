@@ -28,14 +28,14 @@ public class Assam {
         else if (d == 'S') this.degree = 180;
         else this.degree = 270;
         this.position = new IntPair(
-                assamString.charAt(1) - '0',
-                assamString.charAt(2) - '0'
+                assamString.charAt(2) - '0',
+                assamString.charAt(1) - '0'
         );
     }
 
     public String toString() { //Creating the assamString using the Assam Object
         // [Instance method (Returning string using the information of this instance)
-        String assamString = "A" + this.position.x + this.position.y;
+        String assamString = "A" + this.position.y + this.position.x;
         if (this.degree == 0) assamString += "N";
         else if (this.degree == 90) assamString += "E";
         else if (this.degree == 180) assamString += "S";

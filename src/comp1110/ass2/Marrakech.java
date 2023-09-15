@@ -82,8 +82,8 @@ public class Marrakech {
         this.tiles = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
         for (int p = 0; p < BOARD_WIDTH; p++) {
             for (int q = 0; q < BOARD_HEIGHT; q++) {
-                this.tiles[p][q] = new Tile();
-                this.tiles[p][q].position = new IntPair(p, q);
+                this.tiles[q][p] = new Tile();
+                this.tiles[q][p].position = new IntPair(q, p);
             }
         }
 
@@ -122,15 +122,15 @@ public class Marrakech {
                 if (color == 'n') continue;
 
                 // get position
-                int row = k / BOARD_WIDTH;
-                int col = k % BOARD_WIDTH;
+                int col = k / BOARD_WIDTH;
+                int row = k % BOARD_WIDTH;
 
                 // set map default value
                 map.putIfAbsent(rugAbbrString, "");
 
                 // get and update positions string
                 String positionsString = map.get(rugAbbrString);
-                map.put(rugAbbrString, positionsString + row + col);
+                map.put(rugAbbrString, positionsString + col + row);
             }
 
             for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -144,7 +144,7 @@ public class Marrakech {
                 // place rug on tiles
                 for (IntPair position : rug.positions) {
                     if (position == null) continue;
-                    this.tiles[position.x][position.y].rug = rug;
+                    this.tiles[position.y][position.x].rug = rug;
                 }
             }
         }
@@ -160,7 +160,7 @@ public class Marrakech {
 
         // rug position is invalid
         for (IntPair position : rug.positions)
-            if (position.x < 0 || position.x >= BOARD_WIDTH || position.y < 0 || position.y >= BOARD_HEIGHT)
+            if (position.y < 0 || position.y >= BOARD_WIDTH || position.x < 0 || position.x >= BOARD_HEIGHT)
                 return false;
 
         // rug color + id is duplicated
@@ -270,24 +270,24 @@ public class Marrakech {
         int[] dy = {-1, 1, 0, 0};
         char tileColor = this.getTile(presentPosition).rug.color;
         System.out.println("====");
-        System.out.println(presentPosition.x + "," + presentPosition.y);
+        System.out.println(presentPosition.y + "," + presentPosition.x);
         String s1 = "";
         for (Tile connectedTile : connectedTiles) {
-            s1 += connectedTile.position.x + "," + connectedTile.position.y + " ";
+            s1 += connectedTile.position.y + "," + connectedTile.position.x + " ";
         }
-        System.out.println(s1);
+        System.out.println("connected tiles"+s1);
         String s2 = "";
         for (Tile connectedTile : visitedTiles) {
-            s2 += connectedTile.position.x + "," + connectedTile.position.y + " ";
+            s2 += connectedTile.position.y + "," + connectedTile.position.x + " ";
         }
-        System.out.println(s2);
+        System.out.println("visited tiles"+s2);
 
         for (int direction = 0; direction < 4; direction++) {
             int newX = presentPosition.x + dx[direction];
             int newY = presentPosition.y + dy[direction];
             if (newX < 0 || newX > 6 || newY < 0 || newY > 6) continue;
             // within board
-            Tile adjacentTile = tiles[newX][newY];
+            Tile adjacentTile = tiles[newY][newX];
             if (visitedTiles.contains(adjacentTile)) continue;
             visitedTiles.add(adjacentTile);
 
@@ -295,7 +295,7 @@ public class Marrakech {
             if (adjacentRug != null && adjacentRug.color == tileColor && !connectedTiles.contains(adjacentTile)) {
                 // add new
                 connectedTiles.add(adjacentTile);
-                calculateColoredTiles(new IntPair(newX, newY), connectedTiles, visitedTiles);
+                calculateColoredTiles(new IntPair(newY, newX), connectedTiles, visitedTiles);
             }
         }
     }
@@ -310,7 +310,7 @@ public class Marrakech {
         System.out.println("=----?");
         IntPair presentPosition = this.assam.position;
         Tile tile = this.getTile(presentPosition);
-        System.out.println(tile.position.x + "," + tile.position.y);
+        System.out.println(tile.position.y + "," + tile.position.x);
 
         Rug rug = tile.getRug();
         if (rug == null) return 0;
@@ -321,7 +321,7 @@ public class Marrakech {
         ArrayList<Tile> visitedTiles = new ArrayList<>();
 
         // On their own tile or blank tile
-        // FIXME: task 11, there might be some misunderstanding of the name of the method, need tutor to declare
+
 //        if (playerColor == tileColor) return 0;
 
         connectedTiles.add(tile);
@@ -403,7 +403,7 @@ public class Marrakech {
      * @return the tile at this position
      */
     public Tile getTile(IntPair position) {
-        return this.tiles[position.x][position.y];
+        return this.tiles[position.y][position.x];
     }
 
     /**
