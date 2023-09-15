@@ -167,11 +167,35 @@ public class Marrakech {
 
     /**
      * when every player finished their 3 phases and all rugs have been used
+     * //checking if the game is over
      *
      * @return if the game is over
      */
     boolean isGameOver() {
-        return true;
+
+        //  First condition to check
+        //  Checking if anyone has more than 0 rugs
+        boolean everyPlayerHas0Rug = true;
+        for (Player player : this.players) {
+            if (player.out == false && player.remainingRugNumber > 0) {
+                everyPlayerHas0Rug = false;
+                break;
+            }
+        }
+        if (everyPlayerHas0Rug == true) return true;
+
+        //   Second condition to check
+        //   Checking if there is only one player left (the winner)
+//        int playerStillPlaying = 0;
+//        for (Player player : this.players) {
+//            if (player.out == false) {
+//                playerStillPlaying = playerStillPlaying + 1;
+//            }
+//        }
+//
+//        if(playerStillPlaying == 1) return true; //One player left (the winner)
+
+        return false; //More than one player still playing, AKA game is not over
     }
 
     /**
@@ -386,7 +410,8 @@ public class Marrakech {
      */
     public static boolean isGameOver(String currentGame) {
         // FIXME: Task 8
-        return false;
+        Marrakech game = new Marrakech(currentGame);
+        return game.isGameOver();
     }
 
     /**
