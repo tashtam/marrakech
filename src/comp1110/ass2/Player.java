@@ -29,8 +29,18 @@ public class Player {
         } else {
             System.out.println("wrong type constructor");
         }
+    }
 
+    public int getCoins() {
+        return coins;
+    }
 
+    public char getColor() {
+        return color;
+    }
+
+    public int getRemainingRugNumber() {
+        return remainingRugNumber;
     }
 
     /**
