@@ -48,7 +48,7 @@ public class Game extends Application {
                 r1.setLayoutX(layoutX);
                 int layoutY = this.game.OFFSET_Y + (this.game.TILE_SIZE + this.game.TILE_GAP) * j;
                 r1.setLayoutY(layoutY);
-                text.setLayoutX(layoutX + this.game.TILE_SIZE / 2);
+                text.setLayoutX(layoutX + this.game.TILE_SIZE / 2 + 10);
                 text.setLayoutY(layoutY + this.game.TILE_SIZE / 2 + 20);
                 this.root.getChildren().add(r1);
                 this.root.getChildren().add(text);
@@ -75,8 +75,8 @@ public class Game extends Application {
             text.setText("" + assam.getDegree());
 
             StackPane stack = new StackPane(r1, text);
-            stack.setLayoutX(this.game.OFFSET_X + (this.game.TILE_SIZE + this.game.TILE_GAP) * pos.getX());
-            stack.setLayoutY(this.game.OFFSET_Y + (this.game.TILE_SIZE + this.game.TILE_GAP) * pos.getY());
+            stack.setLayoutX(this.game.OFFSET_X + (this.game.TILE_SIZE + game.TILE_GAP) * pos.getY());
+            stack.setLayoutY(this.game.OFFSET_Y + (this.game.TILE_SIZE + game.TILE_GAP) * pos.getX());
             this.root.getChildren().add(stack);
         }
 

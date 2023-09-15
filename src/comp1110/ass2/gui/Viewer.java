@@ -54,11 +54,11 @@ public class Viewer extends Application {
                 if (rug != null) text.setText(String.format("%02d", rug.getId()));
 
 //                StackPane stack = new StackPane(r1, text);
-                int layoutX = game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * i;
+                int layoutX = game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * j;
                 r1.setLayoutX(layoutX);
-                int layoutY = game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * j;
+                int layoutY = game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * i;
                 r1.setLayoutY(layoutY);
-                text.setLayoutX(layoutX + game.TILE_SIZE / 2);
+                text.setLayoutX(layoutX + game.TILE_SIZE / 2 + 10);
                 text.setLayoutY(layoutY + game.TILE_SIZE / 2 + 20);
                 this.root.getChildren().add(r1);
                 this.root.getChildren().add(text);
@@ -85,8 +85,8 @@ public class Viewer extends Application {
             text.setText("" + assam.getDegree());
 
             StackPane stack = new StackPane(r1, text);
-            stack.setLayoutX(game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * pos.getX());
-            stack.setLayoutY(game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * pos.getY());
+            stack.setLayoutX(game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * pos.getY());
+            stack.setLayoutY(game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * pos.getX());
             this.root.getChildren().add(stack);
         }
 
