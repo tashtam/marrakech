@@ -68,9 +68,12 @@ public class Viewer extends Application {
         {
             Assam assam = game.getAssam();
             IntPair pos = assam.getPosition();
+            var players = game.getPlayers();
+            var index = game.getCurrentPlayerIndex();
+            var player = players[index];
 
             Rectangle r1 = new Rectangle(game.TILE_SIZE / 2 + 5, game.TILE_SIZE / 2 + 5);
-            r1.setFill(Color.GREEN);
+            r1.setFill(game.getJavaFxColor(player.getColor()));
             r1.setStrokeWidth(2);
             r1.setStroke(Color.BLACK);
             r1.setArcWidth(10);
