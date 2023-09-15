@@ -159,11 +159,35 @@ public class Marrakech {
 
     /**
      * when every player finished their 3 phases and all rugs have been used
+     * //checking if the game is over
      *
      * @return if the game is over
      */
     boolean isGameOver() {
-        return true;
+
+        //  First condition to check
+        //  Checking if anyone has more than 0 rugs
+        boolean everyPlayerHas0Rug = true;
+        for (Player player : this.players) {
+            if (player.remainingRugNumber > 0) {
+                everyPlayerHas0Rug = false;
+                break;
+            }
+        }
+        if (everyPlayerHas0Rug == true) return true;
+
+        //   Second condition to check
+        //   Checking if there is only one player left (the winner)
+        int playerStillPlaying = 0;
+        for (Player player : this.players) {
+            if (player.out == false) {
+                playerStillPlaying = playerStillPlaying + 1;
+            }
+        }
+
+        if(playerStillPlaying == 1) return true; //One player left (the winner)
+
+        return false; //More than one player still playing, AKA game is not over
     }
 
     /**
@@ -189,7 +213,7 @@ public class Marrakech {
         int d2 = Math.abs(p2.x - p0.x) + Math.abs(p2.y - p0.y);
 
         // exclude assam position itself
-         if (d1 == 0 || d2 == 0) return false;
+        if (d1 == 0 || d2 == 0) return false;
 
         // one of them must near assam position
         if (d1 != 1 && d2 != 1) return false;
@@ -373,7 +397,8 @@ public class Marrakech {
      */
     public static boolean isGameOver(String currentGame) {
         // FIXME: Task 8
-        return false;
+        Marrakech game = new Marrakech(currentGame);
+        return game.isGameOver();
     }
 
     /**
@@ -421,10 +446,9 @@ public class Marrakech {
     }
 
 
-
     public static ArrayList<Tile> calculateColoredTiles(IntPair presentPosition, Tile[][] tiles, char tileColor, ArrayList<Tile> tilesMoneyed) {
         // four directions (up, down, left, right)
-        ArrayList<Tile> modifiedTileList =tilesMoneyed;
+        ArrayList<Tile> modifiedTileList = tilesMoneyed;
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
         for (int direction = 0; direction < 4; direction++) {
