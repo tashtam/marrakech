@@ -20,6 +20,10 @@ public class Tile {
         return true;
     }
 
+    public IntPair getPosition() {
+        return position;
+    }
+
     public Rug getRug() {
         return rug;
     }

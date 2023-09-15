@@ -82,8 +82,8 @@ public class Marrakech {
         this.tiles = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
         for (int p = 0; p < BOARD_WIDTH; p++) {
             for (int q = 0; q < BOARD_HEIGHT; q++) {
-                this.tiles[q][p] = new Tile();
-                this.tiles[q][p].position = new IntPair(q, p);
+                this.tiles[p][q] = new Tile();
+                this.tiles[p][q].position = new IntPair(p, q);
             }
         }
 
@@ -268,8 +268,9 @@ public class Marrakech {
         // four directions (up, down, left, right)
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
-        char tileColor = this.getTile(presentPosition).rug.color;
-        System.out.println("====");
+        char tileColor = this.getTile(this.assam.getPosition()).rug.color;
+        System.out.println(tileColor);
+        System.out.println("calculate tiles state====");
         System.out.println(presentPosition.y + "," + presentPosition.x);
         String s1 = "";
         for (Tile connectedTile : connectedTiles) {
@@ -307,12 +308,13 @@ public class Marrakech {
      * @return the payment amount
      */
     int getPaymentAmount() {
-        System.out.println("=----?");
-        IntPair presentPosition = this.assam.position;
+        System.out.println("begin state");
+        IntPair presentPosition = this.assam.getPosition();
         Tile tile = this.getTile(presentPosition);
-        System.out.println(tile.position.y + "," + tile.position.x);
+        System.out.println("present position"+tile.position.y + "," + tile.position.x);
 
         Rug rug = tile.getRug();
+
         if (rug == null) return 0;
 
         char tileColor = rug.color;

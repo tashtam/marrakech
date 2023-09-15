@@ -28,8 +28,8 @@ public class Assam {
         else if (d == 'S') this.degree = 180;
         else this.degree = 270;
         this.position = new IntPair(
-                assamString.charAt(2) - '0',
-                assamString.charAt(1) - '0'
+                assamString.charAt(1) - '0',
+                assamString.charAt(2) - '0'
         );
     }
 
