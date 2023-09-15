@@ -74,14 +74,18 @@ public class Marrakech {
     }
 
     public Marrakech(String gameString) {
+        System.out.println(gameString);
         // current player index
         this.currentPlayerIndex = 0;
 
         // tiles
         this.tiles = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
-        for (int p = 0; p < BOARD_WIDTH; p++)
-            for (int q = 0; q < BOARD_HEIGHT; q++)
+        for (int p = 0; p < BOARD_WIDTH; p++) {
+            for (int q = 0; q < BOARD_HEIGHT; q++) {
                 this.tiles[p][q] = new Tile();
+                this.tiles[p][q].position = new IntPair(p, q);
+            }
+        }
 
         // split game string into 3 parts
         int i = gameString.indexOf('A');
@@ -259,6 +263,42 @@ public class Marrakech {
         return true;
     }
 
+    public void calculateColoredTiles(IntPair presentPosition, ArrayList<Tile> connectedTiles, ArrayList<Tile> visitedTiles) {
+        // four directions (up, down, left, right)
+        int[] dx = {0, 0, -1, 1};
+        int[] dy = {-1, 1, 0, 0};
+        char tileColor = this.getTile(presentPosition).rug.color;
+        System.out.println("====");
+        System.out.println(presentPosition.x + "," + presentPosition.y);
+        String s1 = "";
+        for (Tile connectedTile : connectedTiles) {
+            s1 += connectedTile.position.x + "," + connectedTile.position.y + " ";
+        }
+        System.out.println(s1);
+        String s2 = "";
+        for (Tile connectedTile : visitedTiles) {
+            s2 += connectedTile.position.x + "," + connectedTile.position.y + " ";
+        }
+        System.out.println(s2);
+
+        for (int direction = 0; direction < 4; direction++) {
+            int newX = presentPosition.x + dx[direction];
+            int newY = presentPosition.y + dy[direction];
+            if (newX < 0 || newX > 6 || newY < 0 || newY > 6) continue;
+            // within board
+            Tile adjacentTile = tiles[newX][newY];
+            if (visitedTiles.contains(adjacentTile)) continue;
+            visitedTiles.add(adjacentTile);
+
+            Rug adjacentRug = adjacentTile.getRug();
+            if (adjacentRug != null && adjacentRug.color == tileColor && !connectedTiles.contains(adjacentTile)) {
+                // add new
+                connectedTiles.add(adjacentTile);
+                calculateColoredTiles(new IntPair(newX, newY), connectedTiles, visitedTiles);
+            }
+        }
+    }
+
     /**
      * check the nearby tiles and count the number of the connected rugs with the same color.
      * that is the coins that the current player need to pay
@@ -266,7 +306,27 @@ public class Marrakech {
      * @return the payment amount
      */
     int getPaymentAmount() {
-        return 0;
+        System.out.println("=----?");
+        IntPair presentPosition = this.assam.position;
+        Tile tile = this.getTile(presentPosition);
+        System.out.println(tile.position.x + "," + tile.position.y);
+
+        Rug rug = tile.getRug();
+        if (rug == null) return 0;
+
+        char tileColor = rug.color;
+        char playerColor = this.players[this.currentPlayerIndex].color;
+        ArrayList<Tile> connectedTiles = new ArrayList<>();
+        ArrayList<Tile> visitedTiles = new ArrayList<>();
+
+        // On their own tile or blank tile
+        // FIXME: task 11, there might be some misunderstanding of the name of the method, need tutor to declare
+//        if (playerColor == tileColor) return 0;
+
+        connectedTiles.add(tile);
+        visitedTiles.add(tile);
+        this.calculateColoredTiles(presentPosition, connectedTiles, visitedTiles);
+        return connectedTiles.size();
     }
 
     int getPlayerRugTilesAmount(Player player) {
@@ -459,31 +519,6 @@ public class Marrakech {
     }
 
 
-    public static ArrayList<Tile> calculateColoredTiles(IntPair presentPosition, Tile[][] tiles, char tileColor, ArrayList<Tile> tilesMoneyed) {
-        // four directions (up, down, left, right)
-        ArrayList<Tile> modifiedTileList = tilesMoneyed;
-        int[] dx = {0, 0, -1, 1};
-        int[] dy = {-1, 1, 0, 0};
-        for (int direction = 0; direction < 4; direction++) {
-            int newX = presentPosition.x + dx[direction];
-            int newY = presentPosition.y + dy[direction];
-
-            // within board
-            if (newX >= 0 && newX < 6 && newY >= 0 && newY < 6) {
-                Tile adjacentTile = tiles[newX][newY];
-                Rug adjacentRug = adjacentTile.getRug();
-
-                if (adjacentRug != null && adjacentRug.color == tileColor && !modifiedTileList.contains(adjacentTile)) {
-                    // add new
-                    modifiedTileList.add(adjacentTile);
-                    modifiedTileList = calculateColoredTiles(new IntPair(newX, newY), tiles, tileColor, modifiedTileList);
-                }
-            }
-        }
-
-        return modifiedTileList;
-    }
-
     /**
      * Determine the amount of payment required should another player land on a square.
      * For this method, you may assume that Assam has just landed on the square he is currently placed on, and that
@@ -497,20 +532,7 @@ public class Marrakech {
      */
     public static int getPaymentAmount(String gameString) {
         Marrakech marrakech = new Marrakech(gameString);
-        IntPair presentPosition = marrakech.assam.position;
-        Tile[][] tiles = marrakech.tiles;
-        char tileColor = marrakech.getTile(presentPosition).getRug().color;
-        char playerColor = marrakech.players[marrakech.currentPlayerIndex].color;
-        ArrayList<Tile> tilesMoneyed = new ArrayList<>();
-
-        if (playerColor == tileColor || tiles[presentPosition.x][presentPosition.y].getRug() == null) {
-            // On their own tile or blank tile
-            return 0;
-        } else {
-            tilesMoneyed.add(tiles[presentPosition.x][presentPosition.y]);
-            ArrayList<Tile> coloredTiles = calculateColoredTiles(presentPosition, tiles, tileColor, tilesMoneyed);
-            return coloredTiles.size();
-        }
+        return marrakech.getPaymentAmount();
     }
 
     /**
