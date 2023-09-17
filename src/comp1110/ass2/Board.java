@@ -64,7 +64,7 @@ public class Board {
      */
     Tile getTile(IntPair pos) {
         if (pos.x < 0 || pos.x >= this.WIDTH || pos.y < 0 || pos.y >= this.HEIGHT) return null;
-        return this.tiles[pos.x * this.WIDTH + pos.y];
+        return this.tiles[pos.x * this.HEIGHT + pos.y];
     }
 
     int getPlayerRugTilesAmount(Player player) {
