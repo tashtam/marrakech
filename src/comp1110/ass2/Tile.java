@@ -11,6 +11,14 @@ public class Tile {
     IntPair position;
     Rug rug = null;
 
+    public IntPair getPosition() {
+        return position;
+    }
+
+    public Rug getRug() {
+        return rug;
+    }
+
     /**
      * @param player the player who is playing now
      * @return ture if this player need to pay money;
@@ -18,14 +26,6 @@ public class Tile {
      */
     boolean isNeedToPay(Player player) {
         return true;
-    }
-
-    public IntPair getPosition() {
-        return position;
-    }
-
-    public Rug getRug() {
-        return rug;
     }
 }
 

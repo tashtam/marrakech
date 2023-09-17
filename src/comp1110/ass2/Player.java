@@ -17,6 +17,18 @@ public class Player {
     int remainingRugNumber;
     boolean out;
 
+    public int getCoins() {
+        return coins;
+    }
+
+    public char getColor() {
+        return color;
+    }
+
+    public int getRemainingRugNumber() {
+        return remainingRugNumber;
+    }
+
     public Player(String playerString) {
         this.color = playerString.charAt(1);
         this.coins = Integer.parseInt(playerString, 2, 5, 10);
@@ -31,17 +43,6 @@ public class Player {
         }
     }
 
-    public int getCoins() {
-        return coins;
-    }
-
-    public char getColor() {
-        return color;
-    }
-
-    public int getRemainingRugNumber() {
-        return remainingRugNumber;
-    }
 
     /**
      * This method is for paying coins/dirhams to another player when the current player steps on another player's rug.

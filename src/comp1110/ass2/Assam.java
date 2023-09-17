@@ -13,13 +13,9 @@ public class Assam {
     int degree;
     IntPair position;
 
-    public int getDegree() {
-        return degree;
-    }
+    public int getDegree() { return degree; }
 
-    public IntPair getPosition() {
-        return position;
-    }
+    public IntPair getPosition() { return position; }
 
     public Assam(String assamString) { //Creating the Assam object using the assamString; constructor of a java class
         char d = assamString.charAt(3);
