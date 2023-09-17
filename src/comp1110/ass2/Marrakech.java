@@ -37,11 +37,17 @@ public class Marrakech {
         return assam;
     }
 
-    public Player[] getPlayers() { return players; }
+    public Player[] getPlayers() {
+        return players;
+    }
 
-    public int getCurrentPlayerIndex() { return currentPlayerIndex; }
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
 
-    public Board getBoard() { return board; }
+    public Board getBoard() {
+        return board;
+    }
 
     /**
      * get player by its color
@@ -191,25 +197,15 @@ public class Marrakech {
         return true;
     }
 
-    public void calculateColoredTiles(IntPair presentPosition, ArrayList<Tile> connectedTiles, ArrayList<Tile> visitedTiles) {
+    public void calculateColoredTiles(
+            IntPair presentPosition,
+            ArrayList<Tile> connectedTiles,
+            ArrayList<Tile> visitedTiles,
+            char tileColor
+    ) {
         // four directions (up, down, left, right)
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
-        char tileColor = this.board.getTile(this.assam.getPosition()).rug.color;
-
-//        System.out.println(tileColor);
-//        System.out.println("calculate tiles state====");
-//        System.out.println(presentPosition.y + "," + presentPosition.x);
-//        String s1 = "";
-//        for (Tile connectedTile : connectedTiles) {
-//            s1 += connectedTile.position.y + "," + connectedTile.position.x + " ";
-//        }
-//        System.out.println("connected tiles" + s1);
-//        String s2 = "";
-//        for (Tile connectedTile : visitedTiles) {
-//            s2 += connectedTile.position.y + "," + connectedTile.position.x + " ";
-//        }
-//        System.out.println("visited tiles" + s2);
 
         for (int direction = 0; direction < 4; direction++) {
             int newX = presentPosition.x + dx[direction];
@@ -220,18 +216,18 @@ public class Marrakech {
             Tile adjacentTile = this.board.getTile(pos);
 
             // out of board
-            if (adjacentTile == null) return;
+            if (adjacentTile == null) continue;
 
             // visited
             if (visitedTiles.contains(adjacentTile)) continue;
             visitedTiles.add(adjacentTile);
 
-            //
+            // create a new object adjacentRug
             Rug adjacentRug = adjacentTile.getRug();
             if (adjacentRug != null && adjacentRug.color == tileColor && !connectedTiles.contains(adjacentTile)) {
                 // add new
                 connectedTiles.add(adjacentTile);
-                calculateColoredTiles(pos, connectedTiles, visitedTiles);
+                calculateColoredTiles(pos, connectedTiles, visitedTiles, tileColor);
             }
         }
     }
@@ -243,23 +239,24 @@ public class Marrakech {
      * @return the payment amount
      */
     int getPaymentAmount() {
-        var presentPosition = this.assam.position;
-        var tile = this.board.getTile(presentPosition);
+        var assamPos = this.assam.position;
+        System.out.println(assamPos);
+        var tile = this.board.getTile(assamPos);
         var rug = tile.rug;
 
         if (rug == null) return 0;
 
         char tileColor = rug.color;
-        char playerColor = this.players[this.currentPlayerIndex].color;
-        ArrayList<Tile> connectedTiles = new ArrayList<>();
-        ArrayList<Tile> visitedTiles = new ArrayList<>();
-
-        // On their own tile or blank tile
+//        char playerColor = this.players[this.currentPlayerIndex].color;
+//        // On their own tile or blank tile
 //        if (playerColor == tileColor) return 0;
 
+        ArrayList<Tile> connectedTiles = new ArrayList<>();
+        ArrayList<Tile> visitedTiles = new ArrayList<>();
         connectedTiles.add(tile);
         visitedTiles.add(tile);
-        this.calculateColoredTiles(presentPosition, connectedTiles, visitedTiles);
+
+        this.calculateColoredTiles(assamPos, connectedTiles, visitedTiles, tileColor);
         return connectedTiles.size();
     }
 
