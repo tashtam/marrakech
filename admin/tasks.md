@@ -56,6 +56,12 @@ Tashia Tamara: working on task 8, 9
 
 - meeting 3:00PM Fri 15 Sep lasted for 180min
 
+Xinyang Li: complete task 10, 11, 12
+
+Jiangbei Zhang: complete task 11, fix bug in task 3
+
+Tashia Tamara: complete task 8, 9
+
 ## Week 7
 
 ## Week 8
