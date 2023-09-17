@@ -19,6 +19,10 @@ public class Tile {
         return rug;
     }
 
+    public Tile(int x, int y) {
+        this.position = new IntPair(x, y);
+    }
+
     /**
      * @param player the player who is playing now
      * @return ture if this player need to pay money;

@@ -6,7 +6,13 @@ package comp1110.ass2;
  * The class IntPair defines a pair of integers used to determine positions on the board.
  */
 public class IntPair {
+    /**
+     * column
+     */
     int x;
+    /**
+     * row
+     */
     int y;
 
     public int getX() { return x; }
@@ -15,7 +21,7 @@ public class IntPair {
         return y;
     }
 
-    public IntPair(int y, int x) {
+    public IntPair(int x, int y) {
         this.x = x;
         this.y = y;
     }

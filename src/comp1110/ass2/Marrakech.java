@@ -15,9 +15,8 @@ public class Marrakech {
     public final int OFFSET_Y = 50;
     public final int TILE_SIZE = 70;
     public final int TILE_GAP = 10;
-    public final int BOARD_WIDTH = 7;
-    public final int BOARD_HEIGHT = 7;
-    Tile[][] tiles;
+
+    Board board;
 
     /**
      * All players are here. its length is between 2 and 4.
@@ -34,6 +33,16 @@ public class Marrakech {
      */
     Assam assam;
 
+    public Assam getAssam() {
+        return assam;
+    }
+
+    public Player[] getPlayers() { return players; }
+
+    public int getCurrentPlayerIndex() { return currentPlayerIndex; }
+
+    public Board getBoard() { return board; }
+
     /**
      * get player by its color
      *
@@ -45,18 +54,6 @@ public class Marrakech {
             if (player.color == color) return player;
         }
         return null;
-    }
-
-    public Assam getAssam() {
-        return assam;
-    }
-
-    public Player[] getPlayers() {
-        return players;
-    }
-
-    public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
     }
 
     /**
@@ -74,18 +71,8 @@ public class Marrakech {
     }
 
     public Marrakech(String gameString) {
-        System.out.println(gameString);
         // current player index
         this.currentPlayerIndex = 0;
-
-        // tiles
-        this.tiles = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
-        for (int p = 0; p < BOARD_WIDTH; p++) {
-            for (int q = 0; q < BOARD_HEIGHT; q++) {
-                this.tiles[p][q] = new Tile();
-                this.tiles[p][q].position = new IntPair(p, q);
-            }
-        }
 
         // split game string into 3 parts
         int i = gameString.indexOf('A');
@@ -94,81 +81,18 @@ public class Marrakech {
         String boardStringPart = gameString.substring(i + 5);
 
         // player string
-        {
-            int n = playerStringPart.length() / 8;
-            this.players = new Player[n];
-            for (int k = 0; k < n; k++) {
-                String playerString = playerStringPart.substring(k * 8, (k + 1) * 8);
-                this.players[k] = new Player(playerString);
-            }
+        int n = playerStringPart.length() / 8;
+        this.players = new Player[n];
+        for (int k = 0; k < n; k++) {
+            String playerString = playerStringPart.substring(k * 8, (k + 1) * 8);
+            this.players[k] = new Player(playerString);
         }
 
         // assam string
         this.assam = new Assam(assamStringPart);
-        String s = assam.toString();
 
         // board string
-        {
-            // key: color + id
-            // value: positions
-            Map<String, String> map = new HashMap<>();
-
-            int n = boardStringPart.length() / 3;
-            for (int k = 0; k < n; k++) {
-                String rugAbbrString = boardStringPart.substring(k * 3, (k + 1) * 3);
-                char color = rugAbbrString.charAt(0);
-
-                // skip n00
-                if (color == 'n') continue;
-
-                // get position
-                int col = k / BOARD_WIDTH;
-                int row = k % BOARD_WIDTH;
-
-                // set map default value
-                map.putIfAbsent(rugAbbrString, "");
-
-                // get and update positions string
-                String positionsString = map.get(rugAbbrString);
-                map.put(rugAbbrString, positionsString + col + row);
-            }
-
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-
-                // get rug string
-                String rugString = key + value;
-                Rug rug = new Rug(rugString);
-
-                // place rug on tiles
-                for (IntPair position : rug.positions) {
-                    if (position == null) continue;
-                    this.tiles[position.y][position.x].rug = rug;
-                }
-            }
-        }
-
-    }
-
-    /**
-     * @param rug the given rug
-     * @return if the rug is valid to put on the board
-     */
-    boolean isRugValid(Rug rug) {
-        // rug color is invalid
-        if ("cyrp".indexOf(rug.color) < 0) return false;
-
-        // rug position is invalid
-        for (IntPair position : rug.positions)
-            if (position.y < 0 || position.y >= BOARD_WIDTH || position.x < 0 || position.x >= BOARD_HEIGHT)
-                return false;
-
-        // rug color + id is duplicated
-        for (Tile[] ts : this.tiles)
-            for (Tile t : ts)
-                if (t.rug != null && t.rug.id == rug.id && t.rug.color == rug.color) return false;
-        return true;
+        this.board = new Board(boardStringPart);
     }
 
     /**
@@ -213,7 +137,7 @@ public class Marrakech {
      */
     boolean isPlacementValid(Rug rug) {
         // invalid rug
-        if (!this.isRugValid(rug)) return false;
+        if (!this.board.isRugValid(rug)) return false;
 
         Player currentPlayer = this.players[this.currentPlayerIndex];
 
@@ -232,8 +156,8 @@ public class Marrakech {
         // one of them must near assam position
         if (d1 != 1 && d2 != 1) return false;
 
-        Rug rug1 = this.getTile(p1).rug;
-        Rug rug2 = this.getTile(p2).rug;
+        Rug rug1 = this.board.getTile(p1).rug;
+        Rug rug2 = this.board.getTile(p2).rug;
 
         // empty tile
         if (rug1 == null || rug2 == null) return true;
@@ -269,35 +193,43 @@ public class Marrakech {
         // four directions (up, down, left, right)
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
-        char tileColor = this.getTile(this.assam.getPosition()).rug.color;
-        System.out.println(tileColor);
-        System.out.println("calculate tiles state====");
-        System.out.println(presentPosition.y + "," + presentPosition.x);
-        String s1 = "";
-        for (Tile connectedTile : connectedTiles) {
-            s1 += connectedTile.position.y + "," + connectedTile.position.x + " ";
-        }
-        System.out.println("connected tiles"+s1);
-        String s2 = "";
-        for (Tile connectedTile : visitedTiles) {
-            s2 += connectedTile.position.y + "," + connectedTile.position.x + " ";
-        }
-        System.out.println("visited tiles"+s2);
+        char tileColor = this.board.getTile(this.assam.getPosition()).rug.color;
+
+//        System.out.println(tileColor);
+//        System.out.println("calculate tiles state====");
+//        System.out.println(presentPosition.y + "," + presentPosition.x);
+//        String s1 = "";
+//        for (Tile connectedTile : connectedTiles) {
+//            s1 += connectedTile.position.y + "," + connectedTile.position.x + " ";
+//        }
+//        System.out.println("connected tiles" + s1);
+//        String s2 = "";
+//        for (Tile connectedTile : visitedTiles) {
+//            s2 += connectedTile.position.y + "," + connectedTile.position.x + " ";
+//        }
+//        System.out.println("visited tiles" + s2);
 
         for (int direction = 0; direction < 4; direction++) {
             int newX = presentPosition.x + dx[direction];
             int newY = presentPosition.y + dy[direction];
-            if (newX < 0 || newX > 6 || newY < 0 || newY > 6) continue;
-            // within board
-            Tile adjacentTile = tiles[newY][newX];
+
+            // get tile
+            IntPair pos = new IntPair(newX, newY);
+            Tile adjacentTile = this.board.getTile(pos);
+
+            // out of board
+            if (adjacentTile == null) return;
+
+            // visited
             if (visitedTiles.contains(adjacentTile)) continue;
             visitedTiles.add(adjacentTile);
 
+            //
             Rug adjacentRug = adjacentTile.getRug();
             if (adjacentRug != null && adjacentRug.color == tileColor && !connectedTiles.contains(adjacentTile)) {
                 // add new
                 connectedTiles.add(adjacentTile);
-                calculateColoredTiles(new IntPair(newY, newX), connectedTiles, visitedTiles);
+                calculateColoredTiles(pos, connectedTiles, visitedTiles);
             }
         }
     }
@@ -311,8 +243,8 @@ public class Marrakech {
     int getPaymentAmount() {
         System.out.println("begin state");
         IntPair presentPosition = this.assam.getPosition();
-        Tile tile = this.getTile(presentPosition);
-        System.out.println("present position"+tile.position.y + "," + tile.position.x);
+        Tile tile = this.board.getTile(presentPosition);
+        System.out.println("present position" + tile.position.y + "," + tile.position.x);
 
         Rug rug = tile.getRug();
 
@@ -333,15 +265,6 @@ public class Marrakech {
         return connectedTiles.size();
     }
 
-    int getPlayerRugTilesAmount(Player player) {
-        if (player.out) return 0;
-        int n = 0;
-        for (Tile[] ts : this.tiles)
-            for (Tile t : ts)
-                if (t.rug != null && t.rug.color == player.color)
-                    n += 1;
-        return n;
-    }
 
     /**
      * (before call this method please ensure that the game has ended)
@@ -354,12 +277,12 @@ public class Marrakech {
         int max_score = 0;
 
         for (Player player : this.players) {
-            int score = player.coins + this.getPlayerRugTilesAmount(player);
+            int score = player.coins + this.board.getPlayerRugTilesAmount(player);
             if (score > max_score) max_score = score;
         }
 
         for (Player player : this.players) {
-            int score = player.coins + this.getPlayerRugTilesAmount(player);
+            int score = player.coins + this.board.getPlayerRugTilesAmount(player);
             if (score == max_score) players.add(player);
         }
 
@@ -401,13 +324,6 @@ public class Marrakech {
         return winner.get(0).color;
     }
 
-    /**
-     * @param position the give position
-     * @return the tile at this position
-     */
-    public Tile getTile(IntPair position) {
-        return this.tiles[position.y][position.x];
-    }
 
     /**
      * Determine whether a rug String is valid.
@@ -432,11 +348,11 @@ public class Marrakech {
      */
     public static boolean isRugValid(String gameString, String rug) {
         // convert string to object
-        Marrakech marrakech = new Marrakech(gameString);
+        Marrakech game = new Marrakech(gameString);
         Rug rug1 = new Rug(rug);
 
         // check rug valid
-        return marrakech.isRugValid(rug1);
+        return game.board.isRugValid(rug1);
         // FIXME: Task 4 [DONE]
     }
 

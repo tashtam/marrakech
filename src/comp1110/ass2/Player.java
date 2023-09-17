@@ -29,6 +29,8 @@ public class Player {
         return remainingRugNumber;
     }
 
+    public boolean isOut() { return out; }
+
     public Player(String playerString) {
         this.color = playerString.charAt(1);
         this.coins = Integer.parseInt(playerString, 2, 5, 10);

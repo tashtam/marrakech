@@ -23,15 +23,15 @@ public class Rug {
         this.id = Integer.parseInt(rugString.substring(1, 3));
         //The line above denotes the second (index: 1) and third (index: 2) chars
 
-        int y0 = Integer.parseInt(rugString.substring(3, 4));
-        int x0 = Integer.parseInt(rugString.substring(4, 5));
+        int x0 = Integer.parseInt(rugString.substring(3, 4));
+        int y0 = Integer.parseInt(rugString.substring(4, 5));
         this.positions = new IntPair[2];
-        this.positions[0] = new IntPair(y0, x0); //[0] denotes index 0 in array IntPair [2]
+        this.positions[0] = new IntPair(x0, y0); //[0] denotes index 0 in array IntPair [2]
 
         if (rugString.length() >= 6) {
-            int y1 = Integer.parseInt(rugString.substring(5, 6));
-            int x1 = Integer.parseInt(rugString.substring(6, 7)); //Seventh char (index: 6), started from index: 0
-            this.positions[1] = new IntPair(y1, x1); //[1] denotes index 1 in array IntPair [2]
+            int x1 = Integer.parseInt(rugString.substring(5, 6));
+            int y1 = Integer.parseInt(rugString.substring(6, 7)); //Seventh char (index: 6), started from index: 0
+            this.positions[1] = new IntPair(x1, y1); //[1] denotes index 1 in array IntPair [2]
         }
     }
 }
