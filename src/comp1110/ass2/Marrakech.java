@@ -71,6 +71,8 @@ public class Marrakech {
     }
 
     public Marrakech(String gameString) {
+        System.out.println(gameString);
+
         // current player index
         this.currentPlayerIndex = 0;
 
@@ -241,12 +243,9 @@ public class Marrakech {
      * @return the payment amount
      */
     int getPaymentAmount() {
-        System.out.println("begin state");
-        IntPair presentPosition = this.assam.getPosition();
-        Tile tile = this.board.getTile(presentPosition);
-        System.out.println("present position" + tile.position.y + "," + tile.position.x);
-
-        Rug rug = tile.getRug();
+        var presentPosition = this.assam.position;
+        var tile = this.board.getTile(presentPosition);
+        var rug = tile.rug;
 
         if (rug == null) return 0;
 
@@ -256,7 +255,6 @@ public class Marrakech {
         ArrayList<Tile> visitedTiles = new ArrayList<>();
 
         // On their own tile or blank tile
-
 //        if (playerColor == tileColor) return 0;
 
         connectedTiles.add(tile);

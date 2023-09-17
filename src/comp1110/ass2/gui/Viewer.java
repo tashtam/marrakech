@@ -47,8 +47,8 @@ public class Viewer extends Application {
             if (rug != null) text.setText(String.format("%02d", rug.getId()));
 
             int layoutX = game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * tile.getPosition().getX();
-            r1.setLayoutX(layoutX);
             int layoutY = game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * tile.getPosition().getY();
+            r1.setLayoutX(layoutX);
             r1.setLayoutY(layoutY);
             text.setLayoutX(layoutX + game.TILE_SIZE / 2 + 10);
             text.setLayoutY(layoutY + game.TILE_SIZE / 2 + 20);

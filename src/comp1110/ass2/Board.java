@@ -12,16 +12,16 @@ public class Board {
     public Tile[] getTiles() { return tiles; }
 
     public Board(String boardString) {
-        this.tiles = new Tile[this.WIDTH * this.HEIGHT];
+        int n = this.WIDTH * this.HEIGHT;
+        this.tiles = new Tile[n];
 
         // key: color + id
         // value: positions
         Map<String, String> map = new HashMap<>();
 
-        int n = boardString.length() / 3;
         for (int k = 0; k < n; k++) {
             // get position
-            int x = k / this.WIDTH;
+            int x = k / this.HEIGHT;
             int y = k % this.HEIGHT;
 
             // init tile
@@ -53,7 +53,7 @@ public class Board {
             // place rug on tiles
             for (IntPair position : rug.positions) {
                 if (position == null) continue;
-                this.tiles[position.x * this.WIDTH + position.y].rug = rug;
+                this.getTile(position).rug = rug;
             }
         }
     }
