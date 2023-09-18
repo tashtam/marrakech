@@ -1,7 +1,5 @@
 package comp1110.ass2;
 
-// jiangbei
-
 /**
  * this class defines Assam that players need to control,there are
  * two fields named: (direction, position) and two methods: (rotate, move)

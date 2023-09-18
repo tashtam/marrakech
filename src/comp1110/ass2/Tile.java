@@ -6,7 +6,6 @@ package comp1110.ass2;
  * parameter position stands for the tile's place
  * parameter rug stands for which rug is on this tile
  */
-// jiangbei
 public class Tile {
     IntPair position;
     Rug rug = null;

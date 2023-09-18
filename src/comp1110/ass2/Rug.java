@@ -1,7 +1,5 @@
 package comp1110.ass2;
 
-// jiangbei
-
 /**
  * define the class of Rug,there are three fields named: color, id, positions
  * parameter color  ：A char from( c,r,y,p),representing the color of the Rug and
