@@ -44,7 +44,7 @@ Tashia Tamara: communicate with tutor on Edstem to confirm the format of file to
 
 Everyone: learn more about each other
 
-## Mid-Semester Break
+## Mid-Semester Break (Stage C)
 
 - meeting 10:00AM Wed 13 Sep lasted for 120min
 
