@@ -25,7 +25,7 @@ collaboration:
 # I wish to submit the following methods as entirely my own (remove this if
 # you want to just submit classes):
 method:
-   - https://gitlab.cecs.anu.edu.au/u7760022/comp1110-ass2/-/blob/main/src/comp1110/ass2/Marrakech.java#L37-107
+   - https://gitlab.cecs.anu.edu.au/u7760022/comp1110-ass2/-/blob/74367c1ef5cfabba789d4e99bca1ff2776b46e28/src/comp1110/ass2/Board.java#L14-L59
 
 # sign *your* name and uid here
 name: Xinyang Li
