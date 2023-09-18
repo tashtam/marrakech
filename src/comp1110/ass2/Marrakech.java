@@ -115,12 +115,12 @@ public class Marrakech {
         //  Checking if anyone has more than 0 rugs
         boolean everyPlayerHas0Rug = true;
         for (Player player : this.players) {
-            if (player.out == false && player.remainingRugNumber > 0) {
+            if (!player.out && player.remainingRugNumber > 0) {
                 everyPlayerHas0Rug = false;
                 break;
             }
         }
-        if (everyPlayerHas0Rug == true) return true;
+        if (everyPlayerHas0Rug) return true;
 
         //   Second condition to check
         //   Checking if there is only one player left (the winner)
