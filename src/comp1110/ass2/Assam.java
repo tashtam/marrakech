@@ -15,8 +15,13 @@ public class Assam {
 
     public IntPair getPosition() { return position; }
 
-    public Assam(String assamString) { //Creating the Assam object using the assamString; constructor of a java class
-        char d = assamString.charAt(3);
+    public Assam(String assamString) {
+        //Creating the Assam object (as in an object of the complete program) using the assamString (as an argument); constructor of a java class
+        //Assam is a complete class (It is its own class)
+        //But when considering the whole program, Assam is the object of the complete program
+        //String assamString is the value that has been passed to the Assam class
+        //In other words, assamString has become an argument of the public Assam class
+        char d = assamString.charAt(3); //d is the 4th character of the string
         if (d == 'N') this.degree = 0;
         else if (d == 'E') this.degree = 90;
         else if (d == 'S') this.degree = 180;
@@ -30,7 +35,14 @@ public class Assam {
     }
 
     public String toString() { //Creating the assamString using the Assam Object
-        // [Instance method (Returning string using the information of this instance)
+        // toString() is an instance method (Returning string using the information of this instance)
+        // This is an instance method. We wanted this method to happen, but in order for us to have a method,
+        // the method must belong to an object.
+        // In other words, we have to create an object first before we create a method.
+        //This is why we need the previous code snippet to create the Assam object.
+        // In reality, we just need this method, but in order to create this method, the previous part
+        // (The step of creating the object) is necessary.
+        // Also, this is an instance method, to account for all the different times Assam has to turn.
         String assamString = "A" + this.position.x + this.position.y;
         if (this.degree == 0) assamString += "N";
         else if (this.degree == 90) assamString += "E";
