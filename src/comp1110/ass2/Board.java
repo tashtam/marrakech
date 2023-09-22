@@ -9,7 +9,9 @@ public class Board {
 
     Tile[] tiles;
 
-    public Tile[] getTiles() { return tiles; }
+    public Tile[] getTiles() {
+        return tiles;
+    }
 
     public Board(String boardString) {
         int n = this.WIDTH * this.HEIGHT;
@@ -96,9 +98,6 @@ public class Board {
             if (tile.rug == null) continue;
             if (tile.rug.id == rug.id && tile.rug.color == rug.color) return false;
         }
-
         return true;
     }
-
-
 }
