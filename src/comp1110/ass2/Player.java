@@ -52,7 +52,7 @@ public class Player {
      * @param other the player receiving payment from the current player
      * @param coins the amount of coins to be paid
      */
-    void payTo(Player other, int coins) {
-    }
+//    void payTo(Player other, int coins) {
+//    }
 }
 
