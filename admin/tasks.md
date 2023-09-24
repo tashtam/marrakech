@@ -62,7 +62,15 @@ Jiangbei Zhang: complete task 11, fix bug in task 3
 
 Tashia Tamara: complete task 8, 9
 
-## Week 7
+## Week 7 (Stage D)
+
+- meeting 3:00PM Fri 22 Sep lasted for 120min
+
+Everyone: finish JUnit Test
+
+- meeting 6:00PM Sun 24 Sep lasted for 30min
+
+Everyone: finish test plan
 
 ## Week 8
 
