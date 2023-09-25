@@ -11,11 +11,12 @@ public class Assam {
     int degree;
     IntPair position;
 
-    public int getDegree() { return degree; }
+    Assam() {
+        this.degree = 0;
+        this.position = new IntPair(3, 3);
+    }
 
-    public IntPair getPosition() { return position; }
-
-    public Assam(String assamString) {
+    Assam(String assamString) {
         //Creating the Assam object (as in an object of the complete program) using the assamString (as an argument); constructor of a java class
         //Assam is a complete class (It is its own class)
         //But when considering the whole program, Assam is the object of the complete program

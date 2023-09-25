@@ -1,21 +1,31 @@
 package comp1110.ass2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    public final int WIDTH = 7;
-    public final int HEIGHT = 7;
+    final int WIDTH = 7;
+    final int HEIGHT = 7;
 
     Tile[] tiles;
+    ArrayList<Rug> rugs;
 
-    public Tile[] getTiles() {
-        return tiles;
-    }
-
-    public Board(String boardString) {
+    Board() {
         int n = this.WIDTH * this.HEIGHT;
         this.tiles = new Tile[n];
+        this.rugs = new ArrayList<Rug>();
+        for (int k = 0; k < n; k++) {
+            int x = k / this.HEIGHT;
+            int y = k % this.HEIGHT;
+            this.tiles[k] = new Tile(x, y);
+        }
+    }
+
+    Board(String boardString) {
+        int n = this.WIDTH * this.HEIGHT;
+        this.tiles = new Tile[n];
+        this.rugs = new ArrayList<Rug>();
 
         // key: color + id
         // value: positions
@@ -51,6 +61,7 @@ public class Board {
             // get rug string
             String rugString = key + value;
             Rug rug = new Rug(rugString);
+            rugs.add(rug);
 
             // place rug on tiles
             for (IntPair position : rug.positions) {
@@ -99,5 +110,18 @@ public class Board {
             if (tile.rug.id == rug.id && tile.rug.color == rug.color) return false;
         }
         return true;
+    }
+
+    /**
+     * place a rug (before call this method please ensure that the placement is reasonable)
+     *
+     * @param rug the given rug
+     */
+    void makePlacement(Rug rug) {
+        for (IntPair pos : rug.positions) {
+            var tile = this.getTile(pos);
+            if (tile.rug != null) tile.rug.clearPosition(pos);
+            tile.rug = rug;
+        }
     }
 }

@@ -17,21 +17,14 @@ public class Player {
     int remainingRugNumber;
     boolean out;
 
-    public int getCoins() {
-        return coins;
+    Player(char color) {
+        this.color = color;
+        this.coins = 30;
+        this.remainingRugNumber = 15;
+        this.out = false;
     }
 
-    public char getColor() {
-        return color;
-    }
-
-    public int getRemainingRugNumber() {
-        return remainingRugNumber;
-    }
-
-    public boolean isOut() { return out; }
-
-    public Player(String playerString) {
+    Player(String playerString) {
         this.color = playerString.charAt(1);
         this.coins = Integer.parseInt(playerString, 2, 5, 10);
         this.remainingRugNumber = Integer.parseInt(playerString, 5, 7, 10);
@@ -52,7 +45,7 @@ public class Player {
      * @param other the player receiving payment from the current player
      * @param coins the amount of coins to be paid
      */
-//    void payTo(Player other, int coins) {
-//    }
+    void payTo(Player other, int coins) {
+    }
 }
 

@@ -10,15 +10,7 @@ public class Tile {
     IntPair position;
     Rug rug = null;
 
-    public IntPair getPosition() {
-        return position;
-    }
-
-    public Rug getRug() {
-        return rug;
-    }
-
-    public Tile(int x, int y) {
+    Tile(int x, int y) {
         this.position = new IntPair(x, y);
     }
 

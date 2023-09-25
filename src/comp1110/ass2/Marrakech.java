@@ -11,10 +11,12 @@ public class Marrakech {
      * x corresponds to the tile row, working top to bottom, and
      * y corresponds to the tile row, working left to right.
      */
-    public final int OFFSET_X = 100;
-    public final int OFFSET_Y = 50;
-    public final int TILE_SIZE = 70;
-    public final int TILE_GAP = 10;
+    final int OFFSET_X = 100;
+    final int OFFSET_Y = 50;
+    final int TILE_SIZE = 70;
+    final int TILE_GAP = 6;
+
+    int phase = 0;
 
     Board board;
 
@@ -32,22 +34,6 @@ public class Marrakech {
      * the assam character which every player control in turn
      */
     Assam assam;
-
-    public Assam getAssam() {
-        return assam;
-    }
-
-    public Player[] getPlayers() {
-        return players;
-    }
-
-    public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
 
     /**
      * get player by its color
@@ -69,11 +55,22 @@ public class Marrakech {
      * @return JavaFx.Color
      */
     public Color getJavaFxColor(char color) {
-        if (color == 'y') return Color.web("#CCCC00");
-        if (color == 'c') return Color.web("#00CCCC");
+        if (color == 'y') return Color.web("#ffd700");
+        if (color == 'c') return Color.web("#00cccc");
         if (color == 'r') return Color.RED;
         if (color == 'p') return Color.MEDIUMPURPLE;
         return Color.LIGHTGRAY;
+    }
+
+    public Marrakech(int playerAmount) {
+        // current player index
+        this.currentPlayerIndex = 0;
+        int n = playerAmount;
+        this.players = new Player[n];
+        var colors = "cypr";
+        for (int k = 0; k < n; k++) this.players[k] = new Player(colors.charAt(k));
+        this.assam = new Assam();
+        this.board = new Board();
     }
 
     public Marrakech(String gameString) {
@@ -181,14 +178,6 @@ public class Marrakech {
     }
 
     /**
-     * place a rug (before call this method please ensure that the placement is reasonable)
-     *
-     * @param rug the given rug
-     */
-    void makePlacement(Rug rug) {
-    }
-
-    /**
      * check if the tile where player stayed has other's rug
      *
      * @return if the current player need to pay
@@ -197,7 +186,7 @@ public class Marrakech {
         return true;
     }
 
-    public void calculateColoredTiles(
+    void calculateColoredTiles(
             IntPair presentPosition,
             ArrayList<Tile> connectedTiles,
             ArrayList<Tile> visitedTiles,
@@ -223,7 +212,7 @@ public class Marrakech {
             visitedTiles.add(adjacentTile);
 
             // create a new object adjacentRug
-            Rug adjacentRug = adjacentTile.getRug();
+            Rug adjacentRug = adjacentTile.rug;
             if (adjacentRug != null && adjacentRug.color == tileColor && !connectedTiles.contains(adjacentTile)) {
                 // add new
                 connectedTiles.add(adjacentTile);
@@ -298,7 +287,7 @@ public class Marrakech {
     }
 
 
-    public void turnNext() {
+    void turnNext() {
         this.currentPlayerIndex += 1;
         this.currentPlayerIndex %= this.players.length;
     }

@@ -13,18 +13,16 @@ public class IntPair {
      */
     int y;
 
-    public int getX() { return x; }
-
-    public int getY() {
-        return y;
-    }
-
-    public IntPair(int x, int y) {
+    IntPair(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public String toString(){
+    public String toString() {
         return "(" + this.x + "," + this.y + ")";
+    }
+
+    public boolean equals(IntPair pos) {
+        return this.x == pos.x && this.y == pos.y;
     }
 }
