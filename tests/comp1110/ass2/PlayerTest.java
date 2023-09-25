@@ -34,9 +34,9 @@ class PlayerTest {
             Player player1 = new Player(s.toString());//initiate player
 
             try {
-                assertEquals(realColor, player1.getColor(), "Color does not match");
-                assertEquals(coins, player1.getCoins(), "Coins do not match");
-                assertEquals(remainRugs, player1.getRemainingRugNumber(), "Remaining rugs do not match");
+                assertEquals(realColor, player1.color, "Color does not match");
+                assertEquals(coins, player1.coins, "Coins do not match");
+                assertEquals(remainRugs, player1.remainingRugNumber, "Remaining rugs do not match");
 
                 assertEquals(player1.out, isOut, "Expected player to not be out");
             } catch (AssertionError e) {
