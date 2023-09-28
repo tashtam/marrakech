@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RugTest {
     @Test
     void testRug(){
-        for (int i = 0; i < 201; i ++) {
+        for (int i = 0; i < 200; i ++) {
             //Added loop to run the test 200 times to decrease the chances of edge cases/issues happening
         var rand = new Random();
 
