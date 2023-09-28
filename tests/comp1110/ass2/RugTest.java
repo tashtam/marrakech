@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class RugTest {
     @Test
     void testRug(){
+        for (int i = 0; i < 201; i ++) {
+            //Added loop to run the test 200 times to decrease the chances of edge cases/issues happening
         var rand = new Random();
 
         var colors = "cypr";
@@ -44,4 +46,5 @@ class RugTest {
 
 }
 
-//Add loop for 200 times to increase the chances of edge cases
+}
+
