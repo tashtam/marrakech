@@ -74,7 +74,7 @@ public class Marrakech {
     }
 
     public Marrakech(String gameString) {
-        System.out.println(gameString);
+//        System.out.println(gameString);
 
         // current player index
         this.currentPlayerIndex = 0;
@@ -168,13 +168,15 @@ public class Marrakech {
         if (rug1 == null || rug2 == null) return true;
 
         // must not be the same rug
-        if (rug1 == rug2) {
-            // except: the owner is out
-            Player pl = this.getPlayer(rug1.color);
-            return pl.out;
-        }
+        return rug1 != rug2;
 
-        return true;
+//        if (rug1 == rug2) {
+//            // except: the owner is out
+//            Player pl = this.getPlayer(rug1.color);
+//            return pl.out;
+//        }
+//
+//        return true;
     }
 
     /**
@@ -413,6 +415,7 @@ public class Marrakech {
      */
     public static boolean isPlacementValid(String gameState, String rug) {
         // FIXME: Task 10
+//        System.out.println(gameState + " " + rug);
         Marrakech game = new Marrakech(gameState);
         Rug rug1 = new Rug(rug);
         for (int i = 0; i < game.players.length; i++) {
