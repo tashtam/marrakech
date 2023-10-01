@@ -170,13 +170,6 @@ public class Marrakech {
         // must not be the same rug
         return rug1 != rug2;
 
-//        if (rug1 == rug2) {
-//            // except: the owner is out
-//            Player pl = this.getPlayer(rug1.color);
-//            return pl.out;
-//        }
-//
-//        return true;
     }
 
     /**
