@@ -8,15 +8,15 @@ package comp1110.ass2;
  */
 public class Assam {
 
-    int degree;
-    IntPair position;
+    public int degree;
+    public IntPair position;
 
-    Assam() {
+    public Assam() {
         this.degree = 0;
         this.position = new IntPair(3, 3);
     }
 
-    Assam(String assamString) {
+    public Assam(String assamString) {
         //Creating the Assam object (as in an object of the complete program) using the assamString (as an argument); constructor of a java class
         //Assam is a complete class (It is its own class)
         //But when considering the whole program, Assam is the object of the complete program
@@ -60,7 +60,7 @@ public class Assam {
      *               270 (rotate anticlockwise for 90 degree)
      *               0 not rotate
      */
-    void rotate(int degree) {
+    public void rotate(int degree) {
         if (degree == 90 || degree == 270) {
             this.degree = (this.degree + degree) % 360;
         }
@@ -72,6 +72,6 @@ public class Assam {
      * @param dieResult a random int number stands for die result from a set{1,2,2,3,3,4}
      *                  each element of the set has the same probability
      */
-    void move(int dieResult) {
+    public void move(int dieResult) {
     }
 }

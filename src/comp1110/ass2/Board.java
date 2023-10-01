@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    final int WIDTH = 7;
-    final int HEIGHT = 7;
+    public final int WIDTH = 7;
+    public final int HEIGHT = 7;
 
-    Tile[] tiles;
-    ArrayList<Rug> rugs;
+    public Tile[] tiles;
+    public ArrayList<Rug> rugs;
 
-    Board() {
+    public Board() {
         int n = this.WIDTH * this.HEIGHT;
         this.tiles = new Tile[n];
         this.rugs = new ArrayList<Rug>();
@@ -22,7 +22,7 @@ public class Board {
         }
     }
 
-    Board(String boardString) {
+    public Board(String boardString) {
         int n = this.WIDTH * this.HEIGHT;
         this.tiles = new Tile[n];
         this.rugs = new ArrayList<Rug>();
@@ -75,12 +75,12 @@ public class Board {
      * @param pos the give position
      * @return the tile at this position
      */
-    Tile getTile(IntPair pos) {
+    public Tile getTile(IntPair pos) {
         if (pos.x < 0 || pos.x >= this.WIDTH || pos.y < 0 || pos.y >= this.HEIGHT) return null;
         return this.tiles[pos.x * this.HEIGHT + pos.y];
     }
 
-    int getPlayerRugTilesAmount(Player player) {
+    public int getPlayerRugTilesAmount(Player player) {
         if (player.out) return 0;
         int n = 0;
         for (Tile tile : this.tiles) {
@@ -94,7 +94,7 @@ public class Board {
      * @param rug the given rug
      * @return if the rug is valid to put on the board
      */
-    boolean isRugValid(Rug rug) {
+    public boolean isRugValid(Rug rug) {
         // rug color is invalid
         if ("cyrp".indexOf(rug.color) < 0) return false;
 
@@ -117,7 +117,7 @@ public class Board {
      *
      * @param rug the given rug
      */
-    void makePlacement(Rug rug) {
+    public void makePlacement(Rug rug) {
         for (IntPair pos : rug.positions) {
             var tile = this.getTile(pos);
             if (tile.rug != null) tile.rug.clearPosition(pos);

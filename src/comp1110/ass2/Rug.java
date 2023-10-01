@@ -8,11 +8,11 @@ package comp1110.ass2;
  * parameter positions: IntPair array type which used to store positions of two pieces of Rug
  */
 public class Rug {
-    char color;
-    int id;
-    IntPair[] positions; // 2 denotes the length of the array
+    public char color;
+    public int id;
+    public IntPair[] positions; // 2 denotes the length of the array
 
-    Rug(String rugString) { //RugString has 7 chars in total
+    public Rug(String rugString) { //RugString has 7 chars in total
         this.color = rugString.charAt(0); // First char (index: 0)
         this.id = Integer.parseInt(rugString.substring(1, 3));
         //The line above denotes the second (index: 1) and third (index: 2) chars
@@ -29,7 +29,7 @@ public class Rug {
         }
     }
 
-    void clearPosition(IntPair position) {
+    public void clearPosition(IntPair position) {
         if (this.positions[0].equals(position)) this.positions[0] = this.positions[1];
         this.positions[1] = null;
     }

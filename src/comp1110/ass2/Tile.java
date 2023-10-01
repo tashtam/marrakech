@@ -7,10 +7,10 @@ package comp1110.ass2;
  * parameter rug stands for which rug is on this tile
  */
 public class Tile {
-    IntPair position;
-    Rug rug = null;
+    public IntPair position;
+    public Rug rug = null;
 
-    Tile(int x, int y) {
+    public Tile(int x, int y) {
         this.position = new IntPair(x, y);
     }
 
@@ -19,7 +19,7 @@ public class Tile {
      * @return ture if this player need to pay money;
      * false if this player doesn't need to pay
      */
-    boolean isNeedToPay(Player player) {
+    public boolean isNeedToPay(Player player) {
         return true;
     }
 }

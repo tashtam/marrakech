@@ -12,19 +12,19 @@ package comp1110.ass2;
  * Each player has the method payTo.
  */
 public class Player {
-    char color;
-    int coins;
-    int remainingRugNumber;
-    boolean out;
+    public char color;
+    public int coins;
+    public int remainingRugNumber;
+    public boolean out;
 
-    Player(char color) {
+    public Player(char color) {
         this.color = color;
         this.coins = 30;
         this.remainingRugNumber = 15;
         this.out = false;
     }
 
-    Player(String playerString) {
+    public Player(String playerString) {
         this.color = playerString.charAt(1);
         this.coins = Integer.parseInt(playerString, 2, 5, 10);
         this.remainingRugNumber = Integer.parseInt(playerString, 5, 7, 10);
@@ -45,7 +45,7 @@ public class Player {
      * @param other the player receiving payment from the current player
      * @param coins the amount of coins to be paid
      */
-    void payTo(Player other, int coins) {
+    public void payTo(Player other, int coins) {
     }
 }
 
