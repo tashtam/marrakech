@@ -80,22 +80,21 @@ public class GameCtrl {
 
     void _displayBoard() {
         for (Tile tile : game.board.tiles) {
-            var rug = tile.rug;
-            int x, y;
 
             Rectangle r1;
-            if (rug.positions[1] != null) {
-                int w = game.TILE_SIZE;
-                int h = game.TILE_SIZE;
-                if (rug.positions[0].x != rug.positions[1].x) w = game.TILE_SIZE * 2 + game.TILE_GAP;
-                if (rug.positions[0].y != rug.positions[1].y) h = game.TILE_SIZE * 2 + game.TILE_GAP;
-                r1 = new Rectangle(w, h);
-                x = Math.min(rug.positions[0].x, rug.positions[1].x);
-                y = Math.min(rug.positions[0].y, rug.positions[1].y);
-            } else {
-                x = rug.positions[0].x;
-                y = rug.positions[0].y;
-                r1 = new Rectangle(game.TILE_SIZE, game.TILE_SIZE);
+            r1 = new Rectangle(game.TILE_SIZE, game.TILE_SIZE);
+
+            var rug = tile.rug;
+            if (rug == null) {
+                r1.setFill(game.getJavaFxColor(' '));
+                r1.setArcWidth(10);
+                r1.setArcHeight(10);
+                int layoutX = game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * tile.position.x;
+                int layoutY = game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * tile.position.y;
+                r1.setLayoutX(layoutX);
+                r1.setLayoutY(layoutY);
+                this.root.getChildren().add(r1);
+                continue;
             }
 
             char color = rug.color;
@@ -108,8 +107,8 @@ public class GameCtrl {
             text.setFont(this.font);
             text.setText(String.format("%02d", rug.id));
 
-            int layoutX = game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * x;
-            int layoutY = game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * y;
+            int layoutX = game.OFFSET_X + (game.TILE_SIZE + game.TILE_GAP) * tile.position.x;
+            int layoutY = game.OFFSET_Y + (game.TILE_SIZE + game.TILE_GAP) * tile.position.y;
             r1.setLayoutX(layoutX);
             r1.setLayoutY(layoutY);
             text.setLayoutX(layoutX + game.TILE_SIZE / 2 + 10);
@@ -266,7 +265,7 @@ public class GameCtrl {
     }
 
     public void display() {
-        this.displayBoard();
+        this._displayBoard();
         this.displayAssam();
         this.displayInfo();
     }
