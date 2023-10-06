@@ -9,10 +9,12 @@ package comp1110.ass2;
 public class Assam {
 
     public int degree;
+    public int oldDegree;
     public IntPair position;
 
     public Assam() {
         this.degree = 0;
+        this.oldDegree = 0;
         this.position = new IntPair(3, 3);
     }
 
@@ -64,6 +66,16 @@ public class Assam {
         if (degree == 90 || degree == 270) {
             this.degree = (this.degree + degree) % 360;
         }
+    }
+
+    public boolean confirmDegree() {
+        var diff = (oldDegree - degree + 360) % 360;
+        System.out.println(oldDegree + " " + degree + " " + diff);
+        if (diff == 0 || diff == 90 || diff == 270) {
+            oldDegree = degree;
+            return true;
+        }
+        return false;
     }
 
     /**

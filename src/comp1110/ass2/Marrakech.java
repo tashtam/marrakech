@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import java.util.*;
 
 public class Marrakech {
-    int phase = 0;
+    public int phase = 0;
 
     public Board board;
 
@@ -257,7 +257,7 @@ public class Marrakech {
     }
 
 
-    void turnNext() {
+    public void turnNext() {
         this.currentPlayerIndex += 1;
         this.currentPlayerIndex %= this.players.length;
     }

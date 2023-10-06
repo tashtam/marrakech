@@ -76,7 +76,7 @@ public class Board {
      * @return the tile at this position
      */
     public Tile getTile(IntPair pos) {
-        if (pos.x < 0 || pos.x >= this.WIDTH || pos.y < 0 || pos.y >= this.HEIGHT) return null;
+        if (pos == null || pos.x < 0 || pos.x >= this.WIDTH || pos.y < 0 || pos.y >= this.HEIGHT) return null;
         return this.tiles[pos.x * this.HEIGHT + pos.y];
     }
 

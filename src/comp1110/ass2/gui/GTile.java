@@ -7,24 +7,24 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class GTile extends Group {
+    GBoard gBoard;
     Tile tile;
     Rectangle rect;
     Text text;
+    boolean highlight = false;
 
-    GTile(Tile tile, int size) {
+    GTile(Tile tile, int size, GBoard gBoard) {
         this.tile = tile;
+        this.gBoard = gBoard;
 
         rect = new Rectangle(size, size);
         rect.setArcWidth(10);
         rect.setArcHeight(10);
-        rect.setStrokeWidth(0);
+        rect.setOnMouseEntered(event -> {
+            gBoard.setHighlight(tile.position);
+            gBoard.update();
+        });
         rect.setStroke(Color.GREEN);
-        rect.setOnMouseMoved(event -> {
-            rect.setStrokeWidth(2);
-        });
-        rect.setOnMouseExited(event -> {
-            rect.setStrokeWidth(0);
-        });
         this.getChildren().add(rect);
 
         text = new Text();
@@ -40,5 +40,6 @@ public class GTile extends Group {
         rect.setFill(javaFxColor);
         if (tile.rug == null) text.setText("");
         else text.setText(String.format("%02d", tile.rug.id));
+        rect.setStrokeWidth(highlight && gBoard.game.phase == 2 ? 2 : 0);
     }
 }
