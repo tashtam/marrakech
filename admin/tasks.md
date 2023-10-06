@@ -72,9 +72,17 @@ Everyone: finish JUnit Test
 
 Everyone: finish test plan
 
-## Week 8
+## Week 8 (Stage E)
 
-## Week 9
+- meeting 7:00PM Sun 1 Oct lasted for 120min
+
+Everyone: code review, build game.jar
+
+## Week 9 (Stage F)
+
+- meeting 4:00PM Fri 6 Oct
+
+
 
 ## Week 10
 
