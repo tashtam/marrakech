@@ -96,8 +96,7 @@ public class Board {
      */
     public boolean isRugValid(Rug rug) {
         // rug color is invalid
-        if ("cyrp".indexOf(rug.color) < 0) return false;
-
+        if ("cyrp".indexOf(rug.color) < 0)return false;
         // rug position is invalid
         for (IntPair position : rug.positions)
             if (position.x < 0 || position.x >= this.WIDTH ||

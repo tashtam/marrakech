@@ -85,5 +85,29 @@ public class Assam {
      *                  each element of the set has the same probability
      */
     public void move(int dieResult) {
+        if (this.degree==0){
+            if (this.position.y-dieResult<0){
+
+            }
+            else this.position.y=this.position.y-dieResult;
+        }
+        else if (this.degree==90){
+            if (this.position.x+dieResult>6){
+
+            }
+            else this.position.x=this.position.x+dieResult;
+        }
+        else if (this.degree==180){
+            if (this.position.y+dieResult>6){
+
+            }
+            else this.position.y=this.position.y+dieResult;
+        }
+        else if (this.degree==270){
+            if (this.position.x-dieResult<6){
+
+            }
+            else this.position.x=this.position.x-dieResult;
+        }
     }
 }
