@@ -1,6 +1,6 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.GameCtrl;
+import comp1110.ass2.Marrakech;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -11,13 +11,19 @@ public class Game extends Application {
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 700;
 
+    Marrakech game;
+    GMarrakech gMarrakech;
+
     @Override
     public void start(Stage stage) throws Exception {
         // FIXME Task 7 and 15
         Scene scene = new Scene(this.root, WINDOW_WIDTH, WINDOW_HEIGHT);
-        GameCtrl game = new GameCtrl(root, scene);
-        game.setPlayerAmount(4);
-        game.display();
+
+        game = new Marrakech(4);
+        gMarrakech = new GMarrakech();
+        gMarrakech.resetGame(game);
+        root.getChildren().add(gMarrakech);
+
         stage.setScene(scene);
         stage.show();
     }

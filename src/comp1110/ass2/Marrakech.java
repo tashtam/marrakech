@@ -5,35 +5,24 @@ import javafx.scene.paint.Color;
 import java.util.*;
 
 public class Marrakech {
-    /**
-     * The matrix of tiles representing the board
-     * For tiles[x][y]:
-     * x corresponds to the tile row, working top to bottom, and
-     * y corresponds to the tile row, working left to right.
-     */
-    final int OFFSET_X = 100;
-    final int OFFSET_Y = 50;
-    final int TILE_SIZE = 70;
-    final int TILE_GAP = 6;
-
     int phase = 0;
 
-    Board board;
+    public Board board;
 
     /**
      * All players are here. its length is between 2 and 4.
      */
-    Player[] players;
+    public Player[] players;
 
     /**
      * the index indicating the current player
      */
-    int currentPlayerIndex;
+    public int currentPlayerIndex;
 
     /**
      * the assam character which every player control in turn
      */
-    Assam assam;
+    public Assam assam;
 
     /**
      * get player by its color

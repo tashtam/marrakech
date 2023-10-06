@@ -1,6 +1,6 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.GameCtrl;
+import comp1110.ass2.Marrakech;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +18,7 @@ public class Viewer extends Application {
     private final Group root = new Group();
     private final Group controls = new Group();
     private TextField boardTextField;
-    GameCtrl game = new GameCtrl(root);
+    GMarrakech gMarrakech = new GMarrakech();
 
     /**
      * Draw a placement in the window, removing any previously drawn placements
@@ -26,8 +26,8 @@ public class Viewer extends Application {
      * @param state an array of two strings, representing the current game state
      */
     void displayState(String state) {
-        game.setState(state);
-        game.display();
+        var game = new Marrakech(state);
+        gMarrakech.resetGame(game);
         // FIXME Task 5: implement the simple state viewer [DONE]
     }
 
@@ -57,9 +57,9 @@ public class Viewer extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Marrakech Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
+        root.getChildren().add(gMarrakech);
         root.getChildren().add(controls);
         makeControls();
-        this.displayState("Pc02702iPy05902iPp02702iPr00702iA25WBp12p23p23p11y05c21y04c07y18y18p11n00c21r17y02r18c25r02y21y21n00y11y24c25c04c04y20y20p19r24c23c23c14r15p14p24r24p22p22r22c20p14p24p16p16r05r22y22y22");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

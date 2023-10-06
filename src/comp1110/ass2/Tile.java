@@ -14,6 +14,11 @@ public class Tile {
         this.position = new IntPair(x, y);
     }
 
+    public char getColor() {
+        if (this.rug == null) return ' ';
+        return this.rug.color;
+    }
+
     /**
      * @param player the player who is playing now
      * @return ture if this player need to pay money;
