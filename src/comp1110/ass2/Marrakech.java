@@ -37,20 +37,6 @@ public class Marrakech {
         return null;
     }
 
-    /**
-     * get correlated javafx color object via the color char
-     *
-     * @param color
-     * @return JavaFx.Color
-     */
-    public Color getJavaFxColor(char color) {
-        if (color == 'y') return Color.web("#ffd700");
-        if (color == 'c') return Color.web("#00cccc");
-        if (color == 'r') return Color.RED;
-        if (color == 'p') return Color.MEDIUMPURPLE;
-        return Color.LIGHTGRAY;
-    }
-
     public Marrakech(int playerAmount) {
         // current player index
         this.currentPlayerIndex = 0;

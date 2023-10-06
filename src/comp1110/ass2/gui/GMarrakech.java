@@ -8,7 +8,7 @@ public class GMarrakech extends Group {
     GBoard gBoard;
     GPanel gPanel;
 
-    void resetGame(Marrakech game) {
+    GMarrakech(Marrakech game) {
         this.game = game;
 
         gBoard = new GBoard(game);
@@ -20,8 +20,6 @@ public class GMarrakech extends Group {
         gPanel.setLayoutX(600);
         gPanel.setLayoutY(20);
         this.getChildren().add(gPanel);
-
-        this.update();
     }
 
     void update() {

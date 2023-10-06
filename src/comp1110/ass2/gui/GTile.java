@@ -2,6 +2,7 @@ package comp1110.ass2.gui;
 
 import comp1110.ass2.Tile;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -16,6 +17,14 @@ public class GTile extends Group {
         rect = new Rectangle(size, size);
         rect.setArcWidth(10);
         rect.setArcHeight(10);
+        rect.setStrokeWidth(0);
+        rect.setStroke(Color.GREEN);
+        rect.setOnMouseMoved(event -> {
+            rect.setStrokeWidth(2);
+        });
+        rect.setOnMouseExited(event -> {
+            rect.setStrokeWidth(0);
+        });
         this.getChildren().add(rect);
 
         text = new Text();

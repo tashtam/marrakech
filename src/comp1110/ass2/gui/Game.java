@@ -20,8 +20,8 @@ public class Game extends Application {
         Scene scene = new Scene(this.root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         game = new Marrakech(4);
-        gMarrakech = new GMarrakech();
-        gMarrakech.resetGame(game);
+        gMarrakech = new GMarrakech(game);
+        gMarrakech.update();
         root.getChildren().add(gMarrakech);
 
         stage.setScene(scene);

@@ -18,7 +18,7 @@ public class Viewer extends Application {
     private final Group root = new Group();
     private final Group controls = new Group();
     private TextField boardTextField;
-    GMarrakech gMarrakech = new GMarrakech();
+    GMarrakech gMarrakech;
 
     /**
      * Draw a placement in the window, removing any previously drawn placements
@@ -26,8 +26,10 @@ public class Viewer extends Application {
      * @param state an array of two strings, representing the current game state
      */
     void displayState(String state) {
-        var game = new Marrakech(state);
-        gMarrakech.resetGame(game);
+        if (gMarrakech != null) root.getChildren().remove(gMarrakech);
+        gMarrakech = new GMarrakech(new Marrakech(state));
+        gMarrakech.update();
+        root.getChildren().add(gMarrakech);
         // FIXME Task 5: implement the simple state viewer [DONE]
     }
 
@@ -57,7 +59,6 @@ public class Viewer extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Marrakech Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
-        root.getChildren().add(gMarrakech);
         root.getChildren().add(controls);
         makeControls();
         primaryStage.setScene(scene);
