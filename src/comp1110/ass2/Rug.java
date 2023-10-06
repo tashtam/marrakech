@@ -29,8 +29,22 @@ public class Rug {
         }
     }
 
-    public void clearPosition(IntPair position) {
-        if (this.positions[0].equals(position)) this.positions[0] = this.positions[1];
-        this.positions[1] = null;
+    public boolean clearPosition(IntPair position) {
+        if (this.positions[0].equals(position)) {
+            this.positions[0] = this.positions[1];
+            this.positions[1] = null;
+            return true;
+        }
+        if (this.positions[1].equals(position)) {
+            this.positions[1] = null;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        if (this.positions[1] == null) return "" + this.color + this.positions[0].x + this.positions[0].y;
+        return "" + this.color + this.positions[0].x + this.positions[1].y + this.positions[1].x + this.positions[1].y;
     }
 }

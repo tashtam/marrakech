@@ -112,16 +112,14 @@ public class Board {
         return true;
     }
 
-    /**
-     * place a rug (before call this method please ensure that the placement is reasonable)
-     *
-     * @param rug the given rug
-     */
-    public void makePlacement(Rug rug) {
-        for (IntPair pos : rug.positions) {
-            var tile = this.getTile(pos);
-            if (tile.rug != null) tile.rug.clearPosition(pos);
-            tile.rug = rug;
+
+    @Override
+    public String toString() {
+        String s = "B";
+        for (Tile tile : this.tiles) {
+            if (tile.rug == null) s += "n00";
+            else s += String.format("%c%02d", tile.rug.color, tile.rug.id);
         }
+        return s;
     }
 }

@@ -18,6 +18,6 @@ public class GPlayerInfo extends Group {
     void update(Player currentPlayer) {
         text.setUnderline(this.player == currentPlayer);
         text.setFill(GUtils.getJavaFxColor(player.color));
-        text.setText(String.format("%c, coins %02d, rugs %02d, %b", player.color, player.coins, player.remainingRugNumber, player.out));
+        text.setText(String.format("%c, coins %03d, rugs %02d, %b", player.color, player.coins, player.remainingRugNumber, player.out));
     }
 }

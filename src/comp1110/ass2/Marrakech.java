@@ -133,10 +133,10 @@ public class Marrakech {
         // invalid rug
         if (!this.board.isRugValid(rug)) return false;
 
-        Player currentPlayer = this.players[this.currentPlayerIndex];
-
-        // must be the color of current player
-        if (currentPlayer.color != rug.color) return false;
+//        Player currentPlayer = this.players[this.currentPlayerIndex];
+//
+//        // must be the color of current player
+//        if (currentPlayer.color != rug.color) return false;
 
         IntPair p0 = this.assam.position;
         IntPair p1 = rug.positions[0];
@@ -470,27 +470,41 @@ public class Marrakech {
      * a turn. A rug may only be placed if it meets the conditions listed in the isPlacementValid task. If the rug
      * placement is valid, then you should return a new game string representing the board after the placement has
      * been completed. If the placement is invalid, then you should return the existing game unchanged.
-     * @author  Jiangbei Zhang
+     *
      * @param currentGame A String representation of the current state of the game.
      * @param rug         A String representation of the rug that is to be placed.
      * @return A new game string representing the game following the successful placement of this rug if it is valid,
      * or the input currentGame unchanged otherwise.
+     * @author Jiangbei Zhang
      */
     public static String makePlacement(String currentGame, String rug) {
-        Marrakech game=new Marrakech(currentGame);
-        Rug rugToBePlaced=new Rug(rug);
+        Marrakech game = new Marrakech(currentGame);
+        Rug rug1 = new Rug(rug);
         // IF this placement is valid then change the rug on the tile;
-        if(game.isPlacementValid(rugToBePlaced)){
-            game.board.tiles[rugToBePlaced.positions[0].x*7+rugToBePlaced.positions[0].y].rug=rugToBePlaced;
-            game.board.tiles[rugToBePlaced.positions[1].x*7+rugToBePlaced.positions[1].y].rug=rugToBePlaced;
-            System.out.println("placement happen");
-            return game.players.toString()+game.assam.toString()+game.board.toString();//generate a new board string
+        if (game.isPlacementValid(rug1)) {
+            game.makePlacement(rug1);
+            return game.toString();
         }
-        else {
-            System.out.println("no placement, invalid placement");
-            return currentGame;}
+        return currentGame;
 
         // FIXME: Task 14
+    }
 
+    public void makePlacement(Rug rug) {
+        for (IntPair pos : rug.positions) {
+            var tile = this.board.getTile(pos);
+            if (tile.rug != null) tile.rug.clearPosition(pos);
+            tile.rug = rug;
+        }
+        this.getPlayer(rug.color).remainingRugNumber -= 1;
+    }
+
+    @Override
+    public String toString() {
+        var s = "";
+        for (Player player : players) {
+            s += player.toString();
+        }
+        return s + assam.toString() + board.toString();
     }
 }
