@@ -383,15 +383,8 @@ public class Marrakech {
      */
     public static boolean isPlacementValid(String gameState, String rug) {
         // FIXME: Task 10
-//        System.out.println(gameState + " " + rug);
         Marrakech game = new Marrakech(gameState);
         Rug rug1 = new Rug(rug);
-        for (int i = 0; i < game.players.length; i++) {
-            if (game.players[i].color == rug1.color) {
-                game.currentPlayerIndex = i;
-                break;
-            }
-        }
         return game.isPlacementValid(rug1);
     }
 
