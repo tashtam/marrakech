@@ -85,7 +85,7 @@ public class Assam {
      *                  each element of the set has the same probability
      */
     public void move(int dieResult) {
-        int remainStep = 0;
+        int remainStep;
         this.oldDegree=this.degree;
         if (this.degree == 0) {
             if (this.position.y - dieResult < 0) {
