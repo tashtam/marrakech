@@ -83,81 +83,138 @@ public class Assam {
      *
      * @param dieResult a random int number stands for die result from a set{1,2,2,3,3,4}
      *                  each element of the set has the same probability
+     * @return
      */
     public void move(int dieResult) {
-        int remainStep;
-        this.oldDegree=this.degree;
-        if (this.degree == 0) {
-            if (this.position.y - dieResult < 0) {
-                remainStep = dieResult - this.position.y;
-                if (this.position.x == 0 || this.position.x == 2 | this.position.x == 4) {
-                    this.position.x += 1;//new x position
-                    this.position.y = remainStep - 1;//new y position
-                    this.degree=180;
+        for (int i = 1; i <= dieResult; i++) {
 
-                } else if (this.position.x == 1 || this.position.x == 3 | this.position.x == 5) {
-                    this.position.x -= 1;//new x position
-                    this.position.y = remainStep - 1;//new y position
-                    this.degree=180;
+            int[] positionAfterChecking = checkForMosaicTracks(this.position.x, this.position.y, this.degree);
 
-                } else {
-                    this.position.y = 0;//y=0 and rotate
-                    this.degree=270;
-                    this.position.x = 7 - remainStep;
-                }
-            } else this.position.y = this.position.y - dieResult;
-        } else if (this.degree == 90) {
-            if (this.position.x + dieResult > 6) {
-                remainStep = dieResult + this.position.x - 6;
-                if (this.position.y == 1 || this.position.y == 3 | this.position.y == 5) {
-                   this.position.y+=1;//new y
-                    this.position.x=7-remainStep;
-                    this.degree=270;
-                } else if (this.position.y == 2 || this.position.y == 4 | this.position.y == 6) {
-                    this.position.y-=1;
-                    this.position.x=7-remainStep;
-                    this.degree=270;
-                } else {
-                    this.position.x = 6;//y=0 and rotate
-                    this.rotate(90);
-                    this.position.y = remainStep-1;
-                    this.degree=180;
-                }
-            } else this.position.x = this.position.x + dieResult;
-        } else if (this.degree == 180) {
-            if (this.position.y + dieResult > 6) {
-                remainStep = dieResult + this.position.y - 6;
-                if(this.position.x==1||this.position.x==3||this.position.x==5){
-                    this.position.x+=1;this.position.y=7-remainStep;
-                    this.degree=0;}
-                else if (this.position.x==2||this.position.x==4||this.position.x==6) {this.degree=0;this.position.x-=1;this.position.y=7-remainStep;}
-                else {
-                    this.rotate(270);
-                    this.position.y=6;
-                    this.position.x=remainStep-1;
-                    this.degree=90;
-                }
-            } else this.position.y = this.position.y + dieResult;
-        } else if (this.degree == 270) {
-            if (this.position.x - dieResult < 0) {
-                remainStep =dieResult- this.position.x;
-                if (this.position.y==0||this.position.y==2||this.position.y==4){
-                    this.position.y+=1;
-                    this.position.x=remainStep-1;
-                    this.degree=90;
-                } else if (this.position.y==1||this.position.y==3||this.position.y==5) {
-                    this.position.y-=1;
-                    this.position.x=remainStep-1;
-                    this.degree=90;
-                }
-                else{
-                    this.rotate(90);
-                    this.degree=0;
-                    this.position.x=0;
-                    this.position.y=7-remainStep;
-                }
-            } else this.position.x = this.position.x - dieResult;
-        }
+            this.position.x = positionAfterChecking[0];
+            this.position.y = positionAfterChecking[1];
+            this.degree = positionAfterChecking[2];
+
+             /*Checking the flag value.
+            If it is 1, it means that the current step has been used by checkForMosaicTracks.
+            In other words, Assam stepped on a mosaic track.
+            In this case, the code will skip the rest of the code ("continue") and proceed to the next iteration.
+            If it is 0, it means that Assam did not step on a mosaic track and the code to move Assam will still run.
+             */
+
+            if (positionAfterChecking[3] == 1) continue;
+
+            if(this.degree == 0) {this.position.y -= 1;}
+            if(this.degree == 90) {this.position.x += 1;}
+            if(this.degree == 180) {this.position.y += 1;}
+            if(this.degree == 270) {this.position.x -= 1;}
+            }
 
     }
+
+    public static int [] checkForMosaicTracks (int posX, int posY , int degree) {
+
+        int flag = 0;
+
+        //Special corner mosaic tracks
+        //Top right corner mosaic track, when Assam is facing North
+        if (posX == 6 && posY == 0 && degree == 0) {
+            degree = 270;
+            flag = 1;
+            System.out.println(1);
+            }
+
+        //Top right corner mosaic track, when Assam is facing East
+        if (posX == 6 && posY == 0 && degree == 90) {
+            degree = 180;
+            flag = 1;
+            System.out.println(2);
+            }
+
+        //Bottom left corner mosaic track, when Assam is facing West
+        if (posX == 0 && posY == 6 && degree == 270) {
+            degree = 0;
+            flag = 1;
+            System.out.println(3);
+        }
+
+        //Bottom left corner mosaic track, when Assam is facing South
+        if (posX == 0 && posY == 6 && degree == 180) {
+            degree = 90;
+            flag = 1;
+            System.out.println(4);
+        }
+
+        //Bottom edge mosaic tracks (start from the right)
+        if ((posX == 6 || posX == 4 || posX == 2) && posY == 6 && degree == 180) {
+            posX -= 1;
+            degree = 0;
+            flag = 1;
+            System.out.println(5);
+        }
+
+        //Bottom edge mosaic tracks (start from the left)
+        if ((posX == 1 || posX == 3 || posX == 5) && posY == 6 && degree == 180) {
+            posX += 1;
+            degree = 0;
+            flag = 1;
+            System.out.println(6);
+        }
+
+        //Right edge mosaic tracks (start from the top)
+        if (posX == 6 && (posY == 1 || posY == 3 || posY == 5) && degree == 90) {
+            posY += 1;
+            degree = 270;
+            flag = 1;
+            System.out.println(7);
+        }
+
+        //Right edge mosaic tracks (start from the bottom)
+        if (posX == 6 && (posY == 6 || posY == 4 || posY == 2) && degree == 90) {
+            posY -= 1;
+            degree = 270;
+            flag = 1;
+            System.out.println(8);
+        }
+
+        //Left edge mosaic tracks (start from the top)
+        if (posX == 0 && (posY == 0 || posY == 2 || posY == 4) && degree == 270) {
+            posY += 1;
+            degree = 90;
+            flag = 1;
+            System.out.println(9);
+        }
+
+        //Left edge mosaic tracks (start from the bottom)
+        if (posX == 0 && (posY == 5 || posY == 3 || posY == 1) && degree == 270) {
+            posY -= 1;
+            degree = 90;
+            flag = 1;
+            System.out.println(10);
+        }
+
+        //Top edge mosaic tracks (start from the left)
+        if ((posX == 0 || posX == 2 || posX == 4) && posY == 0 && degree == 0) {
+            posX += 1;
+            degree = 180;
+            flag = 1;
+            System.out.println(11);
+        }
+
+        //Top edge mosaic tracks (start from the right)
+        if ((posX == 5 || posX == 3 || posX == 1) && posY == 0 && degree == 0) {
+            posX -= 1;
+            degree = 180;
+            flag = 1;
+            System.out.println(12);
+        }
+
+        //If Assam is not on a mosaic track, just return the original position.
+
+        int[] currentPosition = {posX, posY, degree, flag};
+
+        return currentPosition;
+    }
 }
+
+
+
