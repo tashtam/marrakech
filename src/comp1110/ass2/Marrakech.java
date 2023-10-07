@@ -441,8 +441,9 @@ public class Marrakech {
     public static String moveAssam(String currentAssam, int dieResult) {
         Assam assam=new Assam(currentAssam);
         assam.move(dieResult);
+
         // FIXME: Task 13
-        return "";
+        return assam.toString();
     }
 
     /**

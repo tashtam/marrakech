@@ -85,29 +85,79 @@ public class Assam {
      *                  each element of the set has the same probability
      */
     public void move(int dieResult) {
-        if (this.degree==0){
-            if (this.position.y-dieResult<0){
+        int remainStep = 0;
+        this.oldDegree=this.degree;
+        if (this.degree == 0) {
+            if (this.position.y - dieResult < 0) {
+                remainStep = dieResult - this.position.y;
+                if (this.position.x == 0 || this.position.x == 2 | this.position.x == 4) {
+                    this.position.x += 1;//new x position
+                    this.position.y = remainStep - 1;//new y position
+                    this.degree=180;
 
-            }
-            else this.position.y=this.position.y-dieResult;
-        }
-        else if (this.degree==90){
-            if (this.position.x+dieResult>6){
+                } else if (this.position.x == 1 || this.position.x == 3 | this.position.x == 5) {
+                    this.position.x -= 1;//new x position
+                    this.position.y = remainStep - 1;//new y position
+                    this.degree=180;
 
-            }
-            else this.position.x=this.position.x+dieResult;
+                } else {
+                    this.position.y = 0;//y=0 and rotate
+                    this.degree=270;
+                    this.position.x = 7 - remainStep;
+                }
+            } else this.position.y = this.position.y - dieResult;
+        } else if (this.degree == 90) {
+            if (this.position.x + dieResult > 6) {
+                remainStep = dieResult + this.position.x - 6;
+                if (this.position.y == 1 || this.position.y == 3 | this.position.y == 5) {
+                   this.position.y+=1;//new y
+                    this.position.x=7-remainStep;
+                    this.degree=270;
+                } else if (this.position.y == 2 || this.position.y == 4 | this.position.y == 6) {
+                    this.position.y-=1;
+                    this.position.x=7-remainStep;
+                    this.degree=270;
+                } else {
+                    this.position.x = 6;//y=0 and rotate
+                    this.rotate(90);
+                    this.position.y = remainStep-1;
+                    this.degree=180;
+                }
+            } else this.position.x = this.position.x + dieResult;
+        } else if (this.degree == 180) {
+            if (this.position.y + dieResult > 6) {
+                remainStep = dieResult + this.position.y - 6;
+                if(this.position.x==1||this.position.x==3||this.position.x==5){
+                    this.position.x+=1;this.position.y=7-remainStep;
+                    this.degree=0;}
+                else if (this.position.x==2||this.position.x==4||this.position.x==6) {this.degree=0;this.position.x-=1;this.position.y=7-remainStep;}
+                else {
+                    this.rotate(270);
+                    this.position.y=6;
+                    this.position.x=remainStep-1;
+                    this.degree=90;
+                }
+            } else this.position.y = this.position.y + dieResult;
+        } else if (this.degree == 270) {
+            if (this.position.x - dieResult < 0) {
+                remainStep =dieResult- this.position.x;
+                if (this.position.y==0||this.position.y==2||this.position.y==4){
+                    this.position.y+=1;
+                    this.position.x=remainStep-1;
+                    this.degree=90;
+                } else if (this.position.y==1||this.position.y==3||this.position.y==5) {
+                    this.position.y-=1;
+                    this.position.x=remainStep-1;
+                    this.degree=90;
+                }
+                else{
+                    this.rotate(90);
+                    this.degree=0;
+                    this.position.x=0;
+                    this.position.y=7-remainStep;
+                }
+            } else this.position.x = this.position.x - dieResult;
         }
-        else if (this.degree==180){
-            if (this.position.y+dieResult>6){
 
-            }
-            else this.position.y=this.position.y+dieResult;
-        }
-        else if (this.degree==270){
-            if (this.position.x-dieResult<6){
-
-            }
-            else this.position.x=this.position.x-dieResult;
-        }
     }
 }
