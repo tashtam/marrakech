@@ -49,7 +49,7 @@ public class GPlayer extends Group {
 
         mainRect.setArcHeight(10);
         mainRect.setArcWidth(10);
-        mainRect.setStrokeWidth(2);
+        mainRect.setStrokeWidth(5);
         mainRect.setFill(Color.WHITE);
 
         faceRect.setArcHeight(10);

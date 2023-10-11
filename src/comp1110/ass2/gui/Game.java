@@ -46,10 +46,17 @@ public class Game extends Application {
                 var player2 = game.getPlayer(color);
                 if (player2 != null && player2 != player) {
                     System.out.println("pay!");
-                    player.payTo(player2, game.getPaymentAmount());
+                    if (!player2.out) {
+                        player.payTo(player2, game.getPaymentAmount());
+                    }
                 }
                 gMarrakech.gBoard.update();
-                game.phase = 2;
+                if (player.out) {
+                    game.phase = 0;
+                    game.turnNext();
+                } else {
+                    game.phase = 2;
+                }
             } else if (game.phase == 2) {
                 System.out.println("phase 2 click");
                 var gTiles = gMarrakech.gBoard.getHighlightGTiles();
