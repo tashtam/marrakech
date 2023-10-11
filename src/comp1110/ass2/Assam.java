@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import java.util.Random;
+
 /**
  * this class defines Assam that players need to control,there are
  * two fields named: (direction, position) and two methods: (rotate, move)
@@ -93,6 +95,7 @@ public class Assam {
             this.position.x = positionAfterChecking[0];
             this.position.y = positionAfterChecking[1];
             this.degree = positionAfterChecking[2];
+            this.oldDegree = positionAfterChecking[2];
 
              /*Checking the flag value.
             If it is 1, it means that the current step has been used by checkForMosaicTracks.
