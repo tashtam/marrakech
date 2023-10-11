@@ -17,6 +17,7 @@ public class GMarrakech extends Group {
         this.getChildren().add(gBoard);
 
         gPanel = new GPanel(game);
+        gPanel.setPlayers();
         gPanel.setLayoutX(600);
         gPanel.setLayoutY(20);
         this.getChildren().add(gPanel);

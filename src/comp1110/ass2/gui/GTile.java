@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Marrakech;
 import comp1110.ass2.Tile;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -8,12 +9,14 @@ import javafx.scene.text.Text;
 
 public class GTile extends Group {
     GBoard gBoard;
+    Marrakech game;
     Tile tile;
     Rectangle rect;
     Text text;
     boolean highlight = false;
 
-    GTile(Tile tile, int size, GBoard gBoard) {
+    GTile(Marrakech game, Tile tile, int size, GBoard gBoard) {
+        this.game = game;
         this.tile = tile;
         this.gBoard = gBoard;
 
@@ -21,10 +24,11 @@ public class GTile extends Group {
         rect.setArcWidth(10);
         rect.setArcHeight(10);
         rect.setOnMouseEntered(event -> {
-            gBoard.setHighlight(tile.position);
-            gBoard.update();
+            if (game.phase == 2) {
+                gBoard.setHighlightPosition(tile.position);
+            }
         });
-        rect.setStroke(Color.GREEN);
+        rect.setStroke(Color.BLACK);
         this.getChildren().add(rect);
 
         text = new Text();
@@ -34,12 +38,17 @@ public class GTile extends Group {
         this.getChildren().add(text);
     }
 
+    void setHighlight(boolean value) {
+        highlight = value;
+        this.update();
+    }
+
     void update() {
         var color = tile.getColor();
         var javaFxColor = GUtils.getJavaFxColor(color);
         rect.setFill(javaFxColor);
         if (tile.rug == null) text.setText("");
         else text.setText(String.format("%02d", tile.rug.id));
-        rect.setStrokeWidth(highlight && gBoard.game.phase == 2 ? 2 : 0);
+        rect.setStrokeWidth(highlight && gBoard.game.phase == 2 ? 5 : 0);
     }
 }

@@ -12,6 +12,12 @@ public class Rug {
     public int id;
     public IntPair[] positions; // 2 denotes the length of the array
 
+    public Rug(char color, int id, IntPair[] positions) {
+        this.positions = positions;
+        this.color = color;
+        this.id = id;
+    }
+
     public Rug(String rugString) { //RugString has 7 chars in total
         this.color = rugString.charAt(0); // First char (index: 0)
         this.id = Integer.parseInt(rugString.substring(1, 3));

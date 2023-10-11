@@ -8,8 +8,8 @@ public class GBoard extends Group {
     final int TILE_SIZE = 70;
     final int TILE_GAP = 6;
 
-    int rugPlaceDegree = 0;
-    IntPair highlightPos;
+    IntPair highlightPosition;
+    int highlightDegree = 0;
 
     Marrakech game;
     GTile[] gTiles;
@@ -18,28 +18,26 @@ public class GBoard extends Group {
     GBoard(Marrakech game) {
         this.game = game;
 
-        int unit = TILE_SIZE + TILE_GAP;
-
         gTiles = new GTile[game.board.tiles.length];
         for (int i = 0; i < gTiles.length; i++) {
-            var gTile = new GTile(game.board.tiles[i], TILE_SIZE, this);
+            var gTile = new GTile(game, game.board.tiles[i], TILE_SIZE, this);
             int x = i / game.board.HEIGHT;
             int y = i % game.board.HEIGHT;
-            gTile.setLayoutX(x * unit);
-            gTile.setLayoutY(y * unit);
+            gTile.setLayoutX(x * (TILE_SIZE + TILE_GAP));
+            gTile.setLayoutY(y * (TILE_SIZE + TILE_GAP));
             gTiles[i] = gTile;
             this.getChildren().add(gTile);
         }
 
-        gAssam = new GAssam(game.assam, TILE_SIZE);
-        gAssam.setLayoutX(game.assam.position.x * unit);
-        gAssam.setLayoutY(game.assam.position.y * unit);
+        gAssam = new GAssam(game, game.assam, TILE_SIZE);
         this.getChildren().add(gAssam);
     }
 
     void update() {
         for (GTile gTile : gTiles) gTile.update();
-        gAssam.update(game.players[game.currentPlayerIndex]);
+        gAssam.setLayoutX(game.assam.position.x * (TILE_SIZE + TILE_GAP));
+        gAssam.setLayoutY(game.assam.position.y * (TILE_SIZE + TILE_GAP));
+        gAssam.update();
     }
 
     GTile getGTile(IntPair pos) {
@@ -48,41 +46,56 @@ public class GBoard extends Group {
         return gTiles[pos.x * game.board.HEIGHT + pos.y];
     }
 
-    IntPair[] getHighlightPoses(IntPair pos) {
-        var poses = new IntPair[2];
-        poses[0] = pos;
-        if (rugPlaceDegree == 0) {
-            poses[1] = new IntPair(pos.x, pos.y - 1);
-        } else if (rugPlaceDegree == 90) {
-            poses[1] = new IntPair(pos.x + 1, pos.y);
-        } else if (rugPlaceDegree == 180) {
-            poses[1] = new IntPair(pos.x, pos.y + 1);
+    GTile[] getHighlightGTiles() {
+        if (highlightPosition == null) return new GTile[0];
+
+        int dx, dy;
+        if (highlightDegree == 0) {
+            dx = 0;
+            dy = -1;
+        } else if (highlightDegree == 90) {
+            dx = 1;
+            dy = 0;
+        } else if (highlightDegree == 180) {
+            dx = 0;
+            dy = 1;
         } else {
-            poses[1] = new IntPair(pos.x - 1, pos.y);
+            dx = -1;
+            dy = 0;
         }
-        return poses;
+
+        var pos1 = highlightPosition;
+        var pos2 = new IntPair(highlightPosition.x + dx, highlightPosition.y + dy);
+
+        var gTile1 = this.getGTile(pos1);
+        var gTile2 = this.getGTile(pos2);
+
+        if (gTile2 == null) return new GTile[]{gTile1};
+        return new GTile[]{gTile1, gTile2};
     }
 
-    void _setHighlight(IntPair pos, boolean value) {
-        if (pos == null) return;
-        var hPoses = this.getHighlightPoses(pos);
-        for (IntPair hPos : hPoses) {
-            var gTile = this.getGTile(hPos);
-            if (gTile != null) {
-                gTile.highlight = value;
-            }
+    void setHighlightPosition(IntPair pos) {
+        for (GTile gTile : this.getHighlightGTiles()) {
+            gTile.setHighlight(false);
+        }
+        highlightPosition = pos;
+        for (GTile gTile : this.getHighlightGTiles()) {
+            gTile.setHighlight(true);
         }
     }
 
-    void setHighlight(IntPair pos) {
-        this._setHighlight(highlightPos, false);
-        highlightPos = pos;
-        this._setHighlight(highlightPos, true);
+    void rotateHighlightDegree(int degree) {
+        degree = (highlightDegree + degree) % 360;
+        this.setHighlightDegree(degree);
     }
 
-    void rotateRugPlaceDegree(int degree) {
-        this._setHighlight(highlightPos, false);
-        rugPlaceDegree = (rugPlaceDegree + degree) % 360;
-        this._setHighlight(highlightPos, true);
+    void setHighlightDegree(int degree) {
+        for (GTile gTile : this.getHighlightGTiles()) {
+            gTile.setHighlight(false);
+        }
+        highlightDegree = degree;
+        for (GTile gTile : this.getHighlightGTiles()) {
+            gTile.setHighlight(true);
+        }
     }
 }

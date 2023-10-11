@@ -30,7 +30,7 @@ public class Marrakech {
      * @param color
      * @return player
      */
-    Player getPlayer(char color) {
+    public Player getPlayer(char color) {
         for (Player player : this.players) {
             if (player.color == color) return player;
         }
@@ -81,31 +81,14 @@ public class Marrakech {
      *
      * @return if the game is over
      */
-    boolean isGameOver() {
-
-        //  First condition to check
+    public boolean isGameOver() {
         //  Checking if anyone has more than 0 rugs
-        boolean everyPlayerHas0Rug = true;
         for (Player player : this.players) {
             if (!player.out && player.remainingRugNumber > 0) {
-                everyPlayerHas0Rug = false;
-                break;
+                return false;
             }
         }
-        if (everyPlayerHas0Rug) return true;
-
-        //   Second condition to check
-        //   Checking if there is only one player left (the winner)
-//        int playerStillPlaying = 0;
-//        for (Player player : this.players) {
-//            if (player.out == false) {
-//                playerStillPlaying = playerStillPlaying + 1;
-//            }
-//        }
-//
-//        if(playerStillPlaying == 1) return true; //One player left (the winner)
-
-        return false; //More than one player still playing, AKA game is not over
+        return true;
     }
 
     /**
@@ -115,7 +98,7 @@ public class Marrakech {
      * @param rug the given rug
      * @return if the placement is valid
      */
-    boolean isPlacementValid(Rug rug) {
+    public boolean isPlacementValid(Rug rug) {
         // invalid rug
         if (!this.board.isRugValid(rug)) return false;
 
@@ -197,7 +180,7 @@ public class Marrakech {
      *
      * @return the payment amount
      */
-    int getPaymentAmount() {
+    public int getPaymentAmount() {
         var assamPos = this.assam.position;
         System.out.println(assamPos);
         var tile = this.board.getTile(assamPos);
@@ -220,6 +203,10 @@ public class Marrakech {
     }
 
 
+    public int getPlayerScore(Player player) {
+        return player.coins + board.getPlayerRugTilesAmount(player);
+    }
+
     /**
      * (before call this method please ensure that the game has ended)
      *
@@ -231,12 +218,12 @@ public class Marrakech {
         int max_score = 0;
 
         for (Player player : this.players) {
-            int score = player.coins + this.board.getPlayerRugTilesAmount(player);
+            int score = this.getPlayerScore(player);
             if (score > max_score) max_score = score;
         }
 
         for (Player player : this.players) {
-            int score = player.coins + this.board.getPlayerRugTilesAmount(player);
+            int score = this.getPlayerScore(player);
             if (score == max_score) players.add(player);
         }
 
@@ -258,8 +245,11 @@ public class Marrakech {
 
 
     public void turnNext() {
-        this.currentPlayerIndex += 1;
-        this.currentPlayerIndex %= this.players.length;
+        currentPlayerIndex += 1;
+        currentPlayerIndex %= players.length;
+        if(players[currentPlayerIndex].out){
+            this.turnNext();
+        }
     }
 
     /**
@@ -439,7 +429,7 @@ public class Marrakech {
      * @return A String representing Assam's state after the movement.
      */
     public static String moveAssam(String currentAssam, int dieResult) {
-        Assam assam=new Assam(currentAssam);
+        Assam assam = new Assam(currentAssam);
         assam.move(dieResult);
 
         // FIXME: Task 13

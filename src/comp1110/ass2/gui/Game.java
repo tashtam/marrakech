@@ -1,6 +1,8 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.IntPair;
 import comp1110.ass2.Marrakech;
+import comp1110.ass2.Rug;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -26,20 +28,43 @@ public class Game extends Application {
         root.getChildren().add(gMarrakech);
 
         scene.setOnMouseClicked(event -> {
-            var btn = event.getButton();
-            var ord = btn.ordinal();
-            if (ord == 1) {
-                if (game.phase == 0) {
-                    System.out.println(game.assam.confirmDegree());
-                    if (game.assam.confirmDegree()) game.phase = 1;
-                } else if (game.phase == 1) {
-                    game.phase = 2;
-                } else if (game.phase == 2) {
-                    game.phase = 0;
-                    game.turnNext();
+            if (game.phase == 0) {
+                if (game.isGameOver()) {
+                    game.phase = -1;
+                    return;
                 }
-            } else if (ord == 3) {
-
+                System.out.println("phase 0 click");
+                if (game.assam.confirmDegree()) {
+                    game.phase = 1;
+                }
+            } else if (game.phase == 1) {
+                System.out.println("phase 1 click");
+                var step = Marrakech.rollDie();
+                game.assam.move(step);
+                var player = game.players[game.currentPlayerIndex];
+                var color = game.board.getTile(game.assam.position).getColor();
+                var player2 = game.getPlayer(color);
+                if (player2 != null && player2 != player) {
+                    System.out.println("pay!");
+                    player.payTo(player2, game.getPaymentAmount());
+                }
+                gMarrakech.gBoard.update();
+                game.phase = 2;
+            } else if (game.phase == 2) {
+                System.out.println("phase 2 click");
+                var gTiles = gMarrakech.gBoard.getHighlightGTiles();
+                if (gTiles.length == 2) {
+                    var player = game.players[game.currentPlayerIndex];
+                    var positions = new IntPair[]{gTiles[0].tile.position, gTiles[1].tile.position};
+                    var rug = new Rug(player.color, 15 - player.remainingRugNumber, positions);
+                    if (game.isPlacementValid(rug)) {
+                        game.makePlacement(rug);
+                        game.phase = 0;
+                        game.turnNext();
+                    }
+                }
+            } else {
+                System.out.println("game over!!!");
             }
             gMarrakech.update();
         });
@@ -47,14 +72,11 @@ public class Game extends Application {
         scene.setOnScroll(event -> {
             if (game.phase == 0) {
                 game.assam.rotate(90);
+                gMarrakech.gBoard.update();
             } else if (game.phase == 2) {
-                gMarrakech.gBoard.rotateRugPlaceDegree(90);
+                gMarrakech.gBoard.rotateHighlightDegree(90);
             }
-            gMarrakech.update();
         });
-
-        // method 1: move the assam to the edge but not pass the edge
-        // method 2: assume assam is on the edge and he want to step forward, then you need return the next position he will be
 
         stage.setScene(scene);
         stage.show();
