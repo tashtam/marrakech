@@ -25,9 +25,11 @@ public class Viewer extends Application {
      */
     void displayState(String state) {
         if (gGame != null) root.getChildren().remove(gGame);
-        gGame = new GGame(new Game(state));
-        gGame.update();
+        gGame = new GGame(state);
+        gGame.game.phase = -1;
         root.getChildren().add(gGame);
+        root.getChildren().remove(controls);
+        root.getChildren().add(controls);
         // FIXME Task 5: implement the simple state viewer [DONE]
     }
 
@@ -59,6 +61,8 @@ public class Viewer extends Application {
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
         root.getChildren().add(controls);
         makeControls();
+        var state = "Pc03214iPy02814iPp03014iPr03015iA02WBn00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00y00c00p01n00n00n00n00y00c00p01n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00n00";
+        this.displayState(state);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
