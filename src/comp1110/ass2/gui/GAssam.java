@@ -1,8 +1,6 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Assam;
-import comp1110.ass2.Marrakech;
-import comp1110.ass2.Player;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -11,18 +9,22 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class GAssam extends Group {
-    Marrakech game;
+    static final int SIZE = 60;
+    GGame gGame;
     Assam assam;
     Rectangle rect;
     Circle circle;
+    static ImagePattern assamN = new ImagePattern(new Image("file:assets/game/assamN.png"));
+    static ImagePattern assamE = new ImagePattern(new Image("file:assets/game/assamE.png"));
+    static ImagePattern assamS = new ImagePattern(new Image("file:assets/game/assamS.png"));
+    static ImagePattern assamW = new ImagePattern(new Image("file:assets/game/assamW.png"));
 
-    GAssam(Marrakech game, Assam assam, int size) {
-        this.game = game;
+    GAssam(GGame gGame, Assam assam) {
+        this.gGame = gGame;
         this.assam = assam;
 
-        var imgPat = new ImagePattern(new Image("file:assets/game/assam.png"));
-        rect = new Rectangle(size - 10, size - 10);
-        rect.setFill(imgPat);
+        rect = new Rectangle(SIZE, SIZE);
+        rect.setFill(assamN);
         rect.setArcWidth(100);
         rect.setArcHeight(100);
         rect.setLayoutX(5);
@@ -30,7 +32,7 @@ public class GAssam extends Group {
         this.getChildren().add(rect);
 
         circle = new Circle();
-        circle.setCenterX(size - 12);
+        circle.setCenterX(SIZE - 2);
         circle.setCenterY(12);
         circle.setRadius(5);
         circle.setStrokeWidth(1);
@@ -39,8 +41,11 @@ public class GAssam extends Group {
     }
 
     void update() {
-        rect.setRotate(assam.degree + 90);
-        var player = game.players[game.currentPlayerIndex];
+        if (assam.degree == 0) rect.setFill(assamN);
+        else if (assam.degree == 90) rect.setFill(assamE);
+        else if (assam.degree == 180) rect.setFill(assamS);
+        else rect.setFill(assamW);
+        var player = gGame.game.getCurrentPlayer();
         var javaFxColor = GUtils.getJavaFxColor(player.color);
         circle.setFill(javaFxColor);
     }

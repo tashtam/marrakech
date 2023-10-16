@@ -5,27 +5,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    public final int WIDTH = 7;
-    public final int HEIGHT = 7;
+    public static final int RowMax = 7;
+    public static final int ColumnMax = 7;
 
     public Tile[] tiles;
-    public ArrayList<Rug> rugs;
 
     public Board() {
-        int n = this.WIDTH * this.HEIGHT;
-        this.tiles = new Tile[n];
-        this.rugs = new ArrayList<Rug>();
+        int n = ColumnMax * RowMax;
+        tiles = new Tile[n];
         for (int k = 0; k < n; k++) {
-            int x = k / this.HEIGHT;
-            int y = k % this.HEIGHT;
-            this.tiles[k] = new Tile(x, y);
+            int x = k / RowMax;
+            int y = k % RowMax;
+            tiles[k] = new Tile(x, y);
         }
     }
 
     public Board(String boardString) {
-        int n = this.WIDTH * this.HEIGHT;
-        this.tiles = new Tile[n];
-        this.rugs = new ArrayList<Rug>();
+        int n = ColumnMax * RowMax;
+        tiles = new Tile[n];
 
         // key: color + id
         // value: positions
@@ -33,8 +30,8 @@ public class Board {
 
         for (int k = 0; k < n; k++) {
             // get position
-            int x = k / this.HEIGHT;
-            int y = k % this.HEIGHT;
+            int x = k / RowMax;
+            int y = k % RowMax;
 
             // init tile
             this.tiles[k] = new Tile(x, y);
@@ -61,7 +58,6 @@ public class Board {
             // get rug string
             String rugString = key + value;
             Rug rug = new Rug(rugString);
-            rugs.add(rug);
 
             // place rug on tiles
             for (IntPair position : rug.positions) {
@@ -76,8 +72,8 @@ public class Board {
      * @return the tile at this position
      */
     public Tile getTile(IntPair pos) {
-        if (pos == null || pos.x < 0 || pos.x >= this.WIDTH || pos.y < 0 || pos.y >= this.HEIGHT) return null;
-        return this.tiles[pos.x * this.HEIGHT + pos.y];
+        if (pos == null || pos.x < 0 || pos.x >= ColumnMax || pos.y < 0 || pos.y >= RowMax) return null;
+        return this.tiles[pos.x * RowMax + pos.y];
     }
 
     public int getPlayerRugTilesAmount(Player player) {
@@ -96,11 +92,11 @@ public class Board {
      */
     public boolean isRugValid(Rug rug) {
         // rug color is invalid
-        if ("cyrp".indexOf(rug.color) < 0)return false;
+        if ("cyrp".indexOf(rug.color) < 0) return false;
         // rug position is invalid
         for (IntPair position : rug.positions)
-            if (position.x < 0 || position.x >= this.WIDTH ||
-                    position.y < 0 || position.y >= this.HEIGHT)
+            if (position.x < 0 || position.x >= ColumnMax ||
+                    position.y < 0 || position.y >= RowMax)
                 return false;
 
         // rug color + id is duplicated

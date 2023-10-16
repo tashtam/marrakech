@@ -1,71 +1,63 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.IntPair;
-import comp1110.ass2.Marrakech;
 import javafx.scene.Group;
 
 public class GBoard extends Group {
-    final int TILE_SIZE = 70;
     final int TILE_GAP = 6;
 
-    IntPair highlightPosition;
-    int highlightDegree = 0;
+    IntPair markPosition;
+    int markDegree = 0;
 
-    Marrakech game;
+    GGame gGame;
     GTile[] gTiles;
     GAssam gAssam;
 
-    GBoard(Marrakech game) {
-        this.game = game;
+    GBoard(GGame gGame) {
+        this.gGame = gGame;
 
-        gTiles = new GTile[game.board.tiles.length];
+        gTiles = new GTile[gGame.game.board.tiles.length];
         for (int i = 0; i < gTiles.length; i++) {
-            var gTile = new GTile(game, game.board.tiles[i], TILE_SIZE, this);
-            int x = i / game.board.HEIGHT;
-            int y = i % game.board.HEIGHT;
-            gTile.setLayoutX(x * (TILE_SIZE + TILE_GAP));
-            gTile.setLayoutY(y * (TILE_SIZE + TILE_GAP));
+            var gTile = new GTile(gGame, gGame.game.board.tiles[i]);
+            int x = i / gGame.game.board.RowMax;
+            int y = i % gGame.game.board.RowMax;
+            gTile.setLayoutX(x * (GTile.SIZE + TILE_GAP));
+            gTile.setLayoutY(y * (GTile.SIZE + TILE_GAP));
             gTiles[i] = gTile;
             this.getChildren().add(gTile);
         }
 
-        gAssam = new GAssam(game, game.assam, TILE_SIZE);
+        gAssam = new GAssam(gGame, gGame.game.assam);
         this.getChildren().add(gAssam);
     }
 
     void update() {
         for (GTile gTile : gTiles) gTile.update();
-        gAssam.setLayoutX(game.assam.position.x * (TILE_SIZE + TILE_GAP));
-        gAssam.setLayoutY(game.assam.position.y * (TILE_SIZE + TILE_GAP));
+        gAssam.setLayoutX(gGame.game.assam.position.x * (GTile.SIZE + TILE_GAP));
+        gAssam.setLayoutY(gGame.game.assam.position.y * (GTile.SIZE + TILE_GAP));
         gAssam.update();
     }
 
     GTile getGTile(IntPair pos) {
-        if (pos == null || pos.x < 0 || pos.x >= game.board.WIDTH || pos.y < 0 || pos.y >= game.board.HEIGHT)
+        if (pos == null || pos.x < 0 || pos.x >= gGame.game.board.ColumnMax || pos.y < 0 || pos.y >= gGame.game.board.RowMax)
             return null;
-        return gTiles[pos.x * game.board.HEIGHT + pos.y];
+        return gTiles[pos.x * gGame.game.board.RowMax + pos.y];
     }
 
-    GTile[] getHighlightGTiles() {
-        if (highlightPosition == null) return new GTile[0];
+    GTile[] getMarkGTiles() {
+        if (markPosition == null) return new GTile[0];
 
         int dx, dy;
-        if (highlightDegree == 0) {
+        if (markDegree == 0) {
             dx = 0;
             dy = -1;
-        } else if (highlightDegree == 90) {
-            dx = 1;
-            dy = 0;
-        } else if (highlightDegree == 180) {
-            dx = 0;
-            dy = 1;
         } else {
-            dx = -1;
+            dx = 1;
             dy = 0;
         }
 
-        var pos1 = highlightPosition;
-        var pos2 = new IntPair(highlightPosition.x + dx, highlightPosition.y + dy);
+        var pos1 = markPosition;
+        var pos2 = new IntPair(markPosition.x + dx, markPosition.y + dy);
 
         var gTile1 = this.getGTile(pos1);
         var gTile2 = this.getGTile(pos2);
@@ -74,28 +66,28 @@ public class GBoard extends Group {
         return new GTile[]{gTile1, gTile2};
     }
 
-    void setHighlightPosition(IntPair pos) {
-        for (GTile gTile : this.getHighlightGTiles()) {
-            gTile.setHighlight(false);
+    void setMarkPosition(IntPair pos) {
+        for (GTile gTile : this.getMarkGTiles()) {
+            gTile.setMark(false);
         }
-        highlightPosition = pos;
-        for (GTile gTile : this.getHighlightGTiles()) {
-            gTile.setHighlight(true);
+        markPosition = pos;
+        for (GTile gTile : this.getMarkGTiles()) {
+            gTile.setMark(true);
         }
     }
 
-    void rotateHighlightDegree(int degree) {
-        degree = (highlightDegree + degree) % 360;
-        this.setHighlightDegree(degree);
+    void rotateMarkDegree(int degree) {
+        degree = (markDegree + degree) % 180;
+        this.setMarkDegree(degree);
     }
 
-    void setHighlightDegree(int degree) {
-        for (GTile gTile : this.getHighlightGTiles()) {
-            gTile.setHighlight(false);
+    void setMarkDegree(int degree) {
+        for (GTile gTile : this.getMarkGTiles()) {
+            gTile.setMark(false);
         }
-        highlightDegree = degree;
-        for (GTile gTile : this.getHighlightGTiles()) {
-            gTile.setHighlight(true);
+        markDegree = degree;
+        for (GTile gTile : this.getMarkGTiles()) {
+            gTile.setMark(true);
         }
     }
 }

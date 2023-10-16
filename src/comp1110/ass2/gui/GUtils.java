@@ -6,6 +6,7 @@ import javafx.scene.text.FontWeight;
 
 public class GUtils {
     static Font font = Font.font("Consolas", FontWeight.EXTRA_BOLD, 16);
+    static Font bigFont = Font.font("Consolas", FontWeight.EXTRA_BOLD, 32);
 
     public static Color getJavaFxColor(char color) {
         if (color == 'y') return Color.web("#ffd700");

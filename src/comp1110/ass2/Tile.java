@@ -9,6 +9,7 @@ package comp1110.ass2;
 public class Tile {
     public IntPair position;
     public Rug rug = null;
+    public boolean mark = false;
 
     public Tile(int x, int y) {
         this.position = new IntPair(x, y);

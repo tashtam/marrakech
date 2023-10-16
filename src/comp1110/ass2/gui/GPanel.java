@@ -1,28 +1,38 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.Marrakech;
 import javafx.scene.Group;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class GPanel extends Group {
-    Marrakech game;
+    GGame gGame;
+    GConsole gConsole = new GConsole();
     GPlayer[] gPlayers = new GPlayer[4];
+    GDie gDie = new GDie();
 
-    GPanel(Marrakech game) {
-        this.game = game;
+    GPanel(GGame gGame) {
+        this.gGame = gGame;
+
+        gDie.setLayoutY(450);
+        this.getChildren().add(gDie);
+
+        gConsole.setLayoutY(250);
+        this.getChildren().add(gConsole);
+
         for (int i = 0; i < 4; i++) {
-            var gPlayer = new GPlayer(game);
+            var gPlayer = new GPlayer(gGame);
             gPlayers[i] = gPlayer;
-            gPlayer.setLayoutX((i % 2) * 160);
+            gPlayer.setLayoutX((i % 2) * 200);
             gPlayer.setLayoutY((i / 2) * 110);
         }
         this.getChildren().addAll(gPlayers);
     }
 
     void setPlayers() {
-        var len = game.players.length;
+        var len = gGame.game.players.length;
         for (int i = 0; i < 4; i++) {
             if (i < len) {
-                gPlayers[i].setPlayer(game.players[i]);
+                gPlayers[i].setPlayer(gGame.game.players[i]);
             } else {
                 gPlayers[i].setPlayer(null);
             }

@@ -1,25 +1,25 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.Marrakech;
+import comp1110.ass2.Game;
 import javafx.scene.Group;
 
-public class GMarrakech extends Group {
-    Marrakech game;
+public class GGame extends Group {
+    Game game;
     GBoard gBoard;
     GPanel gPanel;
 
-    GMarrakech(Marrakech game) {
+    GGame(Game game) {
         this.game = game;
 
-        gBoard = new GBoard(game);
+        gBoard = new GBoard(this);
         gBoard.setLayoutX(20);
-        gBoard.setLayoutY(20);
+        gBoard.setLayoutY(100);
         this.getChildren().add(gBoard);
 
-        gPanel = new GPanel(game);
+        gPanel = new GPanel(this);
         gPanel.setPlayers();
         gPanel.setLayoutX(600);
-        gPanel.setLayoutY(20);
+        gPanel.setLayoutY(100);
         this.getChildren().add(gPanel);
     }
 

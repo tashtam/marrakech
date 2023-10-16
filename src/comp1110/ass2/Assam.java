@@ -1,5 +1,6 @@
 package comp1110.ass2;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -70,14 +71,17 @@ public class Assam {
         }
     }
 
-    public boolean confirmDegree() {
+    public boolean setDegree(int degree) {
+        if (degree % 90 != 0) return false;
+        if (degree < 0 || degree >= 360) return false;
         var diff = (oldDegree - degree + 360) % 360;
-        System.out.println(oldDegree + " " + degree + " " + diff);
-        if (diff == 0 || diff == 90 || diff == 270) {
-            oldDegree = degree;
-            return true;
-        }
-        return false;
+        if (diff == 180) return false;
+        this.degree = degree;
+        return true;
+    }
+
+    public void confirmDegree() {
+        oldDegree = degree;
     }
 
     /**
@@ -87,9 +91,10 @@ public class Assam {
      *                  each element of the set has the same probability
      * @return
      */
-    public void move(int dieResult) {
+    public ArrayList<IntPair> move(int dieResult) {
+        var path = new ArrayList<IntPair>();
         for (int i = 1; i <= dieResult; i++) {
-
+            path.add(this.position);
             int[] positionAfterChecking = checkForMosaicTracks(this.position.x, this.position.y, this.degree);
 
             this.position.x = positionAfterChecking[0];
@@ -106,15 +111,24 @@ public class Assam {
 
             if (positionAfterChecking[3] == 1) continue;
 
-            if(this.degree == 0) {this.position.y -= 1;}
-            if(this.degree == 90) {this.position.x += 1;}
-            if(this.degree == 180) {this.position.y += 1;}
-            if(this.degree == 270) {this.position.x -= 1;}
+            if (this.degree == 0) {
+                this.position.y -= 1;
             }
-
+            if (this.degree == 90) {
+                this.position.x += 1;
+            }
+            if (this.degree == 180) {
+                this.position.y += 1;
+            }
+            if (this.degree == 270) {
+                this.position.x -= 1;
+            }
+        }
+        path.add(this.position);
+        return path;
     }
 
-    public static int [] checkForMosaicTracks (int posX, int posY , int degree) {
+    public static int[] checkForMosaicTracks(int posX, int posY, int degree) {
 
         int flag = 0;
 
@@ -123,28 +137,24 @@ public class Assam {
         if (posX == 6 && posY == 0 && degree == 0) {
             degree = 270;
             flag = 1;
-            System.out.println(1);
-            }
+        }
 
         //Top right corner mosaic track, when Assam is facing East
         if (posX == 6 && posY == 0 && degree == 90) {
             degree = 180;
             flag = 1;
-            System.out.println(2);
-            }
+        }
 
         //Bottom left corner mosaic track, when Assam is facing West
         if (posX == 0 && posY == 6 && degree == 270) {
             degree = 0;
             flag = 1;
-            System.out.println(3);
         }
 
         //Bottom left corner mosaic track, when Assam is facing South
         if (posX == 0 && posY == 6 && degree == 180) {
             degree = 90;
             flag = 1;
-            System.out.println(4);
         }
 
         //Bottom edge mosaic tracks (start from the right)
@@ -152,7 +162,6 @@ public class Assam {
             posX -= 1;
             degree = 0;
             flag = 1;
-            System.out.println(5);
         }
 
         //Bottom edge mosaic tracks (start from the left)
@@ -160,7 +169,6 @@ public class Assam {
             posX += 1;
             degree = 0;
             flag = 1;
-            System.out.println(6);
         }
 
         //Right edge mosaic tracks (start from the top)
@@ -168,7 +176,6 @@ public class Assam {
             posY += 1;
             degree = 270;
             flag = 1;
-            System.out.println(7);
         }
 
         //Right edge mosaic tracks (start from the bottom)
@@ -176,7 +183,6 @@ public class Assam {
             posY -= 1;
             degree = 270;
             flag = 1;
-            System.out.println(8);
         }
 
         //Left edge mosaic tracks (start from the top)
@@ -184,7 +190,6 @@ public class Assam {
             posY += 1;
             degree = 90;
             flag = 1;
-            System.out.println(9);
         }
 
         //Left edge mosaic tracks (start from the bottom)
@@ -192,7 +197,6 @@ public class Assam {
             posY -= 1;
             degree = 90;
             flag = 1;
-            System.out.println(10);
         }
 
         //Top edge mosaic tracks (start from the left)
@@ -200,7 +204,6 @@ public class Assam {
             posX += 1;
             degree = 180;
             flag = 1;
-            System.out.println(11);
         }
 
         //Top edge mosaic tracks (start from the right)
@@ -208,7 +211,6 @@ public class Assam {
             posX -= 1;
             degree = 180;
             flag = 1;
-            System.out.println(12);
         }
 
         //If Assam is not on a mosaic track, just return the original position.

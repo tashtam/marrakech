@@ -1,6 +1,5 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.Marrakech;
 import comp1110.ass2.Player;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -11,11 +10,11 @@ import javafx.scene.text.Text;
 
 public class GPlayer extends Group {
     Player player;
-    Marrakech game;
+    GGame gGame;
     Text coinText = new Text(60, 20, "");
     Text remainRugNumText = new Text(60, 50, "");
     Text scoreText = new Text(60, 80, "");
-    Rectangle mainRect = new Rectangle(150, 100);
+    Rectangle mainRect = new Rectangle(180, 100);
     Rectangle faceRect = new Rectangle(50, 100);
     Circle circle = new Circle(10, 10, 4);
 
@@ -32,20 +31,19 @@ public class GPlayer extends Group {
     }
 
     void update() {
-        System.out.println("update gPlayer" + player);
         if (player != null) {
             coinText.setText("coin: " + player.coins);
             remainRugNumText.setText("rug: " + player.remainingRugNumber);
-            scoreText.setText("score: " + game.getPlayerScore(player));
+            scoreText.setText("score: " + gGame.game.getPlayerScore(player));
             if (player.out) mainRect.setStroke(Color.GRAY);
         }
 
-        var currentPlayer = game.players[game.currentPlayerIndex];
+        var currentPlayer = gGame.game.getCurrentPlayer();
         circle.setVisible(currentPlayer == player);
     }
 
-    GPlayer(Marrakech game) {
-        this.game = game;
+    GPlayer(GGame gGame) {
+        this.gGame = gGame;
 
         mainRect.setArcHeight(10);
         mainRect.setArcWidth(10);

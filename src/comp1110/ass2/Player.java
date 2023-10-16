@@ -44,8 +44,6 @@ public class Player {
      * @param coins the amount of coins to be paid
      */
     public void payTo(Player other, int coins) {
-        System.out.println(this);
-        System.out.println(other);
         if (this.coins < coins) {
             this.out = true;
             other.coins += this.coins;
@@ -54,8 +52,10 @@ public class Player {
             this.coins -= coins;
             other.coins += coins;
         }
-        System.out.println(this);
-        System.out.println(other);
+    }
+
+    public Rug createRug(IntPair[] positions) {
+        return new Rug(color, 15 - remainingRugNumber, positions);
     }
 }
 
