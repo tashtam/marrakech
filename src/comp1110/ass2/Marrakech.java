@@ -48,7 +48,7 @@ public class Marrakech {
      * @return The result of the roll of the die meeting the criteria above
      */
     public static int rollDie() {
-        var game = new Game(4);
+        var game = new Game(4, 0);
         return game.rollDie();
         // FIXME: Task 6 [DONE]
     }
@@ -121,8 +121,8 @@ public class Marrakech {
      * @return The amount of payment due, as an integer.
      */
     public static int getPaymentAmount(String gameString) {
-        var marrakech = new Game(gameString);
-        return marrakech.getPaymentAmount();
+        var game = new Game(gameString);
+        return game.getPaymentAmount();
     }
 
     /**

@@ -3,11 +3,14 @@ package comp1110.ass2.gui;
 import comp1110.ass2.Game;
 import comp1110.ass2.Player;
 import comp1110.ass2.Rug;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
@@ -22,8 +25,10 @@ public class GGame extends Group {
     GConsole gConsole;
     GPlayer[] gPlayers;
     GDie gDie;
+    Timeline aiTimeline;
     EventHandler<KeyEvent> h1;
     EventHandler<KeyEvent> h2;
+    Rug rug;
 
     boolean ctrlPressing = false;
 
@@ -67,16 +72,7 @@ public class GGame extends Group {
         return player.out;
     }
 
-    void confirmAssamDegreeAndMove() {
-        if (!game.assam.confirmDegree()) {
-            gAssamHint.setValue(true);
-            this.update();
-            return;
-        }
-
-        var c = game.players[game.currentPlayerIndex].color;
-        this.print("player " + c + " confirm assam direction");
-
+    void move() {
         var step = game.rollDie();
         gDie.displayDie(step);
 
@@ -85,14 +81,24 @@ public class GGame extends Group {
 
         var out = this.pay();
         if (out) {
-            game.turnNext();
-            c = game.getCurrentPlayer().color;
-            this.print("turn to player " + c);
+            this.turnNext();
             this.setGamePhase(0);
         } else {
             this.print("please put a rug");
             this.setGamePhase(2);
         }
+    }
+
+    boolean confirmAssamDegree() {
+        if (!game.assam.confirmDegree()) {
+            gAssamHint.setValue(true);
+            this.update();
+            return false;
+        }
+
+        var c = game.players[game.currentPlayerIndex].color;
+        this.print("player " + c + " confirm assam direction");
+        return true;
     }
 
     void setGamePhase(int phase) {
@@ -104,28 +110,32 @@ public class GGame extends Group {
     }
 
     void beforePhase2() {
-        gAssamHint.setValue(true);
-        System.out.println("reset mark");
         gMark.reset();
+    }
+
+    void turnNext() {
+        game.turnNext();
+        var player = game.getCurrentPlayer();
+        this.print("turn to", "player", player.color);
     }
 
     void beforePhase0() {
         gMark.hide();
         gDie.displayDie(0);
-        if (game.isGameOver()) this.gameOver();
+        if (game.isGameOver()) {
+            this.gameOver();
+        } else if (game.getCurrentPlayer().ai) {
+            aiTimeline.playFromStart();
+        }
     }
 
     void putRug() {
         var positions = gMark.positions;
-        System.out.println("put rug on " + positions[0] + " " + positions[1]);
         var player = game.getCurrentPlayer();
         var rug = new Rug(player.color, 15 - player.remainingRugNumber, positions);
         if (game.isPlacementValid(rug)) {
-            System.out.println("success");
             game.makePlacement(rug);
-            game.turnNext();
-            var c = game.players[game.currentPlayerIndex].color;
-            this.print("turn to player " + c);
+            this.turnNext();
             this.setGamePhase(0);
         }
         this.update();
@@ -139,18 +149,18 @@ public class GGame extends Group {
     }
 
     void onKeyReleased(KeyEvent event) {
-        System.out.println("LDSJFALFsdfdjslfjlk");
         if (event.getCode() == KeyCode.CONTROL) ctrlPressing = false;
     }
 
     void OnKeyPressed(KeyEvent event) {
-        System.out.println("LDSJFALF");
         var code = event.getCode();
         if (code == KeyCode.CONTROL) ctrlPressing = true;
 
         if (game.phase == 0) {
             switch (code) {
-                case ENTER, SPACE -> this.confirmAssamDegreeAndMove();
+                case ENTER, SPACE -> {
+                    if (this.confirmAssamDegree()) this.move();
+                }
                 case W, UP -> setAssamDegree(0);
                 case D, RIGHT -> setAssamDegree(90);
                 case S, DOWN -> setAssamDegree(180);
@@ -188,12 +198,36 @@ public class GGame extends Group {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, h2);
     }
 
-    GGame(Game game) {
+    void setGame(Game game) {
         h1 = this::onKeyReleased;
         h2 = this::OnKeyPressed;
 
-        this.game = game;
+        aiTimeline = new Timeline(
+                new KeyFrame(Duration.ZERO, event -> {
+                    this.setGamePhase(3);
+                }),
+                new KeyFrame(Duration.seconds(0.2), e -> {
+                    game.easyAIPlayerSetDegree();
+                    gAssam.update();
+                }),
+                new KeyFrame(Duration.seconds(0.4), e -> {
+                    this.move();
+                    this.update();
+                }),
+                new KeyFrame(Duration.seconds(0.6), e -> {
+                    rug = game.easyAIPlayerPutRug();
+                    gMark.positions = rug.positions;
+                    gMark.update();
+                }),
+                new KeyFrame(Duration.seconds(0.8), e -> {
+                    game.makePlacement(rug);
+                    this.turnNext();
+                    this.update();
+                    this.setGamePhase(0);
+                })
+        );
 
+        this.game = game;
         gPlayers = new GPlayer[4];
 
         for (int i = 0; i < 4; i++) {
@@ -240,14 +274,18 @@ public class GGame extends Group {
 
         this.update();
         this.setGamePhase(0);
+
+
     }
 
-    GGame(int playerAmount) {
-        this(new Game(playerAmount));
+    GGame(int playerAmount, int aiPlayerAmount) {
+        var game = new Game(playerAmount, aiPlayerAmount);
+        this.setGame(game);
     }
 
     GGame(String state) {
-        this(new Game(state));
+        var game = new Game(state);
+        this.setGame(game);
     }
 
     void update() {

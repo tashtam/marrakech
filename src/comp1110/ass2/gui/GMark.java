@@ -30,6 +30,7 @@ public class GMark extends Group {
 
     void reset() {
         mode = 0;
+        positions = Utils.createRugPositions(mode, assam.position);
         this.update();
     }
 
@@ -39,10 +40,6 @@ public class GMark extends Group {
         }
     }
 
-    boolean checkValid() {
-        return true;
-    }
-
     void quickChangeMode(int degree) {
         switch (degree) {
             case 0 -> mode = 0;
@@ -50,6 +47,7 @@ public class GMark extends Group {
             case 180 -> mode = 6;
             case 270 -> mode = 9;
         }
+        positions = Utils.createRugPositions(mode, assam.position);
         this.update();
     }
 
@@ -72,38 +70,11 @@ public class GMark extends Group {
             else mode += 1;
         }
         mode = (mode + 12) % 12;
+        positions = Utils.createRugPositions(mode, assam.position);
         this.update();
     }
 
-    void calculatePositions() {
-        // mode = 11,0,1,  2,3,4,  5,6,7,   8,9,10
-        // x1 = 0,0,0,     1,1,1,  0,0,0,  -1,-1,-1
-        // y1 = -1,-1,-1,  0,0,0,  1,1,1,   0,0,0
-        // x2 = -1,0,1,    1,2,1,  1,0,-1, -1,-2,-1
-        // y2 = -1,-2,-1, -1,0,1,  1,2,1,   1,0,-1
-
-        var vs1 = new int[]{0, 0, 0, 1, 1, 1, 0, 0, 0, -1, -1, -1};
-        var vs2 = new int[]{0, 1, 1, 2, 1, 1, 0, -1, -1, -2, -1, -1};
-        var x1 = vs1[(mode + 1) % 12];
-        var y1 = vs1[(mode + 10) % 12];
-        var x2 = vs2[mode];
-        var y2 = vs2[(mode + 9) % 12];
-
-        var assamPos = assam.position;
-
-        x1 += assamPos.x;
-        x2 += assamPos.x;
-        y1 += assamPos.y;
-        y2 += assamPos.y;
-
-        positions[0].x = x1;
-        positions[0].y = y1;
-        positions[1].x = x2;
-        positions[1].y = y2;
-    }
-
     void update() {
-        this.calculatePositions();
         for (int i = 0; i < positions.length; i++) {
             var x = positions[i].x;
             var y = positions[i].y;

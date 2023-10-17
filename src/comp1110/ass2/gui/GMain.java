@@ -11,8 +11,8 @@ public class GMain extends Group {
     Scene scene;
     Group root;
     GGame gGame;
-    RadioButton[] playerRbs = new RadioButton[4];
-    RadioButton[] aiPlayerRbs = new RadioButton[4];
+    RadioButton[] playerRbs = new RadioButton[5];
+    RadioButton[] aiPlayerRbs = new RadioButton[5];
     ToggleGroup playerTG = new ToggleGroup();
     ToggleGroup aiPlayerTG = new ToggleGroup();
     Button beginBtn = new Button("begin game");
@@ -21,7 +21,7 @@ public class GMain extends Group {
         this.scene = scene;
         this.root = root;
 
-        var texts = new String[]{"one", "two", "three", "four"};
+        var texts = new String[]{"zero", "one", "two", "three", "four"};
         for (int i = 0; i < playerRbs.length; i++) {
             var playerRb = new RadioButton(texts[i] + " players");
             playerRb.setLayoutY(50 + 50 * i);
@@ -52,14 +52,10 @@ public class GMain extends Group {
                 if (aiPlayerRbs[j] == playerRb) break;
             }
 
-            var d = i + j + 1 + 1;
+            var d = i + j;
             if (d >= 2 && d < 5) {
-                System.out.println("ok!!");
+                this.createNewGame(i, j);
             }
-
-//            if (i == 2 || i == 3 || i == 4) {
-//                this.createNewGame(i);
-//            }
         });
         this.getChildren().add(beginBtn);
 
@@ -67,8 +63,8 @@ public class GMain extends Group {
         this.setLayoutY(100);
     }
 
-    void createNewGame(int playerAmount) {
-        gGame = new GGame(playerAmount);
+    void createNewGame(int playerAmount, int aiPlayerAmount) {
+        gGame = new GGame(playerAmount, aiPlayerAmount);
         gGame.setGMain(this);
         gGame.setCallback(scene);
         root.getChildren().add(gGame);

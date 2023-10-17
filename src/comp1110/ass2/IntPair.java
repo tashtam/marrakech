@@ -18,6 +18,10 @@ public class IntPair {
         this.y = y;
     }
 
+    public IntPair clone() {
+        return new IntPair(x, y);
+    }
+
     public String toString() {
         return "(" + this.x + "," + this.y + ")";
     }

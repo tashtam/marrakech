@@ -13,23 +13,21 @@ import javafx.scene.text.Text;
 public class GPlayer extends Group {
     Player player;
     Game game;
-    Text coinText = new Text(60, 20, "");
-    Text remainRugNumText = new Text(60, 50, "");
-    Text scoreText = new Text(60, 80, "");
+    Text coinText = new Text(60, 20, "coin: ");
+    Text remainRugNumText = new Text(60, 50, "rug: ");
+    Text scoreText = new Text(60, 80, "score: ");
+    Text aiText = new Text(10, 40, "AI");
     Rectangle mainRect = new Rectangle(180, 100);
     Rectangle faceRect = new Rectangle(50, 100);
     Circle circle = new Circle(10, 10, 4);
 
+
     void setPlayer(Player player) {
         this.player = player;
         var javaFXColor = player == null ? Color.GRAY : Utils.getJavaFxColor(player.color);
-
         mainRect.setStroke(javaFXColor);
         faceRect.setFill(javaFXColor);
-
-        coinText.setText("coin: ");
-        remainRugNumText.setText("rug: ");
-        scoreText.setText("score: ");
+        aiText.setVisible(player != null && player.ai);
     }
 
     void update() {
@@ -55,11 +53,13 @@ public class GPlayer extends Group {
         faceRect.setArcHeight(10);
         faceRect.setArcWidth(10);
 
+        aiText.setFont(Utils.font);
+
         circle.setFill(Color.BLACK);
 
         coinText.setFont(Utils.font);
         remainRugNumText.setFont(Utils.font);
         scoreText.setFont(Utils.font);
-        this.getChildren().addAll(mainRect, faceRect, coinText, remainRugNumText, scoreText, circle);
+        this.getChildren().addAll(mainRect, faceRect, coinText, remainRugNumText, scoreText, circle, aiText);
     }
 }

@@ -14,6 +14,6 @@ public class GConsole extends Group {
 
     void print(String content) {
         area.appendText("\n" + content);
-        area.setScrollTop(Double.MAX_VALUE);
+        area.setScrollTop(500);
     }
 }

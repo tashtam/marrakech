@@ -14,11 +14,13 @@ package comp1110.ass2;
 public class Player {
     public char color;
     public int coins = 30;
-    public int remainingRugNumber = 1;
+    public int remainingRugNumber = 15;
     public boolean out = false;
+    public boolean ai = false;
 
-    public Player(char color) {
+    public Player(char color, boolean ai) {
         this.color = color;
+        this.ai = ai;
     }
 
     public Player(String playerString) {

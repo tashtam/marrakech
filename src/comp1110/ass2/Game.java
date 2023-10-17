@@ -1,7 +1,6 @@
 package comp1110.ass2;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Game {
     public int phase = 0;
@@ -36,13 +35,70 @@ public class Game {
         return null;
     }
 
-    public Game(int playerAmount) {
+    public Rug easyAIPlayerPutRug(){
+        var player = this.getCurrentPlayer();
+        var rugs = new ArrayList<Rug>();
+        for (int mode = 0; mode < 12; mode++) {
+            var positions = Utils.createRugPositions(mode, assam.position);
+            var rug = new Rug(player.color, 15 - player.remainingRugNumber, positions);
+            if (this.isPlacementValid(rug)) rugs.add(rug);
+        }
+        var rug = rugs.get(Utils.randint(rugs.size()));
+        return rug;
+    }
+
+    public void easyAIPlayerSetDegree() {
+        var d = Utils.randint(3);
+
+        int j = 0;
+        var newDegree = 0;
+        for (int i = 0; i < 4; i++) {
+            newDegree = i * 90;
+            if ((newDegree - assam.degree + 360) % 360 == 180) continue;
+            if (j == d) break;
+            j += 1;
+        }
+
+        assam.degree = newDegree;
+        assam.oldDegree = newDegree;
+    }
+
+    public void hardAIPlayerSetDegree() {
+        var pos = assam.position.clone();
+        var degree = assam.degree;
+        double minPayment = Utils.RowMax * Utils.ColumnMax;
+        var minPaymentDegree = 0;
+        for (int i = 0; i < 4; i++) {
+            var newDegree = i * 90;
+            if ((newDegree - degree + 360) % 360 == 180) continue;
+            assam.degree = newDegree;
+            double payment = 0;
+            for (int j = 0; j < 4; j++) {
+                double rate = 1.0 / 6;
+                if (j == 1 || j == 2) rate = 1.0 / 3;
+                assam.position = pos;
+                assam.move(j);
+                payment += this.getPaymentAmount() * rate;
+            }
+            if (payment < minPayment) {
+                minPayment = payment;
+                minPaymentDegree = newDegree;
+            }
+        }
+        assam.position = pos;
+        assam.degree = minPaymentDegree;
+        assam.oldDegree = minPaymentDegree;
+    }
+
+    public Game(int playerAmount, int aiPlayerAmount) {
         // current player index
         this.currentPlayerIndex = 0;
-        int n = playerAmount;
+        int n = playerAmount + aiPlayerAmount;
         this.players = new Player[n];
         var colors = "cypr";
-        for (int k = 0; k < n; k++) this.players[k] = new Player(colors.charAt(k));
+        for (int k = 0; k < n; k++) {
+            this.players[k] = new Player(colors.charAt(k), k >= playerAmount);
+        }
         this.assam = new Assam();
         this.board = new Board();
     }
@@ -125,7 +181,7 @@ public class Game {
         return rug1 != rug2;
     }
 
-    void calculateColoredTiles(
+    void calculateConnectedTileAmount(
             IntPair presentPosition,
             ArrayList<Tile> connectedTiles,
             ArrayList<Tile> visitedTiles,
@@ -155,7 +211,7 @@ public class Game {
             if (adjacentRug != null && adjacentRug.color == tileColor && !connectedTiles.contains(adjacentTile)) {
                 // add new
                 connectedTiles.add(adjacentTile);
-                calculateColoredTiles(pos, connectedTiles, visitedTiles, tileColor);
+                calculateConnectedTileAmount(pos, connectedTiles, visitedTiles, tileColor);
             }
         }
     }
@@ -167,8 +223,8 @@ public class Game {
      * @return the payment amount
      */
     public int getPaymentAmount() {
-        var assamPos = this.assam.position;
-        var tile = this.board.getTile(assamPos);
+        var assamPos = assam.position;
+        var tile = board.getTile(assamPos);
         var rug = tile.rug;
 
         if (rug == null) return 0;
@@ -180,7 +236,7 @@ public class Game {
         connectedTiles.add(tile);
         visitedTiles.add(tile);
 
-        this.calculateColoredTiles(assamPos, connectedTiles, visitedTiles, tileColor);
+        this.calculateConnectedTileAmount(assamPos, connectedTiles, visitedTiles, tileColor);
         return connectedTiles.size();
     }
 
@@ -195,7 +251,7 @@ public class Game {
      */
     public ArrayList<Player> getWinner() {
         // max score
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList();
         int max_score = 0;
 
         for (Player player : this.players) {
@@ -211,7 +267,7 @@ public class Game {
         if (players.size() == 1) return players;
 
         // max coin
-        ArrayList<Player> players1 = new ArrayList<Player>();
+        ArrayList<Player> players1 = new ArrayList();
         int max_coin = 0;
 
         for (Player player : players) {
@@ -249,9 +305,8 @@ public class Game {
     }
 
     public int rollDie() {
-        int[] diceValue = new int[]{1, 2, 2, 3, 3, 4};
-        Random ranDie = new Random();
-        return diceValue[ranDie.nextInt(6)];
+        var diceValue = new int[]{1, 2, 2, 3, 3, 4};
+        return diceValue[Utils.randint(6)];
         // FIXME: Task 6 [DONE]
     }
 
