@@ -10,7 +10,6 @@ import java.util.Random;
  * parameter position: IntPair type stands for the position(x,y) of Assam
  */
 public class Assam {
-
     public int degree;
     public int oldDegree;
     public IntPair position;
@@ -22,11 +21,11 @@ public class Assam {
     }
 
     public Assam(String assamString) {
-        //Creating the Assam object (as in an object of the complete program) using the assamString (as an argument); constructor of a java class
-        //Assam is a complete class (It is its own class)
-        //But when considering the whole program, Assam is the object of the complete program
-        //String assamString is the value that has been passed to the Assam class
-        //In other words, assamString has become an argument of the public Assam class
+        // Creating the Assam object (as in an object of the complete program) using the assamString (as an argument); constructor of a java class
+        // Assam is a complete class (It is its own class)
+        // But when considering the whole program, Assam is the object of the complete program
+        // String assamString is the value that has been passed to the Assam class
+        // In other words, assamString has become an argument of the public Assam class
         char d = assamString.charAt(3); //d is the 4th character of the string
         if (d == 'N') this.degree = 0;
         else if (d == 'E') this.degree = 90;
@@ -40,12 +39,13 @@ public class Assam {
         this.position = new IntPair(x, y);
     }
 
-    public String toString() { //Creating the assamString using the Assam Object
+    public String toString() {
+        // Creating the assamString using the Assam Object
         // toString() is an instance method (Returning string using the information of this instance)
         // This is an instance method. We wanted this method to happen, but in order for us to have a method,
         // the method must belong to an object.
         // In other words, we have to create an object first before we create a method.
-        //This is why we need the previous code snippet to create the Assam object.
+        // This is why we need the previous code snippet to create the Assam object.
         // In reality, we just need this method, but in order to create this method, the previous part
         // (The step of creating the object) is necessary.
         // Also, this is an instance method, to account for all the different times Assam has to turn.
@@ -71,17 +71,32 @@ public class Assam {
         }
     }
 
-    public boolean setDegree(int degree) {
-        if (degree % 90 != 0) return false;
-        if (degree < 0 || degree >= 360) return false;
-        var diff = (oldDegree - degree + 360) % 360;
-        if (diff == 180) return false;
+    public void setDegree(int degree) {
         this.degree = degree;
-        return true;
     }
 
-    public void confirmDegree() {
-        oldDegree = degree;
+    /**
+     * check if the current degree is near the old degree (the diff is 0, 90 or 270)
+     *
+     * @return
+     */
+    public boolean checkDegree() {
+        var diff = (oldDegree - degree + 360) % 360;
+        return diff != 180;
+    }
+
+    /**
+     * check if the current degree is near the old degree (the diff is 0, 90 or 270)
+     * if it is, return true and update old degree
+     * if not, return false and recover the current degree
+     *
+     * @return
+     */
+    public boolean confirmDegree() {
+        var flag = this.checkDegree();
+        if (flag) oldDegree = degree;
+        else degree = oldDegree;
+        return flag;
     }
 
     /**
@@ -95,7 +110,7 @@ public class Assam {
         var path = new ArrayList<IntPair>();
         for (int i = 1; i <= dieResult; i++) {
             path.add(this.position);
-            int[] positionAfterChecking = checkForMosaicTracks(this.position.x, this.position.y, this.degree);
+            int[] positionAfterChecking = this.checkForMosaicTracks(this.position.x, this.position.y, this.degree);
 
             this.position.x = positionAfterChecking[0];
             this.position.y = positionAfterChecking[1];
@@ -128,96 +143,45 @@ public class Assam {
         return path;
     }
 
-    public static int[] checkForMosaicTracks(int posX, int posY, int degree) {
-
+    public int[] checkForMosaicTracks(int posX, int posY, int degree) {
         int flag = 0;
 
-        //Special corner mosaic tracks
-        //Top right corner mosaic track, when Assam is facing North
-        if (posX == 6 && posY == 0 && degree == 0) {
-            degree = 270;
-            flag = 1;
-        }
+        boolean top = posY == 0 && degree == 0;
+        boolean bottom = posY == Utils.RowMax - 1 && degree == 180;
+        boolean left = posX == 0 && degree == 270;
+        boolean right = posX == Utils.ColumnMax - 1 && degree == 90;
 
-        //Top right corner mosaic track, when Assam is facing East
-        if (posX == 6 && posY == 0 && degree == 90) {
-            degree = 180;
+        if (top || bottom || left || right) {
             flag = 1;
-        }
+            degree += 180;
 
-        //Bottom left corner mosaic track, when Assam is facing West
-        if (posX == 0 && posY == 6 && degree == 270) {
-            degree = 0;
-            flag = 1;
-        }
+            if (top || bottom) {
+                if ((top && posX == 6) || (bottom && posX == 0)) {
+                    degree += 90;
+                } else if (top) {
+                    if (posX % 2 == 0) posX += 1;
+                    else posX -= 1;
+                } else {
+                    if (posX % 2 == 0) posX -= 1;
+                    else posX += 1;
+                }
+            } else {
+                if ((left && posY == 6) || (right && posY == 0)) {
+                    degree -= 90;
+                } else if (left) {
+                    if (posY % 2 == 0) posY += 1;
+                    else posY -= 1;
+                } else {
+                    if (posY % 2 == 0) posY -= 1;
+                    else posY += 1;
+                }
+            }
 
-        //Bottom left corner mosaic track, when Assam is facing South
-        if (posX == 0 && posY == 6 && degree == 180) {
-            degree = 90;
-            flag = 1;
-        }
-
-        //Bottom edge mosaic tracks (start from the right)
-        if ((posX == 6 || posX == 4 || posX == 2) && posY == 6 && degree == 180) {
-            posX -= 1;
-            degree = 0;
-            flag = 1;
-        }
-
-        //Bottom edge mosaic tracks (start from the left)
-        if ((posX == 1 || posX == 3 || posX == 5) && posY == 6 && degree == 180) {
-            posX += 1;
-            degree = 0;
-            flag = 1;
-        }
-
-        //Right edge mosaic tracks (start from the top)
-        if (posX == 6 && (posY == 1 || posY == 3 || posY == 5) && degree == 90) {
-            posY += 1;
-            degree = 270;
-            flag = 1;
-        }
-
-        //Right edge mosaic tracks (start from the bottom)
-        if (posX == 6 && (posY == 6 || posY == 4 || posY == 2) && degree == 90) {
-            posY -= 1;
-            degree = 270;
-            flag = 1;
-        }
-
-        //Left edge mosaic tracks (start from the top)
-        if (posX == 0 && (posY == 0 || posY == 2 || posY == 4) && degree == 270) {
-            posY += 1;
-            degree = 90;
-            flag = 1;
-        }
-
-        //Left edge mosaic tracks (start from the bottom)
-        if (posX == 0 && (posY == 5 || posY == 3 || posY == 1) && degree == 270) {
-            posY -= 1;
-            degree = 90;
-            flag = 1;
-        }
-
-        //Top edge mosaic tracks (start from the left)
-        if ((posX == 0 || posX == 2 || posX == 4) && posY == 0 && degree == 0) {
-            posX += 1;
-            degree = 180;
-            flag = 1;
-        }
-
-        //Top edge mosaic tracks (start from the right)
-        if ((posX == 5 || posX == 3 || posX == 1) && posY == 0 && degree == 0) {
-            posX -= 1;
-            degree = 180;
-            flag = 1;
+            degree %= 360;
         }
 
         //If Assam is not on a mosaic track, just return the original position.
-
-        int[] currentPosition = {posX, posY, degree, flag};
-
-        return currentPosition;
+        return new int[]{posX, posY, degree, flag};
     }
 }
 

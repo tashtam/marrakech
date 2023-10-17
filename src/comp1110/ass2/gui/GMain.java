@@ -14,7 +14,7 @@ public class GMain extends Group {
         this.scene = scene;
         startRect.setFill(Color.GREEN);
         startRect.setOnMouseClicked(event -> {
-            this.createNewGame(4);
+            this.createNewGame(3);
         });
         this.getChildren().add(startRect);
     }

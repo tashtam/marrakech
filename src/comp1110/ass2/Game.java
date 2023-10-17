@@ -2,8 +2,6 @@ package comp1110.ass2;
 
 import java.util.ArrayList;
 import java.util.Random;
-import javafx.scene.paint.Color;
-import java.util.*;
 
 public class Game {
     public int phase = 0;
@@ -74,7 +72,7 @@ public class Game {
         this.board = new Board(boardStringPart);
     }
 
-    public Player getCurrentPlayer(){
+    public Player getCurrentPlayer() {
         return players[currentPlayerIndex];
     }
 
@@ -187,7 +185,7 @@ public class Game {
     }
 
     public int getPlayerScore(Player player) {
-        return player.coins + board.getPlayerRugTilesAmount(player);
+        return player.coins + board.getPlayerRugScore(player);
     }
 
     /**
@@ -229,7 +227,7 @@ public class Game {
     public void turnNext() {
         currentPlayerIndex += 1;
         currentPlayerIndex %= players.length;
-        if(players[currentPlayerIndex].out){
+        if (players[currentPlayerIndex].out) {
             this.turnNext();
         }
     }
@@ -253,17 +251,17 @@ public class Game {
     public int rollDie() {
         int[] diceValue = new int[]{1, 2, 2, 3, 3, 4};
         Random ranDie = new Random();
-        // FIXME: Task 6 [DONE]
         return diceValue[ranDie.nextInt(6)];
+        // FIXME: Task 6 [DONE]
     }
 
     public void makePlacement(Rug rug) {
         for (IntPair pos : rug.positions) {
             var tile = this.board.getTile(pos);
-            if (tile.rug != null) tile.rug.clearPosition(pos);
             tile.rug = rug;
         }
-        this.getPlayer(rug.color).remainingRugNumber -= 1;
+        var player = this.getPlayer(rug.color);
+        player.remainingRugNumber -= 1;
     }
 
     @Override

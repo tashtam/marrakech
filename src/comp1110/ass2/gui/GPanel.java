@@ -1,12 +1,9 @@
 package comp1110.ass2.gui;
 
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 public class GPanel extends Group {
     GGame gGame;
-    GConsole gConsole = new GConsole();
     GPlayer[] gPlayers = new GPlayer[4];
     GDie gDie = new GDie();
 
@@ -15,9 +12,6 @@ public class GPanel extends Group {
 
         gDie.setLayoutY(450);
         this.getChildren().add(gDie);
-
-        gConsole.setLayoutY(250);
-        this.getChildren().add(gConsole);
 
         for (int i = 0; i < 4; i++) {
             var gPlayer = new GPlayer(gGame);

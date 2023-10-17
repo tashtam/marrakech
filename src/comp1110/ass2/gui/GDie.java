@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Utils;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -9,12 +10,12 @@ public class GDie extends Group {
     Text text = new Text();
 
     GDie() {
-        rect.setFill(GUtils.getJavaFxColor(' '));
+        rect.setFill(Utils.getJavaFxColor(' '));
         this.getChildren().add(rect);
 
         text.setLayoutX(20);
         text.setLayoutY(50);
-        text.setFont(GUtils.bigFont);
+        text.setFont(Utils.bigFont);
         this.getChildren().add(text);
     }
 

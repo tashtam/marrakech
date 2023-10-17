@@ -21,8 +21,4 @@ public class IntPair {
     public String toString() {
         return "(" + this.x + "," + this.y + ")";
     }
-
-    public boolean equals(IntPair pos) {
-        return this.x == pos.x && this.y == pos.y;
-    }
 }

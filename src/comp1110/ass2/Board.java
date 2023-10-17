@@ -1,27 +1,23 @@
 package comp1110.ass2;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    public static final int RowMax = 7;
-    public static final int ColumnMax = 7;
-
     public Tile[] tiles;
 
     public Board() {
-        int n = ColumnMax * RowMax;
+        int n = Utils.ColumnMax * Utils.RowMax;
         tiles = new Tile[n];
         for (int k = 0; k < n; k++) {
-            int x = k / RowMax;
-            int y = k % RowMax;
+            int x = k / Utils.RowMax;
+            int y = k % Utils.RowMax;
             tiles[k] = new Tile(x, y);
         }
     }
 
     public Board(String boardString) {
-        int n = ColumnMax * RowMax;
+        int n = Utils.ColumnMax * Utils.RowMax;
         tiles = new Tile[n];
 
         // key: color + id
@@ -30,8 +26,8 @@ public class Board {
 
         for (int k = 0; k < n; k++) {
             // get position
-            int x = k / RowMax;
-            int y = k % RowMax;
+            int x = k / Utils.RowMax;
+            int y = k % Utils.RowMax;
 
             // init tile
             this.tiles[k] = new Tile(x, y);
@@ -72,17 +68,23 @@ public class Board {
      * @return the tile at this position
      */
     public Tile getTile(IntPair pos) {
-        if (pos == null || pos.x < 0 || pos.x >= ColumnMax || pos.y < 0 || pos.y >= RowMax) return null;
-        return this.tiles[pos.x * RowMax + pos.y];
+        if (pos == null || pos.x < 0 || pos.x >= Utils.ColumnMax || pos.y < 0 || pos.y >= Utils.RowMax) return null;
+        return this.tiles[pos.x * Utils.RowMax + pos.y];
     }
 
-    public int getPlayerRugTilesAmount(Player player) {
+    /**
+     * get player rug score
+     * every tile counts one score
+     *
+     * @param player
+     * @return
+     */
+    public int getPlayerRugScore(Player player) {
         if (player.out) return 0;
         int n = 0;
-        for (Tile tile : this.tiles) {
+        for (Tile tile : this.tiles)
             if (tile.rug != null && tile.rug.color == player.color)
                 n += 1;
-        }
         return n;
     }
 
@@ -95,8 +97,8 @@ public class Board {
         if ("cyrp".indexOf(rug.color) < 0) return false;
         // rug position is invalid
         for (IntPair position : rug.positions)
-            if (position.x < 0 || position.x >= ColumnMax ||
-                    position.y < 0 || position.y >= RowMax)
+            if (position.x < 0 || position.x >= Utils.ColumnMax ||
+                    position.y < 0 || position.y >= Utils.RowMax)
                 return false;
 
         // rug color + id is duplicated

@@ -13,22 +13,19 @@ package comp1110.ass2;
  */
 public class Player {
     public char color;
-    public int coins;
-    public int remainingRugNumber;
-    public boolean out;
+    public int coins = 30;
+    public int remainingRugNumber = 15;
+    public boolean out = false;
 
     public Player(char color) {
         this.color = color;
-        this.coins = 30;
-        this.remainingRugNumber = 15;
-        this.out = false;
     }
 
     public Player(String playerString) {
-        this.color = playerString.charAt(1);
-        this.coins = Integer.parseInt(playerString, 2, 5, 10);
-        this.remainingRugNumber = Integer.parseInt(playerString, 5, 7, 10);
-        this.out = playerString.charAt(7) == 'o';
+        color = playerString.charAt(1);
+        coins = Integer.parseInt(playerString, 2, 5, 10);
+        remainingRugNumber = Integer.parseInt(playerString, 5, 7, 10);
+        out = playerString.charAt(7) == 'o';
     }
 
     @Override
@@ -52,10 +49,6 @@ public class Player {
             this.coins -= coins;
             other.coins += coins;
         }
-    }
-
-    public Rug createRug(IntPair[] positions) {
-        return new Rug(color, 15 - remainingRugNumber, positions);
     }
 }
 

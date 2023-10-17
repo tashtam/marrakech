@@ -1,6 +1,7 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Player;
+import comp1110.ass2.Utils;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -20,7 +21,7 @@ public class GPlayer extends Group {
 
     void setPlayer(Player player) {
         this.player = player;
-        var javaFXColor = player == null ? Color.GRAY : GUtils.getJavaFxColor(player.color);
+        var javaFXColor = player == null ? Color.GRAY : Utils.getJavaFxColor(player.color);
 
         mainRect.setStroke(javaFXColor);
         faceRect.setFill(javaFXColor);
@@ -55,9 +56,9 @@ public class GPlayer extends Group {
 
         circle.setFill(Color.BLACK);
 
-        coinText.setFont(GUtils.font);
-        remainRugNumText.setFont(GUtils.font);
-        scoreText.setFont(GUtils.font);
+        coinText.setFont(Utils.font);
+        remainRugNumText.setFont(Utils.font);
+        scoreText.setFont(Utils.font);
         this.getChildren().addAll(mainRect, faceRect, coinText, remainRugNumText, scoreText, circle);
     }
 }
