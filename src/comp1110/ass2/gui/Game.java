@@ -8,13 +8,15 @@ import javafx.stage.Stage;
 
 public class Game extends Application {
     private final Group root = new Group();
+    private static final int WINDOW_WIDTH = 1200;
+    private static final int WINDOW_HEIGHT = 700;
 
     @Override
     public void start(Stage stage) throws Exception {
         // FIXME Task 7 and 15
         stage.setTitle("Marrakech");
-        Scene scene = new Scene(root, Utils.WINDOW_WIDTH, Utils.WINDOW_HEIGHT);
-        GMain gMain = new GMain(scene);
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        GMain gMain = new GMain(scene, root);
         root.getChildren().add(gMain);
         stage.setScene(scene);
         stage.show();

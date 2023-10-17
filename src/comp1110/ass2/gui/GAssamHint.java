@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class GAssamHint extends Group {
-    Rectangle rect = new Rectangle(Utils.GRID_SIZE, Utils.GRID_SIZE);
+    Rectangle rect = new Rectangle(Utils.GRID_SIZE + Utils.GRID_GAP, Utils.GRID_SIZE + Utils.GRID_GAP);
     boolean value = true;
 
     GAssamHint() {
@@ -14,6 +14,8 @@ public class GAssamHint extends Group {
         rect.setStrokeWidth(2);
         rect.setArcWidth(10);
         rect.setArcHeight(10);
+        rect.setLayoutX(-Utils.GRID_GAP / 2);
+        rect.setLayoutY(-Utils.GRID_GAP / 2);
         rect.setStroke(Color.GREEN);
         this.getChildren().add(rect);
     }

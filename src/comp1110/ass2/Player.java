@@ -14,7 +14,7 @@ package comp1110.ass2;
 public class Player {
     public char color;
     public int coins = 30;
-    public int remainingRugNumber = 15;
+    public int remainingRugNumber = 1;
     public boolean out = false;
 
     public Player(char color) {

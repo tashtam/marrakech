@@ -3,31 +3,32 @@ package comp1110.ass2.gui;
 import comp1110.ass2.Game;
 import comp1110.ass2.Player;
 import comp1110.ass2.Rug;
-import comp1110.ass2.Utils;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
 public class GGame extends Group {
-    Rectangle backgroundRect = new Rectangle(Utils.WINDOW_WIDTH, Utils.WINDOW_HEIGHT);
     Game game;
     GBoard gBoard;
-    GPanel gPanel;
+    Group gPanel;
     GMain gMain;
     GMark gMark;
     GAssam gAssam;
     GAssamHint gAssamHint;
-    GConsole gConsole = new GConsole();
+    GConsole gConsole;
+    GPlayer[] gPlayers;
+    GDie gDie;
+    EventHandler<KeyEvent> h1;
+    EventHandler<KeyEvent> h2;
+
     boolean ctrlPressing = false;
 
     void setGMain(GMain gMain) {
         this.gMain = gMain;
-        this.setSceneCallback(gMain.scene);
     }
 
     void print(Object... objects) {
@@ -45,20 +46,7 @@ public class GGame extends Group {
         this.print(info);
     }
 
-    void confirmAssamDegreeAndMove() {
-        if (!game.assam.confirmDegree()) {
-            gAssamHint.setValue(true);
-            this.update();
-            return;
-        }
-
-        gPanel.gDie.displayDie(0);
-        var c = game.players[game.currentPlayerIndex].color;
-        this.print("player " + c + " confirm assam direction");
-
-        var step = game.rollDie();
-        gPanel.gDie.displayDie(step);
-        var posPath = game.assam.move(step);
+    boolean pay() {
         var player = game.players[game.currentPlayerIndex];
         var color = game.board.getTile(game.assam.position).getColor();
         var player2 = game.getPlayer(color);
@@ -72,10 +60,31 @@ public class GGame extends Group {
             }
         }
 
-        System.out.println("move!");
         if (player.out) {
-            System.out.println("is outQ!!");
             this.print("player " + player.color + " out!!");
+        }
+
+        return player.out;
+    }
+
+    void confirmAssamDegreeAndMove() {
+        if (!game.assam.confirmDegree()) {
+            gAssamHint.setValue(true);
+            this.update();
+            return;
+        }
+
+        var c = game.players[game.currentPlayerIndex].color;
+        this.print("player " + c + " confirm assam direction");
+
+        var step = game.rollDie();
+        gDie.displayDie(step);
+
+        var posPath = game.assam.move(step);
+        gAssam.update();
+
+        var out = this.pay();
+        if (out) {
             game.turnNext();
             c = game.getCurrentPlayer().color;
             this.print("turn to player " + c);
@@ -84,7 +93,6 @@ public class GGame extends Group {
             this.print("please put a rug");
             this.setGamePhase(2);
         }
-        this.update();
     }
 
     void setGamePhase(int phase) {
@@ -103,6 +111,7 @@ public class GGame extends Group {
 
     void beforePhase0() {
         gMark.hide();
+        gDie.displayDie(0);
         if (game.isGameOver()) this.gameOver();
     }
 
@@ -129,54 +138,73 @@ public class GGame extends Group {
         this.update();
     }
 
-    void setSceneCallback(Scene scene) {
-        scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            if (event.getCode() == KeyCode.CONTROL) ctrlPressing = false;
-        });
+    void onKeyReleased(KeyEvent event) {
+        System.out.println("LDSJFALFsdfdjslfjlk");
+        if (event.getCode() == KeyCode.CONTROL) ctrlPressing = false;
+    }
 
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.CONTROL) ctrlPressing = true;
-        });
+    void OnKeyPressed(KeyEvent event) {
+        System.out.println("LDSJFALF");
+        var code = event.getCode();
+        if (code == KeyCode.CONTROL) ctrlPressing = true;
 
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            var code = event.getCode();
-
-            if (game.phase == 0) {
-                if (code == KeyCode.ENTER) this.confirmAssamDegreeAndMove();
-                else {
-                    switch (code) {
-                        case W, UP -> setAssamDegree(0);
-                        case D, RIGHT -> setAssamDegree(90);
-                        case S, DOWN -> setAssamDegree(180);
-                        case A, LEFT -> setAssamDegree(270);
-                    }
+        if (game.phase == 0) {
+            switch (code) {
+                case ENTER, SPACE -> this.confirmAssamDegreeAndMove();
+                case W, UP -> setAssamDegree(0);
+                case D, RIGHT -> setAssamDegree(90);
+                case S, DOWN -> setAssamDegree(180);
+                case A, LEFT -> setAssamDegree(270);
+            }
+        } else if (game.phase == 2) {
+            if (code == KeyCode.ENTER || code == KeyCode.SPACE) this.putRug();
+            else if (ctrlPressing) {
+                switch (code) {
+                    case W, UP -> gMark.quickChangeMode(0);
+                    case D, RIGHT -> gMark.quickChangeMode(90);
+                    case S, DOWN -> gMark.quickChangeMode(180);
+                    case A, LEFT -> gMark.quickChangeMode(270);
                 }
-            } else if (game.phase == 2) {
-                if (code == KeyCode.ENTER) this.putRug();
-                else if (ctrlPressing) {
-                    switch (code) {
-                        case W, UP -> gMark.quickChangeMode(0);
-                        case D, RIGHT -> gMark.quickChangeMode(90);
-                        case S, DOWN -> gMark.quickChangeMode(180);
-                        case A, LEFT -> gMark.quickChangeMode(270);
-                    }
-                } else {
-                    switch (code) {
-                        case W, UP -> gMark.changeMode(0);
-                        case D, RIGHT -> gMark.changeMode(90);
-                        case S, DOWN -> gMark.changeMode(180);
-                        case A, LEFT -> gMark.changeMode(270);
-                    }
+            } else {
+                switch (code) {
+                    case W, UP -> gMark.changeMode(0);
+                    case D, RIGHT -> gMark.changeMode(90);
+                    case S, DOWN -> gMark.changeMode(180);
+                    case A, LEFT -> gMark.changeMode(270);
                 }
             }
-        });
+        } else if (game.phase == -1) {
+            this.gMain.backToTitle();
+        }
+    }
+
+    void clearCallback(Scene scene) {
+        scene.removeEventHandler(KeyEvent.KEY_RELEASED, h1);
+        scene.removeEventHandler(KeyEvent.KEY_PRESSED, h2);
+    }
+
+    void setCallback(Scene scene) {
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, h1);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, h2);
     }
 
     GGame(Game game) {
+        h1 = this::onKeyReleased;
+        h2 = this::OnKeyPressed;
+
         this.game = game;
 
-        backgroundRect.setFill(Color.WHITE);
-        this.getChildren().add(backgroundRect);
+        gPlayers = new GPlayer[4];
+
+        for (int i = 0; i < 4; i++) {
+            var gPlayer = new GPlayer(game);
+            gPlayers[i] = gPlayer;
+            gPlayer.setLayoutX((i % 2) * 200);
+            gPlayer.setLayoutY((i / 2) * 110);
+        }
+
+        gDie = new GDie();
+        gConsole = new GConsole();
 
         gBoard = new GBoard(game.board);
         gBoard.setLayoutX(50);
@@ -186,11 +214,20 @@ public class GGame extends Group {
         gMark = new GMark(game.assam);
         gBoard.getChildren().add(gMark);
 
-        gPanel = new GPanel(this);
-        gPanel.setPlayers();
+        gPanel = new Group();
+        var len = game.players.length;
+        for (int i = 0; i < 4; i++) {
+            if (i < len) gPlayers[i].setPlayer(game.players[i]);
+            else gPlayers[i].setPlayer(null);
+        }
+
+        gPanel.getChildren().addAll(gPlayers);
         gPanel.setLayoutX(600);
         gPanel.setLayoutY(50);
         this.getChildren().add(gPanel);
+
+        gDie.setLayoutY(450);
+        gPanel.getChildren().add(gDie);
 
         gAssam = new GAssam(game);
         gBoard.getChildren().add(gAssam);
@@ -215,7 +252,7 @@ public class GGame extends Group {
 
     void update() {
         gBoard.update();
-        gPanel.update();
         gAssam.update();
+        for (GPlayer gPlayer : gPlayers) gPlayer.update();
     }
 }

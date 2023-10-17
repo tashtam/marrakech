@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Game;
 import comp1110.ass2.Player;
 import comp1110.ass2.Utils;
 import javafx.scene.Group;
@@ -11,7 +12,7 @@ import javafx.scene.text.Text;
 
 public class GPlayer extends Group {
     Player player;
-    GGame gGame;
+    Game game;
     Text coinText = new Text(60, 20, "");
     Text remainRugNumText = new Text(60, 50, "");
     Text scoreText = new Text(60, 80, "");
@@ -35,16 +36,16 @@ public class GPlayer extends Group {
         if (player != null) {
             coinText.setText("coin: " + player.coins);
             remainRugNumText.setText("rug: " + player.remainingRugNumber);
-            scoreText.setText("score: " + gGame.game.getPlayerScore(player));
+            scoreText.setText("score: " + game.getPlayerScore(player));
             if (player.out) mainRect.setStroke(Color.GRAY);
         }
 
-        var currentPlayer = gGame.game.getCurrentPlayer();
+        var currentPlayer = game.getCurrentPlayer();
         circle.setVisible(currentPlayer == player);
     }
 
-    GPlayer(GGame gGame) {
-        this.gGame = gGame;
+    GPlayer(Game game) {
+        this.game = game;
 
         mainRect.setArcHeight(10);
         mainRect.setArcWidth(10);

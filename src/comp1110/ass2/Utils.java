@@ -7,8 +7,6 @@ import javafx.scene.text.FontWeight;
 public class Utils {
     public static final int RowMax = 7;
     public static final int ColumnMax = 7;
-    public static final int WINDOW_WIDTH = 1200;
-    public static final int WINDOW_HEIGHT = 700;
     public static final int GRID_SIZE = 70;
     public static final int GRID_GAP = 6;
     public static final int UNIT_SIZE = GRID_SIZE + GRID_GAP;

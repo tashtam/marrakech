@@ -24,7 +24,6 @@ public class GTile extends Group {
         this.getChildren().add(text);
     }
 
-
     void update() {
         var color = tile.getColor();
         var javaFxColor = Utils.getJavaFxColor(color);
