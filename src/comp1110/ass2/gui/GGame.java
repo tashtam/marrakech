@@ -207,7 +207,7 @@ public class GGame extends Group {
                     this.setGamePhase(3);
                 }),
                 new KeyFrame(Duration.seconds(0.2), e -> {
-                    game.easyAIPlayerSetDegree();
+                    game.aiPlayerSetDegree();
                     gAssam.update();
                 }),
                 new KeyFrame(Duration.seconds(0.4), e -> {
@@ -215,7 +215,7 @@ public class GGame extends Group {
                     this.update();
                 }),
                 new KeyFrame(Duration.seconds(0.6), e -> {
-                    rug = game.easyAIPlayerPutRug();
+                    rug = game.aiPlayerPutRug();
                     gMark.positions = rug.positions;
                     gMark.update();
                 }),
@@ -278,8 +278,8 @@ public class GGame extends Group {
 
     }
 
-    GGame(int playerAmount, int aiPlayerAmount) {
-        var game = new Game(playerAmount, aiPlayerAmount);
+    GGame(int playerAmount, int aiPlayerAmount, int hardAIPlayerAmount) {
+        var game = new Game(playerAmount, aiPlayerAmount, hardAIPlayerAmount);
         this.setGame(game);
     }
 

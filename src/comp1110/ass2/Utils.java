@@ -24,6 +24,17 @@ public class Utils {
         return Color.LIGHTGRAY;
     }
 
+    public static <T> void shuffle(T[] array) {
+        var n = array.length;
+        for (int i = 0; i < n; i++) {
+            var j = Utils.randint(n - i) + i;
+            if (i == j) continue;
+            T temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+
     public static int randint(int bound) {
         return ranDie.nextInt(bound);
     }

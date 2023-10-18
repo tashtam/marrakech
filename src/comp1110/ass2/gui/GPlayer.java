@@ -16,7 +16,7 @@ public class GPlayer extends Group {
     Text coinText = new Text(60, 20, "coin: ");
     Text remainRugNumText = new Text(60, 50, "rug: ");
     Text scoreText = new Text(60, 80, "score: ");
-    Text aiText = new Text(10, 40, "AI");
+    Text aiText = new Text(10, 40, "");
     Rectangle mainRect = new Rectangle(180, 100);
     Rectangle faceRect = new Rectangle(50, 100);
     Circle circle = new Circle(10, 10, 4);
@@ -27,7 +27,10 @@ public class GPlayer extends Group {
         var javaFXColor = player == null ? Color.GRAY : Utils.getJavaFxColor(player.color);
         mainRect.setStroke(javaFXColor);
         faceRect.setFill(javaFXColor);
-        aiText.setVisible(player != null && player.ai);
+        if (player != null && player.ai) {
+            if (player.hardAI) aiText.setText("AI");
+            else aiText.setText("ai");
+        }
     }
 
     void update() {

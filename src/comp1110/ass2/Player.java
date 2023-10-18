@@ -17,10 +17,12 @@ public class Player {
     public int remainingRugNumber = 15;
     public boolean out = false;
     public boolean ai = false;
+    public boolean hardAI = false;
 
-    public Player(char color, boolean ai) {
+    public Player(char color, boolean ai, boolean hardAI) {
         this.color = color;
         this.ai = ai;
+        this.hardAI = hardAI;
     }
 
     public Player(String playerString) {

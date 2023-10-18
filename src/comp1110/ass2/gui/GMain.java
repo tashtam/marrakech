@@ -13,8 +13,10 @@ public class GMain extends Group {
     GGame gGame;
     RadioButton[] playerRbs = new RadioButton[5];
     RadioButton[] aiPlayerRbs = new RadioButton[5];
+    RadioButton[] hardAIPlayerRbs = new RadioButton[5];
     ToggleGroup playerTG = new ToggleGroup();
     ToggleGroup aiPlayerTG = new ToggleGroup();
+    ToggleGroup hardAIPlayerTG = new ToggleGroup();
     Button beginBtn = new Button("begin game");
 
     GMain(Scene scene, Group root) {
@@ -39,8 +41,17 @@ public class GMain extends Group {
         }
         this.getChildren().addAll(aiPlayerRbs);
 
+        for (int i = 0; i < hardAIPlayerRbs.length; i++) {
+            var playerRb = new RadioButton(texts[i] + " hard ai players");
+            playerRb.setLayoutX(230);
+            playerRb.setLayoutY(50 + 50 * i);
+            playerRb.setToggleGroup(hardAIPlayerTG);
+            hardAIPlayerRbs[i] = playerRb;
+        }
+        this.getChildren().addAll(hardAIPlayerRbs);
+
         beginBtn.setOnMouseClicked(event -> {
-            int i, j;
+            int i, j, k;
 
             var playerRb = (RadioButton) playerTG.getSelectedToggle();
             for (i = 0; i < playerRbs.length; i++) {
@@ -52,9 +63,15 @@ public class GMain extends Group {
                 if (aiPlayerRbs[j] == playerRb) break;
             }
 
-            var d = i + j;
+            playerRb = (RadioButton) hardAIPlayerTG.getSelectedToggle();
+            for (k = 0; k < hardAIPlayerRbs.length; k++) {
+                if (hardAIPlayerRbs[k] == playerRb) break;
+            }
+
+            var d = i + j + k;
+            System.out.println(""+i+" "+j+" "+k+" = "+d);
             if (d >= 2 && d < 5) {
-                this.createNewGame(i, j);
+                this.createNewGame(i, j, k);
             }
         });
         this.getChildren().add(beginBtn);
@@ -63,8 +80,8 @@ public class GMain extends Group {
         this.setLayoutY(100);
     }
 
-    void createNewGame(int playerAmount, int aiPlayerAmount) {
-        gGame = new GGame(playerAmount, aiPlayerAmount);
+    void createNewGame(int playerAmount, int aiPlayerAmount, int hardAIPlayerAmount) {
+        gGame = new GGame(playerAmount, aiPlayerAmount, hardAIPlayerAmount);
         gGame.setGMain(this);
         gGame.setCallback(scene);
         root.getChildren().add(gGame);

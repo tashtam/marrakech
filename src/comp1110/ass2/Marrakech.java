@@ -48,7 +48,7 @@ public class Marrakech {
      * @return The result of the roll of the die meeting the criteria above
      */
     public static int rollDie() {
-        var game = new Game(4, 0);
+        var game = new Game(4, 0, 0);
         return game.rollDie();
         // FIXME: Task 6 [DONE]
     }
