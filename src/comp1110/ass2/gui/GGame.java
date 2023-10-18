@@ -1,6 +1,7 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Game;
+import comp1110.ass2.IntPair;
 import comp1110.ass2.Player;
 import comp1110.ass2.Rug;
 import javafx.animation.KeyFrame;
@@ -76,7 +77,13 @@ public class GGame extends Group {
         var step = game.rollDie();
         gDie.displayDie(step);
 
-        var posPath = game.assam.move(step);
+        System.out.println("player " + game.getCurrentPlayer().color + " assam pos: " + game.assam.position);
+        var path = game.assam.move(step);
+        String s = "move path: ";
+        for (IntPair intPair : path) {
+            s += intPair + " ";
+        }
+        System.out.println(s);
         gAssam.update();
 
         var out = this.pay();
@@ -206,20 +213,20 @@ public class GGame extends Group {
                 new KeyFrame(Duration.ZERO, event -> {
                     this.setGamePhase(3);
                 }),
-                new KeyFrame(Duration.seconds(0.2), e -> {
+                new KeyFrame(Duration.seconds(0.1), e -> {
                     game.aiPlayerSetDegree();
                     gAssam.update();
                 }),
-                new KeyFrame(Duration.seconds(0.4), e -> {
+                new KeyFrame(Duration.seconds(0.2), e -> {
                     this.move();
                     this.update();
                 }),
-                new KeyFrame(Duration.seconds(0.6), e -> {
+                new KeyFrame(Duration.seconds(0.3), e -> {
                     rug = game.aiPlayerPutRug();
                     gMark.positions = rug.positions;
                     gMark.update();
                 }),
-                new KeyFrame(Duration.seconds(0.8), e -> {
+                new KeyFrame(Duration.seconds(0.4), e -> {
                     game.makePlacement(rug);
                     this.turnNext();
                     this.update();

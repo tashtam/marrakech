@@ -7,11 +7,11 @@ public class IntPair {
     /**
      * column
      */
-    public int x;
+    public final int x;
     /**
      * row
      */
-    public int y;
+    public final int y;
 
     public IntPair(int x, int y) {
         this.x = x;

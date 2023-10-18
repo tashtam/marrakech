@@ -108,14 +108,16 @@ public class Assam {
      */
     public ArrayList<IntPair> move(int dieResult) {
         var path = new ArrayList<IntPair>();
+        var x = position.x;
+        var y = position.y;
         for (int i = 1; i <= dieResult; i++) {
-            path.add(this.position);
-            int[] positionAfterChecking = this.checkForMosaicTracks(this.position.x, this.position.y, this.degree);
+            path.add(new IntPair(x, y));
+            int[] positionAfterChecking = this.checkForMosaicTracks(x, y, degree);
 
-            this.position.x = positionAfterChecking[0];
-            this.position.y = positionAfterChecking[1];
-            this.degree = positionAfterChecking[2];
-            this.oldDegree = positionAfterChecking[2];
+            x = positionAfterChecking[0];
+            y = positionAfterChecking[1];
+            degree = positionAfterChecking[2];
+            oldDegree = positionAfterChecking[2];
 
              /*Checking the flag value.
             If it is 1, it means that the current step has been used by checkForMosaicTracks.
@@ -126,20 +128,16 @@ public class Assam {
 
             if (positionAfterChecking[3] == 1) continue;
 
-            if (this.degree == 0) {
-                this.position.y -= 1;
-            }
-            if (this.degree == 90) {
-                this.position.x += 1;
-            }
-            if (this.degree == 180) {
-                this.position.y += 1;
-            }
-            if (this.degree == 270) {
-                this.position.x -= 1;
+            switch (degree) {
+                case 0 -> y -= 1;
+                case 90 -> x += 1;
+                case 180 -> y += 1;
+                case 270 -> x -= 1;
             }
         }
-        path.add(this.position);
+
+        position = new IntPair(x, y);
+        path.add(position);
         return path;
     }
 

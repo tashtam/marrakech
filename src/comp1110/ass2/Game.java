@@ -39,7 +39,7 @@ public class Game {
         var player = this.getCurrentPlayer();
         var rugs = new ArrayList<Rug>();
         for (int mode = 0; mode < 12; mode++) {
-            var positions = Utils.createRugPositions(mode, assam.position);
+            var positions = Utils.createRugPositions(mode, assam.position.clone());
             var rug = new Rug(player.color, 15 - player.remainingRugNumber, positions);
             if (this.isPlacementValid(rug)) rugs.add(rug);
         }
@@ -130,7 +130,7 @@ public class Game {
     }
 
     void hardAIPlayerSetDegree() {
-        var pos = assam.position.clone();
+        var pos = assam.position;
         var degree = assam.degree;
         double minPayment = Utils.RowMax * Utils.ColumnMax;
         var minPaymentDegree = 0;
@@ -158,21 +158,22 @@ public class Game {
 
     public Game(int playerAmount, int aiPlayerAmount, int hardAIPlayerAmount) {
         // current player index
-        this.currentPlayerIndex = 0;
+        currentPlayerIndex = 0;
         int n = playerAmount + aiPlayerAmount + hardAIPlayerAmount;
         int m = playerAmount + aiPlayerAmount;
-        this.players = new Player[n];
+        players = new Player[n];
         var colors = "cypr";
         for (int k = 0; k < n; k++) {
-            this.players[k] = new Player(colors.charAt(k), k >= playerAmount, k >= m);
+            players[k] = new Player(colors.charAt(k), k >= playerAmount, k >= m);
         }
-        this.assam = new Assam();
-        this.board = new Board();
+        Utils.shuffle(players);
+        assam = new Assam();
+        board = new Board();
     }
 
     public Game(String gameString) {
         // current player index
-        this.currentPlayerIndex = 0;
+        currentPlayerIndex = 0;
 
         // split game string into 3 parts
         int i = gameString.indexOf('A');
@@ -182,17 +183,17 @@ public class Game {
 
         // player string
         int n = playerStringPart.length() / 8;
-        this.players = new Player[n];
+        players = new Player[n];
         for (int k = 0; k < n; k++) {
             String playerString = playerStringPart.substring(k * 8, (k + 1) * 8);
-            this.players[k] = new Player(playerString);
+            players[k] = new Player(playerString);
         }
 
         // assam string
-        this.assam = new Assam(assamStringPart);
+        assam = new Assam(assamStringPart);
 
         // board string
-        this.board = new Board(boardStringPart);
+        board = new Board(boardStringPart);
     }
 
     public Player getCurrentPlayer() {
@@ -349,6 +350,7 @@ public class Game {
     }
 
     public void turnNext() {
+        System.out.println("player " + this.getCurrentPlayer().color + " assam pos: " + assam.position);
         currentPlayerIndex += 1;
         currentPlayerIndex %= players.length;
         if (players[currentPlayerIndex].out) {
