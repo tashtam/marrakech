@@ -1,7 +1,7 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.Assam;
 import comp1110.ass2.IntPair;
+import comp1110.ass2.Rug;
 import comp1110.ass2.Utils;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -11,12 +11,12 @@ public class GMark extends Group {
     IntPair[] positions = new IntPair[2];
     Rectangle[] rects = new Rectangle[2];
     int mode = 0;
-    Assam assam;
+    GGame gGame;
 
-    GMark(Assam assam) {
-        this.assam = assam;
+    GMark(GGame gGame) {
+        this.gGame = gGame;
         for (int i = 0; i < rects.length; i++) {
-            var rect = new Rectangle(Utils.GRID_SIZE, Utils.GRID_SIZE);
+            var rect = new Rectangle(Utils.GRID_SIZE + Utils.GRID_GAP, Utils.GRID_SIZE + Utils.GRID_GAP);
             rect.setFill(Color.web("#00000000"));
             rect.setStroke(Color.BLACK);
             rect.setStrokeWidth(2);
@@ -30,7 +30,7 @@ public class GMark extends Group {
 
     void reset() {
         mode = 0;
-        positions = Utils.createRugPositions(mode, assam.position);
+        positions = Utils.createRugPositions(mode, gGame.game.assam.position);
         this.update();
     }
 
@@ -47,7 +47,29 @@ public class GMark extends Group {
             case 180 -> mode = 6;
             case 270 -> mode = 9;
         }
-        positions = Utils.createRugPositions(mode, assam.position);
+        this.setMode(mode);
+    }
+
+    void setMode(int mode) {
+        this.mode = mode;
+        positions = Utils.createRugPositions(mode, gGame.game.assam.position);
+        var rugs = gGame.game.getPossibleRugs();
+        gGame.gAssamHint.setValue(false);
+        for (Rug rug : rugs) {
+            var d = 0;
+            for (IntPair p1 : rug.positions) {
+                for (IntPair p2 : positions) {
+                    if (p1.x == p2.x && p1.y == p2.y) {
+                        d += 1;
+                        break;
+                    }
+                }
+            }
+            if (d == 2) {
+                gGame.gAssamHint.setValue(true);
+                break;
+            }
+        }
         this.update();
     }
 
@@ -70,8 +92,7 @@ public class GMark extends Group {
             else mode += 1;
         }
         mode = (mode + 12) % 12;
-        positions = Utils.createRugPositions(mode, assam.position);
-        this.update();
+        this.setMode(mode);
     }
 
     void update() {
@@ -79,8 +100,8 @@ public class GMark extends Group {
             var x = positions[i].x;
             var y = positions[i].y;
             rects[i].setVisible(x >= 0 && x < 7 && y >= 0 && y < 7);
-            rects[i].setLayoutX(x * Utils.UNIT_SIZE);
-            rects[i].setLayoutY(y * Utils.UNIT_SIZE);
+            rects[i].setLayoutX(x * Utils.UNIT_SIZE - Utils.GRID_GAP / 2);
+            rects[i].setLayoutY(y * Utils.UNIT_SIZE - Utils.GRID_GAP / 2);
         }
     }
 }

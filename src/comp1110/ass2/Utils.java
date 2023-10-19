@@ -7,10 +7,9 @@ import javafx.scene.text.FontWeight;
 import java.util.Random;
 
 public class Utils {
-    public static final int RowMax = 7;
-    public static final int ColumnMax = 7;
+    public static final int MAP_SIZE = 7;
     public static final int GRID_SIZE = 70;
-    public static final int GRID_GAP = 6;
+    public static final int GRID_GAP = 10;
     public static final int UNIT_SIZE = GRID_SIZE + GRID_GAP;
     public static final Font font = Font.font("Consolas", FontWeight.EXTRA_BOLD, 16);
     public static final Font bigFont = Font.font("Consolas", FontWeight.EXTRA_BOLD, 32);

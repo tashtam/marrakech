@@ -35,7 +35,7 @@ public class Game {
         return null;
     }
 
-    ArrayList<Rug> getPossibleRugs() {
+    public ArrayList<Rug> getPossibleRugs() {
         var player = this.getCurrentPlayer();
         var rugs = new ArrayList<Rug>();
         for (int mode = 0; mode < 12; mode++) {
@@ -132,7 +132,7 @@ public class Game {
     void hardAIPlayerSetDegree() {
         var pos = assam.position;
         var degree = assam.degree;
-        double minPayment = Utils.RowMax * Utils.ColumnMax;
+        double minPayment = Utils.MAP_SIZE * Utils.MAP_SIZE;
         var minPaymentDegree = 0;
         for (int i = 0; i < 4; i++) {
             var newDegree = i * 90;

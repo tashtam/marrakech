@@ -1,7 +1,6 @@
 package comp1110.ass2;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * this class defines Assam that players need to control,there are
@@ -145,9 +144,9 @@ public class Assam {
         int flag = 0;
 
         boolean top = posY == 0 && degree == 0;
-        boolean bottom = posY == Utils.RowMax - 1 && degree == 180;
+        boolean bottom = posY == Utils.MAP_SIZE - 1 && degree == 180;
         boolean left = posX == 0 && degree == 270;
-        boolean right = posX == Utils.ColumnMax - 1 && degree == 90;
+        boolean right = posX == Utils.MAP_SIZE - 1 && degree == 90;
 
         if (top || bottom || left || right) {
             flag = 1;

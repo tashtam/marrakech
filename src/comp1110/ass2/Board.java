@@ -7,17 +7,17 @@ public class Board {
     public Tile[] tiles;
 
     public Board() {
-        int n = Utils.ColumnMax * Utils.RowMax;
+        int n = Utils.MAP_SIZE * Utils.MAP_SIZE;
         tiles = new Tile[n];
         for (int k = 0; k < n; k++) {
-            int x = k / Utils.RowMax;
-            int y = k % Utils.RowMax;
+            int x = k / Utils.MAP_SIZE;
+            int y = k % Utils.MAP_SIZE;
             tiles[k] = new Tile(x, y);
         }
     }
 
     public Board(String boardString) {
-        int n = Utils.ColumnMax * Utils.RowMax;
+        int n = Utils.MAP_SIZE * Utils.MAP_SIZE;
         tiles = new Tile[n];
 
         // key: color + id
@@ -26,8 +26,8 @@ public class Board {
 
         for (int k = 0; k < n; k++) {
             // get position
-            int x = k / Utils.RowMax;
-            int y = k % Utils.RowMax;
+            int x = k / Utils.MAP_SIZE;
+            int y = k % Utils.MAP_SIZE;
 
             // init tile
             this.tiles[k] = new Tile(x, y);
@@ -68,8 +68,8 @@ public class Board {
      * @return the tile at this position
      */
     public Tile getTile(IntPair pos) {
-        if (pos == null || pos.x < 0 || pos.x >= Utils.ColumnMax || pos.y < 0 || pos.y >= Utils.RowMax) return null;
-        return this.tiles[pos.x * Utils.RowMax + pos.y];
+        if (pos == null || pos.x < 0 || pos.x >= Utils.MAP_SIZE || pos.y < 0 || pos.y >= Utils.MAP_SIZE) return null;
+        return this.tiles[pos.x * Utils.MAP_SIZE + pos.y];
     }
 
     /**
@@ -97,8 +97,8 @@ public class Board {
         if ("cyrp".indexOf(rug.color) < 0) return false;
         // rug position is invalid
         for (IntPair position : rug.positions)
-            if (position.x < 0 || position.x >= Utils.ColumnMax ||
-                    position.y < 0 || position.y >= Utils.RowMax)
+            if (position.x < 0 || position.x >= Utils.MAP_SIZE ||
+                    position.y < 0 || position.y >= Utils.MAP_SIZE)
                 return false;
 
         // rug color + id is duplicated

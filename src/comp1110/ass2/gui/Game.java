@@ -1,6 +1,5 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.Utils;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -17,7 +16,10 @@ public class Game extends Application {
         stage.setTitle("Marrakech");
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         GMain gMain = new GMain(scene, root);
-        root.getChildren().add(gMain);
+
+        //debug
+        gMain.createNewGame(0, 1, 1);
+//        root.getChildren().add(gMain);
         stage.setScene(scene);
         stage.show();
     }

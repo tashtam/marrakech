@@ -262,7 +262,7 @@ public class GGame extends Group {
         gBoard.setLayoutY(50);
         this.getChildren().add(gBoard);
 
-        gMark = new GMark(game.assam);
+        gMark = new GMark(this);
         gBoard.getChildren().add(gMark);
 
         gPanel = new Group();
@@ -273,7 +273,7 @@ public class GGame extends Group {
         }
 
         gPanel.getChildren().addAll(gPlayers);
-        gPanel.setLayoutX(600);
+        gPanel.setLayoutX(700);
         gPanel.setLayoutY(50);
         this.getChildren().add(gPanel);
 
