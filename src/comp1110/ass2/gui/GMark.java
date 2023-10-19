@@ -16,7 +16,7 @@ public class GMark extends Group {
     GMark(GGame gGame) {
         this.gGame = gGame;
         for (int i = 0; i < rects.length; i++) {
-            var rect = new Rectangle(Utils.GRID_SIZE + Utils.GRID_GAP, Utils.GRID_SIZE + Utils.GRID_GAP);
+            var rect = new Rectangle(Utils.GRID_SIZE, Utils.GRID_SIZE);
             rect.setFill(Color.web("#00000000"));
             rect.setStroke(Color.BLACK);
             rect.setStrokeWidth(2);
@@ -100,8 +100,8 @@ public class GMark extends Group {
             var x = positions[i].x;
             var y = positions[i].y;
             rects[i].setVisible(x >= 0 && x < 7 && y >= 0 && y < 7);
-            rects[i].setLayoutX(x * Utils.UNIT_SIZE - Utils.GRID_GAP / 2);
-            rects[i].setLayoutY(y * Utils.UNIT_SIZE - Utils.GRID_GAP / 2);
+            rects[i].setLayoutX(x * Utils.UNIT_SIZE);
+            rects[i].setLayoutY(y * Utils.UNIT_SIZE);
         }
     }
 }
