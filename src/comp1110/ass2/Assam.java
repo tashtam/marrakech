@@ -25,9 +25,8 @@ public class Assam {
     }
 
     /**
-    * The Assam constructor takes a string assamString as input
-    * It uses assamString to initialize the two fields of the class: direction and position
-    * @param assamString
+    * Constructs a new Assam object using the string representation of the object
+    * @param assamString The string representation of the Assam object
     */
     public Assam(String assamString) {
         char d = assamString.charAt(3);
@@ -67,7 +66,7 @@ public class Assam {
     }
 
     /**
-     * Sets the degree using the new value of the degree field
+     * Sets the degree of Assam
      * @param degree
      */
     public void setDegree(int degree) {
