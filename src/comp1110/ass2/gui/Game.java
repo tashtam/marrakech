@@ -16,10 +16,7 @@ public class Game extends Application {
         stage.setTitle("Marrakech");
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         GMain gMain = new GMain(scene, root);
-
-        //debug
-        gMain.createNewGame(0, 1, 1);
-//        root.getChildren().add(gMain);
+        root.getChildren().add(gMain);
         stage.setScene(scene);
         stage.show();
     }
