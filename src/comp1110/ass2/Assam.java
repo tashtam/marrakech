@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * This class defines Assam, the character players need to control
- * There are two fields named: (direction, position) and two methods: (rotate, move)
+ * There are two fields: (direction, position) and two methods: (rotate, move)
  * Parameter direction: char type stands for the present direction of Assam
  * Parameter position: IntPair type stands for the position (x,y) of Assam
  * X refers to the number of column, Y refers to the number of row
