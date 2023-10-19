@@ -14,6 +14,10 @@ public class IntPair {
      */
     public final int y;
 
+    /**
+     * @param x stand for the positions x
+     * @param y stand for the positions y
+     */
     public IntPair(int x, int y) {
         this.x = x;
         this.y = y;
@@ -23,6 +27,9 @@ public class IntPair {
         return new IntPair(x, y);
     }
 
+    /**
+     * @return generate the position string
+     */
     public String toString() {
         return "(" + this.x + "," + this.y + ")";
     }

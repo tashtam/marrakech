@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * @author Group
+ * this class is the central process for the whole project
  */
 public class Game {
     public int phase = 0;
@@ -38,6 +39,9 @@ public class Game {
         return null;
     }
 
+    /**
+     * @return rugs stand for all possible rugs that could be placed
+     */
     public ArrayList<Rug> getPossibleRugs() {
         var player = this.getCurrentPlayer();
         var rugs = new ArrayList<Rug>();
@@ -51,7 +55,7 @@ public class Game {
 
     Rug easyAIPlayerPutRug() {
         var rugs = this.getPossibleRugs();
-        return rugs.get(Utils.randint(rugs.size()));
+        return rugs.get(Utils.randInt(rugs.size()));
     }
 
     Rug hardAIPlayerPutRug() {
@@ -117,7 +121,7 @@ public class Game {
     }
 
     void easyAIPlayerSetDegree() {
-        var d = Utils.randint(3);
+        var d = Utils.randInt(3);
 
         int j = 0;
         var newDegree = 0;
@@ -378,7 +382,7 @@ public class Game {
     }
     public static int rollDie() {
         var diceValue = new int[]{1, 2, 2, 3, 3, 4};
-        return diceValue[Utils.randint(6)];
+        return diceValue[Utils.randInt(6)];
         // FIXME: Task 6 [DONE]
     }
 
