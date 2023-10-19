@@ -26,10 +26,10 @@ public class GGame extends Group {
     GConsole gConsole;
     GPlayer[] gPlayers;
     GDie gDie;
-    Timeline aiTimeline;
     EventHandler<KeyEvent> h1;
     EventHandler<KeyEvent> h2;
     Rug rug;
+    boolean banUserInput = false;
 
     boolean ctrlPressing = false;
 
@@ -50,6 +50,7 @@ public class GGame extends Group {
         if (winner.size() > 1) info = "game over!! It is tie!!";
         else info = "game over!! Winner is " + winner.get(0).color;
         this.print(info);
+        banUserInput = false;
     }
 
     boolean pay() {
@@ -85,15 +86,6 @@ public class GGame extends Group {
         }
         System.out.println(s);
         gAssam.update();
-
-        var out = this.pay();
-        if (out) {
-            this.turnNext();
-            this.setGamePhase(0);
-        } else {
-            this.print("please put a rug");
-            this.setGamePhase(2);
-        }
     }
 
     boolean confirmAssamDegree() {
@@ -124,16 +116,48 @@ public class GGame extends Group {
         game.turnNext();
         var player = game.getCurrentPlayer();
         this.print("turn to", "player", player.color);
+        banUserInput = player.ai;
     }
 
     void beforePhase0() {
         gMark.hide();
-        gDie.displayDie(0);
         if (game.isGameOver()) {
             this.gameOver();
         } else if (game.getCurrentPlayer().ai) {
-            aiTimeline.playFromStart();
+            this.wtf(e1 -> {
+                game.aiPlayerSetDegree();
+                gAssam.update();
+                this.wtf(e2 -> {
+                    this.move();
+                    rug = game.aiPlayerPutRug();
+                    gMark.positions = rug.positions;
+                    gMark.update();
+                    gAssam.update();
+
+                    var out = this.pay();
+                    if (out) {
+                        this.wtf(e3 -> {
+                            this.turnNext();
+                            this.update();
+                            this.setGamePhase(0);
+                        });
+                    } else {
+                        this.wtf(e3 -> {
+                            game.makePlacement(rug);
+                            this.turnNext();
+                            this.update();
+                            this.setGamePhase(0);
+                        });
+                    }
+
+                });
+            });
         }
+    }
+
+    void wtf(EventHandler e) {
+        var aiTimeline = new Timeline(new KeyFrame(Duration.seconds(0.1), e));
+        aiTimeline.playFromStart();
     }
 
     void putRug() {
@@ -162,11 +186,22 @@ public class GGame extends Group {
     void OnKeyPressed(KeyEvent event) {
         var code = event.getCode();
         if (code == KeyCode.CONTROL) ctrlPressing = true;
+        if (banUserInput) return;
 
         if (game.phase == 0) {
             switch (code) {
                 case ENTER, SPACE -> {
-                    if (this.confirmAssamDegree()) this.move();
+                    if (this.confirmAssamDegree()) {
+                        this.move();
+                        var out = this.pay();
+                        if (out) {
+                            this.turnNext();
+                            this.setGamePhase(0);
+                        } else {
+                            this.print("please put a rug");
+                            this.setGamePhase(2);
+                        }
+                    }
                 }
                 case W, UP -> setAssamDegree(0);
                 case D, RIGHT -> setAssamDegree(90);
@@ -208,31 +243,6 @@ public class GGame extends Group {
     void setGame(Game game) {
         h1 = this::onKeyReleased;
         h2 = this::OnKeyPressed;
-
-        aiTimeline = new Timeline(
-                new KeyFrame(Duration.ZERO, event -> {
-                    this.setGamePhase(3);
-                }),
-                new KeyFrame(Duration.seconds(0.1), e -> {
-                    game.aiPlayerSetDegree();
-                    gAssam.update();
-                }),
-                new KeyFrame(Duration.seconds(0.2), e -> {
-                    this.move();
-                    this.update();
-                }),
-                new KeyFrame(Duration.seconds(0.3), e -> {
-                    rug = game.aiPlayerPutRug();
-                    gMark.positions = rug.positions;
-                    gMark.update();
-                }),
-                new KeyFrame(Duration.seconds(0.4), e -> {
-                    game.makePlacement(rug);
-                    this.turnNext();
-                    this.update();
-                    this.setGamePhase(0);
-                })
-        );
 
         this.game = game;
         gPlayers = new GPlayer[4];
@@ -282,7 +292,7 @@ public class GGame extends Group {
         this.update();
         this.setGamePhase(0);
 
-
+        banUserInput = game.getCurrentPlayer().ai;
     }
 
     GGame(int playerAmount, int aiPlayerAmount, int hardAIPlayerAmount) {
