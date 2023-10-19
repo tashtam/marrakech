@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * this class defines Board string, start with character 'B' continued with 49*3 character
+ * parameters: tiles include 49 instance of tiles
  * @author Xinyang Li (u7760022)
  */
 public class Board {
     public Tile[] tiles;
 
+    /**
+     * initialize the board with all tiles with no rug
+     */
     public Board() {
         int n = Utils.MAP_SIZE * Utils.MAP_SIZE;
         tiles = new Tile[n];
@@ -19,6 +24,10 @@ public class Board {
         }
     }
 
+    /**
+     * @param boardString input the string stands for Board string started with 'B' and followed by 49*3 characters
+     * this constructor will construct Board string into tiles object and place rugs on the tile
+     */
     public Board(String boardString) {
         int n = Utils.MAP_SIZE * Utils.MAP_SIZE;
         tiles = new Tile[n];
@@ -79,8 +88,8 @@ public class Board {
      * get player rug score
      * every tile counts one score
      *
-     * @param player
-     * @return
+     * @param player stand for player information
+     * @return n stand for the rug score of player
      */
     public int getPlayerRugScore(Player player) {
         if (player.out) return 0;
@@ -113,6 +122,9 @@ public class Board {
     }
 
 
+    /**
+     * @return s generate a Board string start with 'B' and follow by 49*3 characters stand for tile information
+     */
     @Override
     public String toString() {
         String s = "B";
