@@ -2,6 +2,9 @@ package comp1110.ass2;
 
 import java.util.ArrayList;
 
+/**
+ * @author Group
+ */
 public class Game {
     public int phase = 0;
 
@@ -373,8 +376,7 @@ public class Game {
         if (winner.size() > 1) return 't';
         return winner.get(0).color;
     }
-
-    public int rollDie() {
+    public static int rollDie() {
         var diceValue = new int[]{1, 2, 2, 3, 3, 4};
         return diceValue[Utils.randint(6)];
         // FIXME: Task 6 [DONE]

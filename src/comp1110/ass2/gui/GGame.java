@@ -14,7 +14,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class GGame extends Group {
     Game game;
     GBoard gBoard;
@@ -75,7 +77,7 @@ public class GGame extends Group {
     }
 
     void move() {
-        var step = game.rollDie();
+        var step = Game.rollDie();
         gDie.displayDie(step);
 
         System.out.println("player " + game.getCurrentPlayer().color + " assam pos: " + game.assam.position);

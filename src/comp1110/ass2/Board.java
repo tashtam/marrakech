@@ -3,6 +3,9 @@ package comp1110.ass2;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Xinyang Li (u7760022)
+ */
 public class Board {
     public Tile[] tiles;
 

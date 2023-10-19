@@ -4,7 +4,9 @@ import comp1110.ass2.Utils;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class GAssamHint extends Group {
     Rectangle rect = new Rectangle(Utils.GRID_SIZE + Utils.GRID_GAP, Utils.GRID_SIZE + Utils.GRID_GAP);
     boolean value = true;

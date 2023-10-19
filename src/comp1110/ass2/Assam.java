@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * this class defines Assam that players need to control,there are
  * two fields named: (direction, position) and two methods: (rotate, move)
+ * @author Group
  * parameter direction: char type stands for the present direction of Assam
  * parameter position: IntPair type stands for the position(x,y) of Assam
  */
@@ -12,6 +13,7 @@ public class Assam {
     public int degree;
     public int oldDegree;
     public IntPair position;
+
 
     public Assam() {
         this.degree = 0;

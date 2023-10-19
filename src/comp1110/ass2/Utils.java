@@ -6,6 +6,9 @@ import javafx.scene.text.FontWeight;
 
 import java.util.Random;
 
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class Utils {
     public static final int MAP_SIZE = 7;
     public static final int GRID_SIZE = 70;

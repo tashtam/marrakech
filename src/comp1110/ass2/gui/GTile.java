@@ -5,7 +5,9 @@ import comp1110.ass2.Utils;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class GTile extends Group {
     Tile tile;
     Rectangle rect = new Rectangle(Utils.GRID_SIZE, Utils.GRID_SIZE);

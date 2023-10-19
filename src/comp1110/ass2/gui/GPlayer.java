@@ -9,7 +9,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class GPlayer extends Group {
     Player player;
     Game game;

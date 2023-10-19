@@ -6,7 +6,9 @@ import comp1110.ass2.Utils;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class GMark extends Group {
     IntPair[] positions = new IntPair[2];
     Rectangle[] rects = new Rectangle[2];

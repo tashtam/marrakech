@@ -6,6 +6,7 @@ package comp1110.ass2;
  * Each player has 4 fields: color, coins, remainingRugNumber, and out.
  * Parameter color: each player's color.
  * Parameter coins: the number of coins each player has.
+ * @author Xinyang Li (u7760022), Tashia Tamara (u7754676)
  * Parameter remainingRugNumber: the remaining number of rugs each player has.
  * Parameter out: whether each player is in or out of the game.
  * <p>

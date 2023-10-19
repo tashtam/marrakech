@@ -8,7 +8,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class GAssam extends Group {
     Game game;
     Rectangle rect = new Rectangle(60, 60);

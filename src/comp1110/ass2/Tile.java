@@ -3,6 +3,7 @@ package comp1110.ass2;
 /**
  * this class stands for tiles,each tile has two fields: position,rug
  * and a method isNeedToPay
+ * @author Group
  * parameter position stands for the tile's place
  * parameter rug stands for which rug is on this tile
  */

@@ -5,6 +5,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class Game extends Application {
     private final Group root = new Group();
     private static final int WINDOW_WIDTH = 1200;

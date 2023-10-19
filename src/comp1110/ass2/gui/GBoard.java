@@ -6,7 +6,9 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-
+/**
+ * @author Xin Yang Li (u7760022)
+ */
 public class GBoard extends Group {
     GTile[] gTiles;
 

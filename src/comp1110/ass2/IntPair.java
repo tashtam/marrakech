@@ -2,6 +2,7 @@ package comp1110.ass2;
 
 /**
  * The class IntPair defines a pair of integers used to determine positions on the board.
+ * @author Xinyang Li (u7760022)
  */
 public class IntPair {
     /**
