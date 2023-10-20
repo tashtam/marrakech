@@ -15,7 +15,6 @@ public class Viewer extends Application {
     private final Group root = new Group();
     private final Group controls = new Group();
     private TextField boardTextField;
-    GGame gGame;
 
     /**
      * Draw a placement in the window, removing any previously drawn placements
@@ -23,12 +22,12 @@ public class Viewer extends Application {
      * @param state an array of two strings, representing the current game state
      */
     void displayState(String state) {
-        if (gGame != null) root.getChildren().remove(gGame);
-        gGame = new GGame(state);
-        gGame.game.phase = -1;
-        root.getChildren().add(gGame);
-        root.getChildren().remove(controls);
-        root.getChildren().add(controls);
+//        if (gGame != null) root.getChildren().remove(gGame);
+//        gGame = new GGame(state);
+//        gGame.game.phase = -1;
+//        root.getChildren().add(gGame);
+//        root.getChildren().remove(controls);
+//        root.getChildren().add(controls);
         // FIXME Task 5: implement the simple state viewer [DONE]
     }
 

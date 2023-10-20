@@ -21,7 +21,6 @@ class AssamTest {
             var direction = directions.charAt(k);
 
             var s = "A" + i + j + direction;
-            System.out.println(s);
 
             var assam = new Assam(s);
             Assertions.assertEquals(assam.degree, degree);

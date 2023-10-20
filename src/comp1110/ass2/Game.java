@@ -35,127 +35,6 @@ public class Game {
         return null;
     }
 
-    public ArrayList<Rug> getPossibleRugs() {
-        var player = this.getCurrentPlayer();
-        var rugs = new ArrayList<Rug>();
-        for (int mode = 0; mode < 12; mode++) {
-            var positions = Utils.createRugPositions(mode, assam.position.clone());
-            var rug = new Rug(player.color, 15 - player.remainingRugNumber, positions);
-            if (this.isPlacementValid(rug)) rugs.add(rug);
-        }
-        return rugs;
-    }
-
-    Rug easyAIPlayerPutRug() {
-        var rugs = this.getPossibleRugs();
-        return rugs.get(Utils.randint(rugs.size()));
-    }
-
-    Rug hardAIPlayerPutRug() {
-        var rugs = this.getPossibleRugs();
-        int n = rugs.size();
-        var rugs2 = new Rug[n];
-        for (int i = 0; i < n; i++) rugs2[i] = rugs.get(i);
-        Utils.shuffle(rugs2);
-
-        int maxScore = 0;
-        int maxIndex = 0;
-        for (int i = 0; i < rugs2.length; i++) {
-            var rug = rugs2[i];
-            var t1 = board.getTile(rug.positions[0]);
-            var t2 = board.getTile(rug.positions[1]);
-            var r1 = t1.rug;
-            var r2 = t2.rug;
-            t1.rug = rug;
-            t2.rug = rug;
-
-            // try best to connect self rugs
-            var score1 = 0;
-            var amount = this.getConnectedTileAmount(t1);
-            if (amount > 2) score1 += 1;
-            score1 += amount / 4;
-
-            // try to cover enemy's rug
-            var score2 = 0;
-            if (r1 != null && r1.color != rug.color) score2 += 1;
-            if (r2 != null && r2.color != rug.color) score2 += 1;
-
-            // don't put rug behind self
-            var score3 = 0;
-
-            // don't cover self rugs
-            var score4 = 0;
-            if (r1 != null && r1.color == rug.color) score4 -= 1;
-            if (r2 != null && r2.color == rug.color) score4 -= 1;
-
-            var score = score1 + score2 + score3 + score4;
-            if (score > maxScore) {
-                maxScore = score;
-                maxIndex = i;
-            }
-
-            t1.rug = r1;
-            t2.rug = r2;
-        }
-
-        return rugs2[maxIndex];
-    }
-
-    public Rug aiPlayerPutRug() {
-        boolean hardAI = this.getCurrentPlayer().hardAI;
-        if (hardAI) return this.hardAIPlayerPutRug();
-        return this.easyAIPlayerPutRug();
-    }
-
-    public void aiPlayerSetDegree() {
-        boolean hardAI = this.getCurrentPlayer().hardAI;
-        if (hardAI) this.hardAIPlayerSetDegree();
-        else this.easyAIPlayerSetDegree();
-    }
-
-    void easyAIPlayerSetDegree() {
-        var d = Utils.randint(3);
-
-        int j = 0;
-        var newDegree = 0;
-        for (int i = 0; i < 4; i++) {
-            newDegree = i * 90;
-            if ((newDegree - assam.degree + 360) % 360 == 180) continue;
-            if (j == d) break;
-            j += 1;
-        }
-
-        assam.degree = newDegree;
-        assam.oldDegree = newDegree;
-    }
-
-    void hardAIPlayerSetDegree() {
-        var pos = assam.position;
-        var degree = assam.degree;
-        double minPayment = Utils.MAP_SIZE * Utils.MAP_SIZE;
-        var minPaymentDegree = 0;
-        for (int i = 0; i < 4; i++) {
-            var newDegree = i * 90;
-            if ((newDegree - degree + 360) % 360 == 180) continue;
-            assam.degree = newDegree;
-            double payment = 0;
-            for (int j = 0; j < 4; j++) {
-                double rate = 1.0 / 6;
-                if (j == 1 || j == 2) rate = 1.0 / 3;
-                assam.position = pos;
-                assam.move(j);
-                payment += this.getPaymentAmount() * rate;
-            }
-            if (payment < minPayment) {
-                minPayment = payment;
-                minPaymentDegree = newDegree;
-            }
-        }
-        assam.position = pos;
-        assam.degree = minPaymentDegree;
-        assam.oldDegree = minPaymentDegree;
-    }
-
     public Game(int playerAmount, int aiPlayerAmount, int hardAIPlayerAmount) {
         // current player index
         currentPlayerIndex = 0;
@@ -164,7 +43,7 @@ public class Game {
         players = new Player[n];
         var colors = "cypr";
         for (int k = 0; k < n; k++) {
-            players[k] = new Player(colors.charAt(k), k >= playerAmount, k >= m);
+            players[k] = new Player(colors.charAt(k), k >= playerAmount, k >= m, this);
         }
         Utils.shuffle(players);
         assam = new Assam();
@@ -309,10 +188,6 @@ public class Game {
         return this.getConnectedTileAmount(tile);
     }
 
-    public int getPlayerScore(Player player) {
-        return player.coins + board.getPlayerRugScore(player);
-    }
-
     /**
      * (before call this method please ensure that the game has ended)
      *
@@ -320,23 +195,23 @@ public class Game {
      */
     public ArrayList<Player> getWinner() {
         // max score
-        ArrayList<Player> players = new ArrayList();
+        var players = new ArrayList<Player>();
         int max_score = 0;
 
         for (Player player : this.players) {
-            int score = this.getPlayerScore(player);
+            int score = player.calculateScore();
             if (score > max_score) max_score = score;
         }
 
         for (Player player : this.players) {
-            int score = this.getPlayerScore(player);
+            int score = player.calculateScore();
             if (score == max_score) players.add(player);
         }
 
         if (players.size() == 1) return players;
 
         // max coin
-        ArrayList<Player> players1 = new ArrayList();
+        var players1 = new ArrayList<Player>();
         int max_coin = 0;
 
         for (Player player : players) {
@@ -350,7 +225,6 @@ public class Game {
     }
 
     public void turnNext() {
-        System.out.println("player " + this.getCurrentPlayer().color + " assam pos: " + assam.position);
         currentPlayerIndex += 1;
         currentPlayerIndex %= players.length;
         if (players[currentPlayerIndex].out) {

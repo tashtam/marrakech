@@ -13,11 +13,6 @@ public class Tile {
     public Tile(int x, int y) {
         this.position = new IntPair(x, y);
     }
-
-    public char getColor() {
-        if (this.rug == null) return ' ';
-        return this.rug.color;
-    }
 }
 
 

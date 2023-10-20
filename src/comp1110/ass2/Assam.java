@@ -143,41 +143,89 @@ public class Assam {
     public int[] checkForMosaicTracks(int posX, int posY, int degree) {
         int flag = 0;
 
-        boolean top = posY == 0 && degree == 0;
-        boolean bottom = posY == Utils.MAP_SIZE - 1 && degree == 180;
-        boolean left = posX == 0 && degree == 270;
-        boolean right = posX == Utils.MAP_SIZE - 1 && degree == 90;
-
-        if (top || bottom || left || right) {
+        //Special corner mosaic tracks
+        //Top right corner mosaic track, when Assam is facing North
+        if (posX == 6 && posY == 0 && degree == 0) {
+            degree = 270;
             flag = 1;
-            degree += 180;
+        }
 
-            if (top || bottom) {
-                if ((top && posX == 6) || (bottom && posX == 0)) {
-                    degree += 90;
-                } else if (top) {
-                    if (posX % 2 == 0) posX += 1;
-                    else posX -= 1;
-                } else {
-                    if (posX % 2 == 0) posX -= 1;
-                    else posX += 1;
-                }
-            } else {
-                if ((left && posY == 6) || (right && posY == 0)) {
-                    degree -= 90;
-                } else if (left) {
-                    if (posY % 2 == 0) posY += 1;
-                    else posY -= 1;
-                } else {
-                    if (posY % 2 == 0) posY -= 1;
-                    else posY += 1;
-                }
-            }
+        //Top right corner mosaic track, when Assam is facing East
+        if (posX == 6 && posY == 0 && degree == 90) {
+            degree = 180;
+            flag = 1;
+        }
 
-            degree %= 360;
+        //Bottom left corner mosaic track, when Assam is facing West
+        if (posX == 0 && posY == 6 && degree == 270) {
+            degree = 0;
+            flag = 1;
+        }
+
+        //Bottom left corner mosaic track, when Assam is facing South
+        if (posX == 0 && posY == 6 && degree == 180) {
+            degree = 90;
+            flag = 1;
+        }
+
+        //Bottom edge mosaic tracks (start from the right)
+        if ((posX == 6 || posX == 4 || posX == 2) && posY == 6 && degree == 180) {
+            posX -= 1;
+            degree = 0;
+            flag = 1;
+        }
+
+        //Bottom edge mosaic tracks (start from the left)
+        if ((posX == 1 || posX == 3 || posX == 5) && posY == 6 && degree == 180) {
+            posX += 1;
+            degree = 0;
+            flag = 1;
+        }
+
+        //Right edge mosaic tracks (start from the top)
+        if (posX == 6 && (posY == 1 || posY == 3 || posY == 5) && degree == 90) {
+            posY += 1;
+            degree = 270;
+            flag = 1;
+        }
+
+        //Right edge mosaic tracks (start from the bottom)
+        if (posX == 6 && (posY == 6 || posY == 4 || posY == 2) && degree == 90) {
+            posY -= 1;
+            degree = 270;
+            flag = 1;
+        }
+
+        //Left edge mosaic tracks (start from the top)
+        if (posX == 0 && (posY == 0 || posY == 2 || posY == 4) && degree == 270) {
+            posY += 1;
+            degree = 90;
+            flag = 1;
+        }
+
+        //Left edge mosaic tracks (start from the bottom)
+        if (posX == 0 && (posY == 5 || posY == 3 || posY == 1) && degree == 270) {
+            posY -= 1;
+            degree = 90;
+            flag = 1;
+        }
+
+        //Top edge mosaic tracks (start from the left)
+        if ((posX == 0 || posX == 2 || posX == 4) && posY == 0 && degree == 0) {
+            posX += 1;
+            degree = 180;
+            flag = 1;
+        }
+
+        //Top edge mosaic tracks (start from the right)
+        if ((posX == 5 || posX == 3 || posX == 1) && posY == 0 && degree == 0) {
+            posX -= 1;
+            degree = 180;
+            flag = 1;
         }
 
         //If Assam is not on a mosaic track, just return the original position.
+
         return new int[]{posX, posY, degree, flag};
     }
 }

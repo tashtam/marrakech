@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Game extends Application {
+    App app;
     private final Group root = new Group();
     private static final int WINDOW_WIDTH = 1200;
     private static final int WINDOW_HEIGHT = 700;
@@ -15,8 +16,7 @@ public class Game extends Application {
         // FIXME Task 7 and 15
         stage.setTitle("Marrakech");
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-        GMain gMain = new GMain(scene, root);
-        root.getChildren().add(gMain);
+        app = new App(scene, root);
         stage.setScene(scene);
         stage.show();
     }

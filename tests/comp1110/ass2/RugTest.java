@@ -33,8 +33,6 @@ class RugTest {
             //Therefore, we need to add "" before color in var rugString
             //String (like "") + char + int = String rugString (because String is the strongest)
 
-            System.out.println(rugString);
-
             var rug = new Rug(rugString);
             Assertions.assertEquals(rug.color, color);
             Assertions.assertEquals(rug.id, id1 * 10 + id2);
