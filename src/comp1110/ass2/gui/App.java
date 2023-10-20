@@ -17,10 +17,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+
 import java.util.ArrayList;
 
 /**
  * GUI part for whole game
+ *
  * @author Xin Yang Li (u7760022)
  */
 public class App {
@@ -56,6 +58,7 @@ public class App {
 
 /**
  * GUI part for page
+ *
  * @author Xin Yang Li (u7760022)
  */
 class Page extends Group {
@@ -76,6 +79,7 @@ class Page extends Group {
 
 /**
  * GUI part for main page
+ *
  * @author Xin Yang Li (u7760022)
  */
 class MainPage extends Page {
@@ -133,6 +137,7 @@ class MainPage extends Page {
 
 /**
  * GUI part for radio buttons group
+ *
  * @author Xin Yang Li (u7760022)
  */
 class RadioGroup extends Group {
@@ -178,6 +183,7 @@ class RadioGroup extends Group {
 
 /**
  * GUI part for game page
+ *
  * @author Xin Yang Li (u7760022)
  */
 class GamePage extends Page {
@@ -269,12 +275,14 @@ class GamePage extends Page {
     void move() {
         // logic
         var step = game.rollDie();
+        this.print("roll die result: " + step);
 
         // gui
         gPanel.gDie.displayDie(step);
 
         // logic
-        game.assam.move(step);
+        var path = game.assam.move(step);
+        this.print("move path", path);
 
         // gui
         gBoard.gAssam.updateAssamDegree(game.assam.degree);
@@ -283,7 +291,8 @@ class GamePage extends Page {
 
     boolean pay() {
         var currentPlayer = game.getCurrentPlayer();
-        currentPlayer.pay();
+        var money = currentPlayer.pay();
+        this.print("player", currentPlayer.color, "lost", money, "coins");
         gPanel.updatePlayers(game.players);
         return currentPlayer.out;
     }
@@ -307,13 +316,17 @@ class GamePage extends Page {
     void ai() {
         var currentPlayer = game.getCurrentPlayer();
         Rug[] rugs = new Rug[1];
-        this.setTimeOut(0.1, event -> {
+        var gap = 0.5;
+        this.setTimeOut(gap, event -> {
             currentPlayer.aiPlayerSetDegree();
             gBoard.gAssam.updateAssamDegree(game.assam.degree);
+            this.print("player", game.getCurrentPlayer().color, "set assam degree", game.assam.degree);
 
-            this.setTimeOut(0.1, event1 -> {
+            this.setTimeOut(gap, event1 -> {
                 this.move();
                 rugs[0] = currentPlayer.aiPlayerPutRug();
+                this.print("player", currentPlayer.color, "put rug", rugs[0]);
+
                 gBoard.gMark.positions = rugs[0].positions;
                 gBoard.gMark.update();
                 gBoard.gAssam.updateAssamDegree(game.assam.degree);
@@ -321,11 +334,12 @@ class GamePage extends Page {
 
                 var out = this.pay();
                 if (out) {
-                    this.setTimeOut(0.1, event2 -> {
+                    this.print("player", currentPlayer.color, "out!");
+                    this.setTimeOut(gap, event2 -> {
                         this.turnNext();
                     });
                 } else {
-                    this.setTimeOut(0.1, event2 -> {
+                    this.setTimeOut(gap, event2 -> {
                         game.makePlacement(rugs[0]);
                         gBoard.updateRug(game.board, rugs[0]);
                         gPanel.updatePlayers(game.players);
@@ -361,6 +375,8 @@ class GamePage extends Page {
 
     void beforeCurrentPlayer() {
         var currentPlayer = game.getCurrentPlayer();
+        this.print("-----------");
+        this.print("turn to player", currentPlayer.color);
 
         // ban user inputs
         banUserInput = currentPlayer.ai;
@@ -375,6 +391,7 @@ class GamePage extends Page {
 
         // logic
         game.makePlacement(rug);
+        this.print("player", currentPlayer.color, "put rug", rug);
 
         // gui
         gBoard.updateRug(game.board, rug);
@@ -391,6 +408,7 @@ class GamePage extends Page {
 
                 var out = this.pay();
                 if (out) {
+                    this.print("player", game.getCurrentPlayer().color, "out!");
                     this.turnNext();
                     return;
                 }
@@ -462,6 +480,7 @@ class GamePage extends Page {
 
 /**
  * GUI part for winner page
+ *
  * @author Xin Yang Li (u7760022)
  */
 class WinnerPage extends Page {
@@ -489,6 +508,7 @@ class WinnerPage extends Page {
 
 /**
  * GUI part for pause page
+ *
  * @author Xin Yang Li (u7760022)
  */
 class PausePage extends Page {

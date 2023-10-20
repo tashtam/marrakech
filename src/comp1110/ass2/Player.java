@@ -225,15 +225,17 @@ public class Player {
     /**
      * current player try to pay. if no need, don't pay
      */
-    public void pay() {
+    public int pay() {
+        var money = 0;
         var tile = game.board.getTile(game.assam.position);
-        if (tile.rug == null) return;
+        if (tile.rug == null) return money;
         var owner = game.getPlayer(tile.rug.color);
-        if (owner.out) return;
+        if (owner.out) return money;
         if (owner != this) {
-            var money = game.getPaymentAmount();
+            money = game.getPaymentAmount();
             this.payTo(owner, money);
         }
+        return money;
     }
 
     /**

@@ -4,14 +4,16 @@ import comp1110.ass2.Player;
 import comp1110.ass2.Utils;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
+
 /**
  * GUI part for panel
+ *
  * @author Xin Yang Li (u7760022)
  */
 public class GPanel extends Group {
@@ -60,6 +62,7 @@ public class GPanel extends Group {
 
 /**
  * GUI part for die
+ *
  * @author Xin Yang Li (u7760022)
  */
 class GDie extends Group {
@@ -85,10 +88,12 @@ class GDie extends Group {
 
 /**
  * GUI part for console
+ *
  * @author Xin Yang Li (u7760022)
  */
 class GConsole extends Group {
-    TextArea area = new TextArea();
+    Label area = new Label();
+    ArrayList<String> texts = new ArrayList();
 
     GConsole() {
         area.setMaxWidth(380);
@@ -97,13 +102,21 @@ class GConsole extends Group {
     }
 
     void print(String content) {
-        area.appendText("\n" + content);
-        area.setScrollTop(500);
+        if (texts.size() >= 14) {
+            texts.remove(0);
+        }
+        texts.add(content);
+        String s = "";
+        for (String text : texts) {
+            s += text + "\n";
+        }
+        area.setText(s);
     }
 }
 
 /**
  * GUI part for player information
+ *
  * @author Xin Yang Li (u7760022)
  */
 class GPlayer extends Group {
