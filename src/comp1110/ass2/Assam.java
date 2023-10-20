@@ -3,22 +3,31 @@ package comp1110.ass2;
 import java.util.ArrayList;
 
 /**
- * this class defines Assam that players need to control,there are
- * two fields named: (direction, position) and two methods: (rotate, move)
- * parameter direction: char type stands for the present direction of Assam
- * parameter position: IntPair type stands for the position(x,y) of Assam
+ * This class defines Assam, the character players need to control
+ * There are two fields: (direction, position) and two methods: (rotate, move)
+ * Parameter direction: char type stands for the present direction of Assam
+ * Parameter position: IntPair type stands for the position (x,y) of Assam
+ * X refers to the number of column, Y refers to the number of row
+ * @author Group
  */
 public class Assam {
     public int degree;
     public int oldDegree;
     public IntPair position;
 
+    /**
+    * Initializes Assam's direction and position
+    */
     public Assam() {
         this.degree = 0;
         this.oldDegree = 0;
         this.position = new IntPair(3, 3);
     }
 
+    /**
+    * Constructs a new Assam object using the string representation of the object
+    * @param assamString The string representation of the Assam object
+    */
     public Assam(String assamString) {
         // Creating the Assam object (as in an object of the complete program) using the assamString (as an argument); constructor of a java class
         // Assam is a complete class (It is its own class)
@@ -38,6 +47,10 @@ public class Assam {
         this.position = new IntPair(x, y);
     }
 
+    /**
+     * Converts the Assam object to a string representation
+     * @return assamString
+     */
     public String toString() {
         // Creating the assamString using the Assam Object
         // toString() is an instance method (Returning string using the information of this instance)
@@ -57,12 +70,10 @@ public class Assam {
     }
 
     /**
-     * rotate method will rotate Assam clockwise of 90 degree or anticlockwise of 90 degree
-     * or not rotate
-     *
-     * @param degree an int number that can be 90(rotate clockwise for 90 degree)
-     *               270 (rotate anticlockwise for 90 degree)
-     *               0 not rotate
+     * Rotates (or not rotate) Assam clockwise or anti-clockwise by 90 degrees
+     * @param degree an int number that can be: 90 (rotate clockwise by 90 degrees)
+     *                                          270 (rotate anticlockwise for 90 degree)
+     *                                          0 (no rotation)
      */
     public void rotate(int degree) {
         if (degree == 90 || degree == 270) {
@@ -70,14 +81,17 @@ public class Assam {
         }
     }
 
+    /**
+     * Sets the degree of Assam
+     * @param degree
+     */
     public void setDegree(int degree) {
         this.degree = degree;
     }
 
     /**
-     * check if the current degree is near the old degree (the diff is 0, 90 or 270)
-     *
-     * @return
+     * Checks if the degree has changed by more than 180 degrees
+     * @return true if the difference in degrees is not equal to 180 degrees, false otherwise
      */
     public boolean checkDegree() {
         var diff = (oldDegree - degree + 360) % 360;
@@ -85,11 +99,10 @@ public class Assam {
     }
 
     /**
-     * check if the current degree is near the old degree (the diff is 0, 90 or 270)
-     * if it is, return true and update old degree
-     * if not, return false and recover the current degree
-     *
-     * @return
+     * Calls the checkDegree method to confirm whether the degree has changed by more than 180 degrees
+     * If the value of the flag variable is true, update the old degree to match the new degree
+     * If the value of the flag variable is false, update the new degree to match the old degree
+     * @return value of the flag variable
      */
     public boolean confirmDegree() {
         var flag = this.checkDegree();
@@ -99,11 +112,11 @@ public class Assam {
     }
 
     /**
-     * this method will move Assam forward at present direction for steps of dieResult
-     *
-     * @param dieResult a random int number stands for die result from a set{1,2,2,3,3,4}
-     *                  each element of the set has the same probability
-     * @return
+     * Moves Assam forward at present direction for a certain number of steps
+     * Where the number of steps is equal to the result of the die roll
+     * @param dieResult a random int number stands for die result from a set {1,2,2,3,3,4}
+     *                  each element of the set has the same probability of appearing
+     * @return an ArrayList of IntPair objects which represent the coordinates of Assam's path as he moves
      */
     public ArrayList<IntPair> move(int dieResult) {
         var path = new ArrayList<IntPair>();
@@ -140,6 +153,14 @@ public class Assam {
         return path;
     }
 
+    /**
+     * Checks if Assam is on a mosaic track
+     * If he is on a mosaic track, determine Assam's next movement
+     * @param posX column number of Assam's new position
+     * @param posY row number of Assam's new position
+     * @param degree Assam's new direction
+     * @return an array of four integers containing Assam's new coordinates and degree and the flag value
+     */
     public int[] checkForMosaicTracks(int posX, int posY, int degree) {
         int flag = 0;
 

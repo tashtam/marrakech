@@ -2,6 +2,11 @@ package comp1110.ass2;
 
 import java.util.ArrayList;
 
+/**
+ * @author Group
+ * this class is the central process for the whole project
+ * detailed information will be seen each method
+ */
 public class Game {
     public int phase = 0;
 
@@ -25,8 +30,8 @@ public class Game {
     /**
      * get player by its color
      *
-     * @param color
-     * @return player
+     * @param color stand for the color you need to get the player
+     * @return player with the same color as input
      */
     public Player getPlayer(char color) {
         for (Player player : this.players) {
@@ -43,13 +48,20 @@ public class Game {
         players = new Player[n];
         var colors = "cypr";
         for (int k = 0; k < n; k++) {
-            players[k] = new Player(colors.charAt(k), k >= playerAmount, k >= m, this);
+            var player = new Player(colors.charAt(k), k >= playerAmount, k >= m);
+            player.game = this;
+            players[k] = player;
         }
         Utils.shuffle(players);
         assam = new Assam();
         board = new Board();
     }
 
+    /**
+     * create the game instance from the gameString
+     *
+     * @param gameString from the gameString create the game instance
+     */
     public Game(String gameString) {
         // current player index
         currentPlayerIndex = 0;
@@ -65,7 +77,9 @@ public class Game {
         players = new Player[n];
         for (int k = 0; k < n; k++) {
             String playerString = playerStringPart.substring(k * 8, (k + 1) * 8);
-            players[k] = new Player(playerString);
+            var player = new Player(playerString);
+            player.game = this;
+            players[k] = player;
         }
 
         // assam string
@@ -128,6 +142,12 @@ public class Game {
         return rug1 != rug2;
     }
 
+    /**
+     * given tile, calculate the connected tiles amount  with the given tile
+     *
+     * @param tile stand for present tile
+     * @return connectedTiles.size() the amount that connected with the input tile
+     */
     int getConnectedTileAmount(Tile tile) {
         var rug = tile.rug;
         if (rug == null) return 0;
@@ -141,6 +161,14 @@ public class Game {
         return connectedTiles.size();
     }
 
+    /**
+     * this method will calculate all connected tile amount from the given position with specific rug color
+     *
+     * @param presentPosition stand for the present position of calculation
+     * @param connectedTiles  tiles that are already connected
+     * @param visitedTiles    tiles that has already visited to ensure no loop visit
+     * @param tileColor       the color of present tile
+     */
     void calculateConnectedTileAmount(
             IntPair presentPosition,
             ArrayList<Tile> connectedTiles,
@@ -224,6 +252,9 @@ public class Game {
         return players1;
     }
 
+    /**
+     * switch to the next player
+     */
     public void turnNext() {
         currentPlayerIndex += 1;
         currentPlayerIndex %= players.length;
@@ -248,12 +279,19 @@ public class Game {
         return winner.get(0).color;
     }
 
-    public int rollDie() {
+    /**
+     * @return dice value to determine the steps Assam will go
+     */
+    public static int rollDie() {
         var diceValue = new int[]{1, 2, 2, 3, 3, 4};
-        return diceValue[Utils.randint(6)];
+        return diceValue[Utils.randInt(6)];
         // FIXME: Task 6 [DONE]
     }
 
+    /**
+     * @param rug given rug to be placed on the board
+     *            this method will place the given rug on the board
+     */
     public void makePlacement(Rug rug) {
         for (IntPair pos : rug.positions) {
             var tile = this.board.getTile(pos);
@@ -263,6 +301,9 @@ public class Game {
         player.remainingRugNumber -= 1;
     }
 
+    /**
+     * @return a gameString combined with player string, Assam string, and Board string
+     */
     @Override
     public String toString() {
         var s = "";

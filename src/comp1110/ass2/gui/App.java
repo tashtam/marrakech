@@ -182,13 +182,17 @@ class GamePage extends Page {
         int n = playerAmount + aiPlayerAmount + hardAIPlayerAmount;
         if (n < 2 || n > 4) return;
 
-        game = new Game(playerAmount, aiPlayerAmount, hardAIPlayerAmount);
-
-        if(glassMode){
+        var game = new Game(playerAmount, aiPlayerAmount, hardAIPlayerAmount);
+        if (glassMode) {
             for (Player player : game.players) {
                 player.coins = 1;
             }
         }
+        this.setGame(game);
+    }
+
+    void setGame(Game game) {
+        this.game = game;
 
         gPanel.updatePlayers(game.players);
         var currentPlayer = game.getCurrentPlayer();

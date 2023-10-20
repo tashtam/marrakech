@@ -1,5 +1,8 @@
 package comp1110.ass2;
 
+/**
+ * @author Group
+ */
 public class Marrakech {
     /**
      * Determine whether a rug String is valid.
@@ -48,8 +51,7 @@ public class Marrakech {
      * @return The result of the roll of the die meeting the criteria above
      */
     public static int rollDie() {
-        var game = new Game(4, 0, 0);
-        return game.rollDie();
+        return Game.rollDie();
         // FIXME: Task 6 [DONE]
     }
 
