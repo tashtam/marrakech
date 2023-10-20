@@ -11,6 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 /**
  * @author Xin Yang Li (u7760022)
+ * intialize the game board from one game string
+ *
  */
 public class Viewer extends Application {
     private static final int VIEWER_WIDTH = 1200;

@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI part to display board
  */
 public class GBoard extends Group {
     GTile[] gTiles;

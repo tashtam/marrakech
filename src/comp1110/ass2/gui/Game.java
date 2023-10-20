@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI part for the game, set the window width,height,initialize the stage, scene
  */
 public class Game extends Application {
     App app;
