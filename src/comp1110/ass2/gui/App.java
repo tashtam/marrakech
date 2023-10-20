@@ -169,16 +169,9 @@ class GamePage extends Page {
     boolean ctrlPressing = false;
     boolean banUserInput = false;
     boolean pause = false;
-    Media media;
-    MediaPlayer mediaPlayer;
 
     GamePage(App _app) {
         super(_app);
-//        File file = new File("C:\\Users\\HP\\Desktop\\M\\code\\java\\comp1110-ass2\\assets\\game\\1.wav");
-//        String path = file.toURI().toASCIIString();
-//        System.out.println(path);
-//        media = new Media(path);
-//        mediaPlayer = new MediaPlayer(media);
 
         this.addHandler(KeyEvent.KEY_RELEASED, this::onKeyReleased);
         this.addHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
@@ -195,8 +188,6 @@ class GamePage extends Page {
     void setGame(int playerAmount, int aiPlayerAmount, int hardAIPlayerAmount, boolean glassMode) {
         int n = playerAmount + aiPlayerAmount + hardAIPlayerAmount;
         if (n < 2 || n > 4) return;
-
-//        if (playerAmount == 0) mediaPlayer.play();
 
         var game = new Game(playerAmount, aiPlayerAmount, hardAIPlayerAmount);
         if (glassMode) {
@@ -343,7 +334,6 @@ class GamePage extends Page {
         }
 
         if (pause) {
-//            mediaPlayer.pause();
             app.switchPage(app.pausePage);
             return;
         }
