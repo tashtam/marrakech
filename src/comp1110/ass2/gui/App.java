@@ -15,9 +15,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 
 public class App {
@@ -41,26 +42,24 @@ public class App {
 
         // set main page as current page
         currentPage = mainPage;
-        root.getChildren().add(currentPage.root);
+        root.getChildren().add(currentPage);
     }
 
     void switchPage(Page page) {
-        root.getChildren().remove(currentPage.root);
+        root.getChildren().remove(currentPage);
         currentPage = page;
-        root.getChildren().add(currentPage.root);
+        root.getChildren().add(currentPage);
     }
 }
 
-class Page {
+class Page extends Group {
     App app;
-    Group root;
 
     Page(App _app) {
         app = _app;
-        root = new Group();
     }
 
-    <T extends Event> void addEventHandler(EventType<T> type, EventHandler<? super T> handler) {
+    <T extends Event> void addHandler(EventType<T> type, EventHandler<? super T> handler) {
         app.scene.addEventHandler(type, event -> {
             if (app.currentPage == this) {
                 handler.handle(event);
@@ -82,19 +81,19 @@ class MainPage extends Page {
 
         var labels = new String[]{"0", "1", "2", "3", "4"};
         playerRG = new RadioGroup("player", labels);
-        root.getChildren().add(playerRG);
+        this.getChildren().add(playerRG);
 
         aiPlayerRG = new RadioGroup("ai player", labels);
         aiPlayerRG.setLayoutX(100);
-        root.getChildren().add(aiPlayerRG);
+        this.getChildren().add(aiPlayerRG);
 
         hardAIPlayerRG = new RadioGroup("hard ai player", labels);
         hardAIPlayerRG.setLayoutX(200);
-        root.getChildren().add(hardAIPlayerRG);
+        this.getChildren().add(hardAIPlayerRG);
 
         glassModeRG = new RadioGroup("glass mode", new String[]{"off", "on"});
         glassModeRG.setLayoutX(300);
-        root.getChildren().add(glassModeRG);
+        this.getChildren().add(glassModeRG);
 
         beginBtn = new Button("begin game");
         beginBtn.setLayoutY(200);
@@ -104,10 +103,10 @@ class MainPage extends Page {
         beginBtn.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) this.start();
         });
-        root.getChildren().add(beginBtn);
+        this.getChildren().add(beginBtn);
 
-        root.setLayoutX(400);
-        root.setLayoutY(200);
+        this.setLayoutX(400);
+        this.setLayoutY(200);
     }
 
     void start() {
@@ -170,25 +169,34 @@ class GamePage extends Page {
     boolean ctrlPressing = false;
     boolean banUserInput = false;
     boolean pause = false;
+    Media media;
+    MediaPlayer mediaPlayer;
 
     GamePage(App _app) {
         super(_app);
+//        File file = new File("C:\\Users\\HP\\Desktop\\M\\code\\java\\comp1110-ass2\\assets\\game\\1.wav");
+//        String path = file.toURI().toASCIIString();
+//        System.out.println(path);
+//        media = new Media(path);
+//        mediaPlayer = new MediaPlayer(media);
 
-        this.addEventHandler(KeyEvent.KEY_RELEASED, this::onKeyReleased);
-        this.addEventHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
+        this.addHandler(KeyEvent.KEY_RELEASED, this::onKeyReleased);
+        this.addHandler(KeyEvent.KEY_PRESSED, this::onKeyPressed);
 
         // panel
         gPanel = new GPanel();
-        root.getChildren().add(gPanel);
+        this.getChildren().add(gPanel);
 
         // board
         gBoard = new GBoard();
-        root.getChildren().add(gBoard);
+        this.getChildren().add(gBoard);
     }
 
     void setGame(int playerAmount, int aiPlayerAmount, int hardAIPlayerAmount, boolean glassMode) {
         int n = playerAmount + aiPlayerAmount + hardAIPlayerAmount;
         if (n < 2 || n > 4) return;
+
+//        if (playerAmount == 0) mediaPlayer.play();
 
         var game = new Game(playerAmount, aiPlayerAmount, hardAIPlayerAmount);
         if (glassMode) {
@@ -335,6 +343,7 @@ class GamePage extends Page {
         }
 
         if (pause) {
+//            mediaPlayer.pause();
             app.switchPage(app.pausePage);
             return;
         }
@@ -453,9 +462,9 @@ class WinnerPage extends Page {
         text.setFont(Utils.bigFont);
         text.setLayoutX(400);
         text.setLayoutY(100);
-        root.getChildren().add(text);
+        this.getChildren().add(text);
 
-        this.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+        this.addHandler(KeyEvent.KEY_PRESSED, event -> {
             app.switchPage(app.mainPage);
         });
     }
@@ -482,7 +491,7 @@ class PausePage extends Page {
             app.gamePage.pause = false;
             app.gamePage.beforeCurrentPlayer();
         });
-        root.getChildren().add(resume);
+        this.getChildren().add(resume);
 
         restart = new Button("restart");
         restart.setFont(Utils.bigFont);
@@ -491,7 +500,7 @@ class PausePage extends Page {
         restart.setOnMouseClicked(event -> {
             app.switchPage(app.mainPage);
         });
-        root.getChildren().add(restart);
+        this.getChildren().add(restart);
     }
 }
 
