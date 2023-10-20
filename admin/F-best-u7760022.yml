@@ -33,16 +33,16 @@ declaration: >-
 # I wish to submit the following classes as entirely my own (remove this if
 # you want to just submit methods):
 class:
-  - App, Page
-  - https://gitlab.cecs.anu.edu.au/u7760022/comp1110-ass2/-/blob/6b29ce1f3dbcb72f0e7c179af889f101a6ac7342/src/comp1110/ass2/gui/App.java#L24-70
-  - via the app-page design, we can easily add more pages in the game and properly manager them. For example, the main page and the game page could be separately designed and tested, and can use app.switchPage to switch current page to another
+   - App, Page
+     https://gitlab.cecs.anu.edu.au/u7760022/comp1110-ass2/-/blob/6b29ce1f3dbcb72f0e7c179af889f101a6ac7342/src/comp1110/ass2/gui/App.java#L24-70
+     via the app-page design, we can easily add more pages in the game and properly manager them. For example, the main page and the game page could be separately designed and tested, and can use app.switchPage to switch current page to another
 
 # I wish to submit the following methods as entirely my own (remove this if
 # you want to just submit classes):
 method:
-  - AI player
-  - hardAIPlayerPutRug, hardAIPlayerSetDegree
-  - https://gitlab.cecs.anu.edu.au/u7760022/comp1110-ass2/-/blob/main/src/comp1110/ass2/Player.java#L91-200
+   - AI player
+     hardAIPlayerPutRug, hardAIPlayerSetDegree
+     https://gitlab.cecs.anu.edu.au/u7760022/comp1110-ass2/-/blob/main/src/comp1110/ass2/Player.java#L91-200
 
 # sign *your* name and uid here
 name: Xinyang Li
