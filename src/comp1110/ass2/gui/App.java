@@ -1,9 +1,7 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.*;
 import comp1110.ass2.Game;
-import comp1110.ass2.IntPair;
-import comp1110.ass2.Player;
-import comp1110.ass2.Rug;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.Event;
@@ -17,6 +15,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -26,8 +25,8 @@ public class App {
     Group root;
     MainPage mainPage;
     GamePage gamePage;
-    Page pausePage;
-    Page winnerPage;
+    PausePage pausePage;
+    WinnerPage winnerPage;
     Page currentPage;
 
     App(Scene _scene, Group _root) {
@@ -37,6 +36,8 @@ public class App {
         // create pages
         mainPage = new MainPage(this);
         gamePage = new GamePage(this);
+        winnerPage = new WinnerPage(this);
+        pausePage = new PausePage(this);
 
         // set main page as current page
         currentPage = mainPage;
@@ -98,20 +99,26 @@ class MainPage extends Page {
         beginBtn = new Button("begin game");
         beginBtn.setLayoutY(200);
         beginBtn.setOnMouseClicked(event -> {
-            var playerAmount = playerRG.getValue();
-            var aiPlayerAmount = aiPlayerRG.getValue();
-            var hardAIPlayerAmount = hardAIPlayerRG.getValue();
-            var glassMode = glassModeRG.getValue() == 1;
-            int n = playerAmount + aiPlayerAmount + hardAIPlayerAmount;
-            if (n < 2 || n > 4) return;
-            app.gamePage.setGame(playerAmount, aiPlayerAmount, hardAIPlayerAmount, glassMode);
-            app.switchPage(app.gamePage);
+            this.start();
+        });
+        beginBtn.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) this.start();
         });
         root.getChildren().add(beginBtn);
 
         root.setLayoutX(400);
         root.setLayoutY(200);
+    }
 
+    void start() {
+        var playerAmount = playerRG.getValue();
+        var aiPlayerAmount = aiPlayerRG.getValue();
+        var hardAIPlayerAmount = hardAIPlayerRG.getValue();
+        var glassMode = glassModeRG.getValue() == 1;
+        int n = playerAmount + aiPlayerAmount + hardAIPlayerAmount;
+        if (n < 2 || n > 4) return;
+        app.gamePage.setGame(playerAmount, aiPlayerAmount, hardAIPlayerAmount, glassMode);
+        app.switchPage(app.gamePage);
     }
 }
 
@@ -162,6 +169,7 @@ class GamePage extends Page {
     GPanel gPanel;
     boolean ctrlPressing = false;
     boolean banUserInput = false;
+    boolean pause = false;
 
     GamePage(App _app) {
         super(_app);
@@ -202,8 +210,7 @@ class GamePage extends Page {
         gBoard.gAssam.updateAssamPos(game.assam.position);
         gBoard.gAssam.updateCurrentPlayer(currentPlayer);
 
-        banUserInput = currentPlayer.ai;
-        if (currentPlayer.ai) this.ai();
+        this.beforeCurrentPlayer();
     }
 
     void print(Object... objects) {
@@ -267,7 +274,7 @@ class GamePage extends Page {
     void gameOver() {
         game.phase = 3;
         banUserInput = false;
-
+        pause = false;
         String info;
         ArrayList<Player> winner = game.getWinner();
         if (winner.size() > 1) info = "game over!! It is tie!!";
@@ -326,6 +333,17 @@ class GamePage extends Page {
             this.gameOver();
             return;
         }
+
+        if (pause) {
+            app.switchPage(app.pausePage);
+            return;
+        }
+        this.beforeCurrentPlayer();
+
+    }
+
+    void beforeCurrentPlayer() {
+        var currentPlayer = game.getCurrentPlayer();
 
         // ban user inputs
         banUserInput = currentPlayer.ai;
@@ -391,7 +409,28 @@ class GamePage extends Page {
     }
 
     void onKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.CONTROL) ctrlPressing = false;
+        var code = event.getCode();
+        if (code == KeyCode.CONTROL) ctrlPressing = false;
+        if (game.phase == 3) {
+            String info;
+            Color color;
+            ArrayList<Player> winner = game.getWinner();
+            if (winner.size() > 1) {
+                info = "game over!! It is tie!!";
+                color = Color.BLACK;
+            } else {
+                info = "game over!! Winner is " + winner.get(0).color;
+                color = Utils.getJavaFxColor(winner.get(0).color);
+            }
+
+            app.winnerPage.setText(info, color);
+            app.switchPage(app.winnerPage);
+            return;
+        }
+        if (code == KeyCode.ESCAPE) {
+            pause = true;
+            if (!banUserInput) app.switchPage(app.pausePage);
+        }
     }
 
     void onKeyPressed(KeyEvent event) {
@@ -401,8 +440,58 @@ class GamePage extends Page {
 
         if (game.phase == 0) this.onGamePhase0(code);
         else if (game.phase == 2) this.onGamePhase2(code);
-        else if (game.phase == 3) app.switchPage(app.mainPage);
     }
 }
 
+class WinnerPage extends Page {
+    Label text;
+
+    WinnerPage(App _app) {
+        super(_app);
+
+        text = new Label();
+        text.setFont(Utils.bigFont);
+        text.setLayoutX(400);
+        text.setLayoutY(100);
+        root.getChildren().add(text);
+
+        this.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            app.switchPage(app.mainPage);
+        });
+    }
+
+    void setText(String s, Color color) {
+        text.setText(s);
+        text.setTextFill(color);
+    }
+}
+
+class PausePage extends Page {
+    Button resume;
+    Button restart;
+
+    PausePage(App _app) {
+        super(_app);
+
+        resume = new Button("resume");
+        resume.setFont(Utils.bigFont);
+        resume.setLayoutX(400);
+        resume.setLayoutY(100);
+        resume.setOnMouseClicked(event -> {
+            app.switchPage(app.gamePage);
+            app.gamePage.pause = false;
+            app.gamePage.beforeCurrentPlayer();
+        });
+        root.getChildren().add(resume);
+
+        restart = new Button("restart");
+        restart.setFont(Utils.bigFont);
+        restart.setLayoutX(400);
+        restart.setLayoutY(200);
+        restart.setOnMouseClicked(event -> {
+            app.switchPage(app.mainPage);
+        });
+        root.getChildren().add(restart);
+    }
+}
 
