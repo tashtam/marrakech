@@ -10,6 +10,10 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/**
+ * GUI part for panel
+ * @author Xin Yang Li (u7760022)
+ */
 public class GPanel extends Group {
     GPlayer[] gPlayers;
     GConsole gConsole;
@@ -54,6 +58,10 @@ public class GPanel extends Group {
     }
 }
 
+/**
+ * GUI part for die
+ * @author Xin Yang Li (u7760022)
+ */
 class GDie extends Group {
     Rectangle rect = new Rectangle(60, 60);
     Text text = new Text();
@@ -75,6 +83,10 @@ class GDie extends Group {
 
 }
 
+/**
+ * GUI part for console
+ * @author Xin Yang Li (u7760022)
+ */
 class GConsole extends Group {
     TextArea area = new TextArea();
 
@@ -90,6 +102,10 @@ class GConsole extends Group {
     }
 }
 
+/**
+ * GUI part for player information
+ * @author Xin Yang Li (u7760022)
+ */
 class GPlayer extends Group {
     Label coinText;
     Label remainRugNumText;

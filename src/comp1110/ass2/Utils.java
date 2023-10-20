@@ -48,6 +48,11 @@ public class Utils {
         }
     }
 
+    /**
+     * get a random int from 0 to bound
+     * @param bound
+     * @return
+     */
     public static int randInt(int bound) {
         return ranDie.nextInt(bound);
     }

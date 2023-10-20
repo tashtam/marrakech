@@ -15,12 +15,14 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.util.ArrayList;
 
+/**
+ * GUI part for whole game
+ * @author Xin Yang Li (u7760022)
+ */
 public class App {
     Scene scene;
     Group root;
@@ -52,6 +54,10 @@ public class App {
     }
 }
 
+/**
+ * GUI part for page
+ * @author Xin Yang Li (u7760022)
+ */
 class Page extends Group {
     App app;
 
@@ -68,6 +74,10 @@ class Page extends Group {
     }
 }
 
+/**
+ * GUI part for main page
+ * @author Xin Yang Li (u7760022)
+ */
 class MainPage extends Page {
     RadioGroup playerRG;
     RadioGroup aiPlayerRG;
@@ -121,6 +131,10 @@ class MainPage extends Page {
     }
 }
 
+/**
+ * GUI part for radio buttons group
+ * @author Xin Yang Li (u7760022)
+ */
 class RadioGroup extends Group {
     Label title;
     RadioButton[] btns;
@@ -162,6 +176,10 @@ class RadioGroup extends Group {
     }
 }
 
+/**
+ * GUI part for game page
+ * @author Xin Yang Li (u7760022)
+ */
 class GamePage extends Page {
     Game game;
     GBoard gBoard;
@@ -442,6 +460,10 @@ class GamePage extends Page {
     }
 }
 
+/**
+ * GUI part for winner page
+ * @author Xin Yang Li (u7760022)
+ */
 class WinnerPage extends Page {
     Label text;
 
@@ -465,6 +487,10 @@ class WinnerPage extends Page {
     }
 }
 
+/**
+ * GUI part for pause page
+ * @author Xin Yang Li (u7760022)
+ */
 class PausePage extends Page {
     Button resume;
     Button restart;

@@ -90,6 +90,10 @@ public class GBoard extends Group {
     }
 }
 
+/**
+ * GUI part for tile
+ * @author Xin Yang Li (u7760022)
+ */
 class GTile extends Group {
     Rectangle rect;
     Text text;
@@ -124,6 +128,11 @@ class GTile extends Group {
     }
 }
 
+/**
+ * GUI part for mark
+ * mark will display the rug positions
+ * @author Xin Yang Li (u7760022)
+ */
 class GMark extends Group {
     IntPair[] positions = new IntPair[2];
     Rectangle[] rects = new Rectangle[2];

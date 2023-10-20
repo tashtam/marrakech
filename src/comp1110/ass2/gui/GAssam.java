@@ -1,6 +1,5 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.Assam;
 import comp1110.ass2.IntPair;
 import comp1110.ass2.Player;
 import comp1110.ass2.Utils;
@@ -60,6 +59,11 @@ public class GAssam extends Group {
     }
 }
 
+/**
+ * GUI part for assam hint
+ * for more hint for user
+ * @author Xin Yang Li (u7760022)
+ */
 class GAssamHint extends Group {
     Rectangle rect = new Rectangle(Utils.GRID_SIZE + Utils.GRID_GAP, Utils.GRID_SIZE + Utils.GRID_GAP);
 

@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * Parameter out: whether each player is in or out of the game
  * Parameter ai: whether the player is an AI player or not (normal difficulty level)
  * Parameter hardAI: whether the player is an AI player or not (increased difficulty level)
+ *
  * @author Xinyang Li (u7760022), Tashia Tamara (u7754676)
  */
 public class Player {
@@ -25,8 +26,9 @@ public class Player {
 
     /**
      * Constructs a new Player object
-     * @param color the color of the player
-     * @param ai whether the player is an AI player or not
+     *
+     * @param color  the color of the player
+     * @param ai     whether the player is an AI player or not
      * @param hardAI whether the player is a hardAI player or not
      */
     public Player(char color, boolean ai, boolean hardAI) {
@@ -37,6 +39,7 @@ public class Player {
 
     /**
      * Constructs a new Player object using the string representation of the object
+     *
      * @param playerString The string representation of the Player object
      */
     public Player(String playerString) {
@@ -48,8 +51,9 @@ public class Player {
 
     /**
      * Checks if the player is out of or in the game
+     *
      * @return Player string with "o" if the player is out of the game
-     *         Player string with "i" if the player is still in the game
+     * Player string with "i" if the player is still in the game
      */
     @Override
     public String toString() {
@@ -59,6 +63,7 @@ public class Player {
 
     /**
      * Pays coins or dirhams to another player when the current player steps on another player's rug
+     *
      * @param other the player receiving payment from the current player
      * @param coins the amount of coins or dirhams to be paid
      */
@@ -73,6 +78,11 @@ public class Player {
         }
     }
 
+    /**
+     * get current assam position nearby possible rug positions
+     *
+     * @return
+     */
     public ArrayList<Rug> getPossibleRugs() {
         var rugs = new ArrayList<Rug>();
         for (int mode = 0; mode < 12; mode++) {
@@ -83,9 +93,20 @@ public class Player {
         return rugs;
     }
 
+    /**
+     * check if the rug positions can be put
+     *
+     * @param positions
+     * @return
+     */
     public boolean checkPositionsValid(IntPair[] positions) {
         var rug = this.createRug(positions);
         return game.isPlacementValid(rug);
+    }
+
+    public Rug aiPlayerPutRug() {
+        if (hardAI) return this.hardAIPlayerPutRug();
+        return this.easyAIPlayerPutRug();
     }
 
     Rug easyAIPlayerPutRug() {
@@ -144,11 +165,6 @@ public class Player {
         return rugs2[maxIndex];
     }
 
-    public Rug aiPlayerPutRug() {
-        if (hardAI) return this.hardAIPlayerPutRug();
-        return this.easyAIPlayerPutRug();
-    }
-
     public void aiPlayerSetDegree() {
         if (hardAI) this.hardAIPlayerSetDegree();
         else this.easyAIPlayerSetDegree();
@@ -198,10 +214,17 @@ public class Player {
         assam.oldDegree = minPaymentDegree;
     }
 
+    /**
+     * get player score now
+     * @return
+     */
     public int calculateScore() {
         return coins + game.board.getPlayerRugScore(this);
     }
 
+    /**
+     * current player try to pay. if no need, don't pay
+     */
     public void pay() {
         var tile = game.board.getTile(game.assam.position);
         if (tile.rug == null) return;
@@ -213,6 +236,11 @@ public class Player {
         }
     }
 
+    /**
+     * create a rug on given positions
+     * @param positions
+     * @return
+     */
     public Rug createRug(IntPair[] positions) {
         return new Rug(color, 15 - remainingRugNumber, positions);
     }
