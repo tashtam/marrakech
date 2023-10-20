@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI part for players information
  */
 public class GPlayer extends Group {
     Player player;

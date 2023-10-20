@@ -5,12 +5,16 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 /**
+ * this part will
  * @author Xin Yang Li (u7760022)
  */
 public class GAssamHint extends Group {
     Rectangle rect = new Rectangle(Utils.GRID_SIZE + Utils.GRID_GAP, Utils.GRID_SIZE + Utils.GRID_GAP);
     boolean value = true;
 
+    /**
+     * This function will give hints of Assam
+     */
     GAssamHint() {
         rect.setFill(Color.web("#ffffff00"));
         rect.setStrokeWidth(2);

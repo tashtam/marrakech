@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI part for background tiles
  */
 public class GTile extends Group {
     Tile tile;

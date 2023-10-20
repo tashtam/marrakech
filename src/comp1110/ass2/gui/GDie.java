@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 /**
+ * GUI for the die
  * @author Xin Yang Li (u7760022)
  */
 public class GDie extends Group {
@@ -16,8 +17,8 @@ public class GDie extends Group {
         this.getChildren().add(rect);
         rect.setArcHeight(30);
         rect.setArcWidth(30);
-        text.setLayoutX(20);
-        text.setLayoutY(50);
+        text.setLayoutX(21);
+        text.setLayoutY(41);
         text.setFont(Utils.bigFont);
         this.getChildren().add(text);
     }

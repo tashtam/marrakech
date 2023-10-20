@@ -8,6 +8,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI part to display board
  */
 public class GBoard extends Group {
     GTile[] gTiles;

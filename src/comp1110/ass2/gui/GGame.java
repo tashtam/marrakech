@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI part for the whole game
  */
 public class GGame extends Group {
     Game game;
@@ -45,6 +46,9 @@ public class GGame extends Group {
         gConsole.print(s);
     }
 
+    /**
+     * if game is over display text to show the game is over
+     */
     void gameOver() {
         this.setGamePhase(-1);
         String info;
@@ -55,6 +59,9 @@ public class GGame extends Group {
         banUserInput = false;
     }
 
+    /**
+     * @return display payment information in the window
+     */
     boolean pay() {
         var player = game.players[game.currentPlayerIndex];
         var color = game.board.getTile(game.assam.position).getColor();
@@ -76,6 +83,9 @@ public class GGame extends Group {
         return player.out;
     }
 
+    /**
+     * display move information in the terminal
+     */
     void move() {
         var step = Game.rollDie();
         gDie.displayDie(step);

@@ -9,6 +9,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 /**
+ * GUI part for assam
  * @author Xin Yang Li (u7760022)
  */
 public class GAssam extends Group {
@@ -20,6 +21,10 @@ public class GAssam extends Group {
     static ImagePattern assamS = new ImagePattern(new Image("file:assets/game/assamS.png"));
     static ImagePattern assamW = new ImagePattern(new Image("file:assets/game/assamW.png"));
 
+    /**
+     * @param game the game instance
+     *             this will create Assam GUI
+     */
     GAssam(Game game) {
         this.game = game;
 
@@ -38,6 +43,9 @@ public class GAssam extends Group {
         this.getChildren().add(circle);
     }
 
+    /**
+     * this will update the Assam GUI
+     */
     void update() {
         if (game.assam.degree == 0) rect.setFill(assamN);
         else if (game.assam.degree == 90) rect.setFill(assamE);

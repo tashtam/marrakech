@@ -7,6 +7,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI for the start scene, you can choose how many players , easy AI players and hard AI players
  */
 public class GMain extends Group {
     Scene scene;

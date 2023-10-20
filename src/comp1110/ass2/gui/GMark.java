@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI part for select possible rug to place
  */
 public class GMark extends Group {
     IntPair[] positions = new IntPair[2];

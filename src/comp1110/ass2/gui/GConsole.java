@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.control.TextArea;
 /**
  * @author Xin Yang Li (u7760022)
+ * GUI part for the console
  */
 public class GConsole extends Group {
     TextArea area = new TextArea();
