@@ -1,12 +1,11 @@
 # Marrakech
 
-![Screenshot of Marrakech gameplay](https://drive.google.com/file/d/1Wvv1i4gCScVA6M9VhQgjIWblSwMETcT4/view?usp=drive_link)
+![Screenshot of Marrakech gameplay](assets/marrakech-p-ss.png)
 
 Java-based digital remake of the board game [Marrakech](https://boardgamegeek.com/boardgame/29223/marrakech), where players play as rug merchants competing against each other. The aim of the game is to get the most number of coins / dirhams (money) by placing carpets on the board.
 
 ## Project Credits
-This project was developed collaboratively by a team of three people: **Tashia Tamara / Myself, Xinyang Li, and Jiangbei Zhang**.
-This project was originally developed as an academic project at Australian National University.
+This project was developed collaboratively by a team of three developers: **Tashia Tamara / Myself, Xinyang Li, and Jiangbei Zhang**. It was originally created as an academic project at the Australian National University.<br><br>
 This repository is a mirrored copy for portfolio purposes.
 
 ## General Game Rules
@@ -18,7 +17,8 @@ This repository is a mirrored copy for portfolio purposes.
 6. The game ends when all players have placed their carpets. The player with the most coins wins.
 
 ## General Game Controls
-Players can use the arrow keys to select the direction and the Enter key to confirm the direction. Press the Esc key to pause the game.
+Players can use the arrow keys to select the direction and the Enter key to confirm the direction.<br><br>
+Press the Esc key to pause the game.
 
 ## Notable Game Features
 1. AI Players: The player can play against normal or hard AI players. Normal AI players make random moves, while hard AI players use math calculations to make the most optimal in-game decisions.
