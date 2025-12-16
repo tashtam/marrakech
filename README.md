@@ -2,7 +2,9 @@
 
 ![Screenshot of Marrakech gameplay](assets/marrakech-p-ss.png)
 
-Java-based digital remake of the board game [Marrakech](https://boardgamegeek.com/boardgame/29223/marrakech), where players play as rug merchants competing against each other. The aim of the game is to get the most number of coins / dirhams (money) by placing carpets on the board.
+Java-based digital remake of the board game [Marrakech](https://boardgamegeek.com/boardgame/29223/marrakech), where players play as rug merchants competing against each other. The aim of the game is to get the most number of coins / dirhams (money) by placing carpets on the board.<br><br>
+
+**Tech Stack: Java, JavaFX**
 
 ## Project Credits
 This project was developed collaboratively by a team of three developers: **Tashia Tamara / Myself, Xinyang Li, and Jiangbei Zhang**. It was originally created as an academic project at the Australian National University.<br><br>
